@@ -8,6 +8,7 @@ def main():
     t0 = datetime.datetime.now()
     print(colorama.Fore.WHITE + "App started.", flush=True)
     data = []
+
     generate_data(20, data)
     process_data(20, data)
 
