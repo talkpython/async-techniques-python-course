@@ -1,6 +1,9 @@
 <component name="ProjectDictionaryState">
   <dictionary name="screencaster">
     <words>
+      <w>aiodns</w>
+      <w>aiohttp</w>
+      <w>cchardet</w>
       <w>colorama</w>
       <w>uvloop</w>
     </words>

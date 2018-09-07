@@ -30,7 +30,7 @@ def main():
 
 def get_title_range():
     # Please keep this range pretty small to not DDoS my site. ;)
-    for n in range(150, 170):
+    for n in range(150, 160):
         html = get_html(n)
         title = get_title(html, n)
         print(Fore.WHITE + f"Title found: {title}", flush=True)
