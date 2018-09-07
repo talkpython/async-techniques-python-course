@@ -1,11 +1,14 @@
 import datetime
 import colorama
 import asyncio
+import uvloop
+
+asyncio.set_event_loop_policy(uvloop.EventLoopPolicy())
 
 
 def main():
     lim = 250000
-    print("Running standard loop with {:,} actions.".format(lim*2))
+    print("Running standard loop with {:,} actions.".format(lim * 2))
     t0 = datetime.datetime.now()
 
     loop = asyncio.get_event_loop()

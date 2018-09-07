@@ -4,7 +4,7 @@ import asyncio
 
 
 def main():
-    lim = 250000
+    lim = 250_000
     print("Running standard loop with {:,} actions.".format(lim*2))
     t0 = datetime.datetime.now()
 
