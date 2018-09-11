@@ -2,16 +2,24 @@ import datetime
 import colorama
 import random
 import time
+import threading
 
 
 def main():
     t0 = datetime.datetime.now()
     print(colorama.Fore.WHITE + "App started.", flush=True)
+
     data = []
 
-    generate_data(20, data)
-    generate_data(20, data)
-    process_data(40, data)
+    threads = [
+        threading.Thread(target=generate_data, args=(20, data)),
+        threading.Thread(target=generate_data, args=(20, data)),
+        threading.Thread(target=process_data, args=(40, data)),
+    ]
+
+    [t.start() for t in threads]
+    print("Started...")
+    [t.join() for t in threads]
 
     dt = datetime.datetime.now() - t0
     print(colorama.Fore.WHITE + "App exiting, total time: {:,.2f} sec.".format(dt.total_seconds()), flush=True)
@@ -19,7 +27,7 @@ def main():
 
 def generate_data(num: int, data: list):
     for idx in range(1, num + 1):
-        item = idx*idx
+        item = idx * idx
         data.append((item, datetime.datetime.now()))
 
         print(colorama.Fore.YELLOW + f" -- generated item {idx}", flush=True)
@@ -29,7 +37,10 @@ def generate_data(num: int, data: list):
 def process_data(num: int, data: list):
     processed = 0
     while processed < num:
-        item = data.pop(0)
+        item = None
+
+        if data:
+            item = data.pop(0)
         if not item:
             time.sleep(.01)
             continue
