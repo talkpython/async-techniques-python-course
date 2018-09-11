@@ -49,6 +49,9 @@ def create_accounts() -> List[Account]:
         Account(balance=5000),
         Account(balance=10000),
         Account(balance=7500),
+        Account(balance=7000),
+        Account(balance=6000),
+        Account(balance=9000),
     ]
 
 
