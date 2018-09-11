@@ -111,3 +111,7 @@ src/05-threads/.idea/misc.xml
 src/05-threads/.idea/modules.xml
 src/05-threads/.idea/vcs.xml
 src/05-threads/.idea/workspace.xml
+src/06-thread-safety/.idea/06-thread-safety.iml
+src/06-thread-safety/.idea/misc.xml
+src/06-thread-safety/.idea/modules.xml
+src/06-thread-safety/.idea/workspace.xml
