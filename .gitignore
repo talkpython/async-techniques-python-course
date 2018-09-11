@@ -102,3 +102,7 @@ venv.bak/
 
 # mypy
 .mypy_cache/
+src/04-asyncio/.idea/04-asyncio.iml
+src/04-asyncio/.idea/misc.xml
+src/04-asyncio/.idea/modules.xml
+src/04-asyncio/.idea/workspace.xml
