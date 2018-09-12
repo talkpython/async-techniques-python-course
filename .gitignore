@@ -115,3 +115,7 @@ src/06-thread-safety/.idea/06-thread-safety.iml
 src/06-thread-safety/.idea/misc.xml
 src/06-thread-safety/.idea/modules.xml
 src/06-thread-safety/.idea/workspace.xml
+src/07-multiprocessing/.idea/07-multiprocessing.iml
+src/07-multiprocessing/.idea/misc.xml
+src/07-multiprocessing/.idea/modules.xml
+src/07-multiprocessing/.idea/workspace.xml
