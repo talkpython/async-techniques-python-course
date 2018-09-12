@@ -79,7 +79,9 @@ def do_transfer(from_account: Account, to_account: Account, amount: int):
 
 
 def validate_bank(accounts: List[Account], total: int, quiet=False):
-    current = sum(a.balance for a in accounts)
+    with transfer_lock:
+        current = sum(a.balance for a in accounts)
+
     if current != total:
         print("ERROR: Inconsistent account balance: ${:,} vs ${:,}".format(
             current, total
