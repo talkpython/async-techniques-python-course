@@ -8,6 +8,7 @@ from typing import List
 class Account:
     def __init__(self, balance=0):
         self.balance = balance
+        self.lock = RLock()
 
 
 def main():
@@ -55,23 +56,31 @@ def create_accounts() -> List[Account]:
     ]
 
 
-transfer_lock = RLock()
-
-
 def do_transfer(from_account: Account, to_account: Account, amount: int):
     if from_account.balance < amount:
         return
 
-    # Not so good:
-    # transfer_lock.acquire()
-    #
-    # from_account.balance -= amount
-    # time.sleep(.000)
-    # to_account.balance += amount
-    #
-    # transfer_lock.release()
+    lock1, lock2 = (
+        (from_account.lock, to_account.lock)
+        if id(from_account) < id(to_account)
+        else (to_account.lock, from_account.lock)
+    )
 
-    # good!
+    with lock1:
+        with lock2:
+            from_account.balance -= amount
+            time.sleep(.000)
+            to_account.balance += amount
+
+
+transfer_lock = RLock()
+
+
+def do_transfer_global_style(
+        from_account: Account, to_account: Account, amount: int):
+    if from_account.balance < amount:
+        return
+
     with transfer_lock:
         from_account.balance -= amount
         time.sleep(.000)
@@ -79,8 +88,12 @@ def do_transfer(from_account: Account, to_account: Account, amount: int):
 
 
 def validate_bank(accounts: List[Account], total: int, quiet=False):
-    with transfer_lock:
-        current = sum(a.balance for a in accounts)
+    # with transfer_lock:
+    #     current = sum(a.balance for a in accounts)
+
+    [a.lock.acquire() for a in accounts]
+    current = sum(a.balance for a in accounts)
+    [a.lock.release() for a in accounts]
 
     if current != total:
         print("ERROR: Inconsistent account balance: ${:,} vs ${:,}".format(
