@@ -46,8 +46,12 @@ def do_bank_stuff(accounts, total):
 
 def create_accounts() -> List[Account]:
     return [
-        Account(balance=random.randint(1000, 10000))
-        for _ in range(1, 50)
+        Account(balance=5000),
+        Account(balance=10000),
+        Account(balance=7500),
+        Account(balance=7000),
+        Account(balance=6000),
+        Account(balance=9000),
     ]
 
 
