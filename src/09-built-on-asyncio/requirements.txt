@@ -1,0 +1,9 @@
+unsync
+trio
+trio_asyncio
+
+aiohttp
+aiodns
+cchardet
+requests
+bs4
