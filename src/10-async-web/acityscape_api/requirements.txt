@@ -1,5 +1,5 @@
 # Web framework requirements
-flask
+quart
 
 # Calling services requirements
 requests

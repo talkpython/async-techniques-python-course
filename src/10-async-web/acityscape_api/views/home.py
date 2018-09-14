@@ -1,6 +1,6 @@
-import flask
+import quart
 
-blueprint = flask.blueprints.Blueprint(__name__, __name__)
+blueprint = quart.blueprints.Blueprint(__name__, __name__)
 
 
 @blueprint.route('/')
@@ -12,4 +12,4 @@ def index():
 
 @blueprint.errorhandler(404)
 def not_found(_):
-    return flask.Response("The page was not found.", status=404)
+    return quart.Response("The page was not found.", status=404)
