@@ -7,7 +7,7 @@ def main():
 
     t0 = datetime.datetime.now()
 
-    do_math(num=30000000)
+    do_math(num=30_000_000)
 
     dt = datetime.datetime.now() - t0
     print("Done in {:,.2f} sec.".format(dt.total_seconds()))
