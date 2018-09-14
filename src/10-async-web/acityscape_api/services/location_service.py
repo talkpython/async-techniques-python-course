@@ -1,5 +1,5 @@
+import asyncio
 import random
-import time
 from typing import Tuple
 
 import aiohttp
@@ -16,7 +16,7 @@ async def get_lat_long(zip_code: str, country: str) -> Tuple[float, float]:
     url = f'http://www.datasciencetoolkit.org/street2coordinates/{key.replace(" ", "+")}'
 
     if use_cached_data:
-        time.sleep(random.choice(measured_latency_in_sec))
+        await asyncio.sleep(random.choice(measured_latency_in_sec))
         return 45.50655, -122.733888
     else:
         async with aiohttp.ClientSession() as session:
