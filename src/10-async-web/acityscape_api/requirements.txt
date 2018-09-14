@@ -2,4 +2,6 @@
 quart
 
 # Calling services requirements
-requests
+aiohttp
+aiodns
+cchardet
