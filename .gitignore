@@ -134,3 +134,9 @@ src/10-async-web/.idea/webResources.xml
 src/10-async-web/.idea/workspace.xml
 src/10-async-web/.idea/dictionaries/mkennedy.xml
 Project_Default.xml
+src/11-cython/.idea/11-cython.iml
+src/11-cython/.idea/misc.xml
+src/11-cython/.idea/modules.xml
+src/11-cython/.idea/workspace.xml
+greeter.c
+math_core.c
