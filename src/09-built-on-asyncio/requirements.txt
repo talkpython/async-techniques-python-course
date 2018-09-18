@@ -7,3 +7,4 @@ aiodns
 cchardet
 requests
 bs4
+colorama
