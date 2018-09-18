@@ -12,7 +12,8 @@ def main():
     process_data(20, data)
 
     dt = datetime.datetime.now() - t0
-    print(colorama.Fore.WHITE + "App exiting, total time: {:,.2f} sec.".format(dt.total_seconds()), flush=True)
+    print(colorama.Fore.WHITE + "App exiting, total time: {:,.2f} sec.".format(
+        dt.total_seconds()), flush=True)
 
 
 def generate_data(num: int, data: list):
@@ -38,7 +39,8 @@ def process_data(num: int, data: list):
         dt = datetime.datetime.now() - t
 
         print(colorama.Fore.CYAN +
-              " +++ Processed value {} after {:,.2f} sec.".format(value, dt.total_seconds()), flush=True)
+              " +++ Processed value {} after {:,.2f} sec.".format(
+                  value, dt.total_seconds()), flush=True)
         time.sleep(.5)
 
 
