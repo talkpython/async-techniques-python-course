@@ -1,0 +1,71 @@
+00:00 Let me introduce you to another program
+00:02 that we're going to use here.
+00:03 This is the web scraping example that I just spoke about
+00:05 and it's going to use a couple of libraries requests
+00:07 and Beautiful Soup, and so I've added
+00:09 a requirements file for it.
+00:10 Just start by Pip installing those requirements
+00:13 which we can do by copying the path like that.
+00:19 Okay, so we have our code, and this is just
+00:20 where we're going to start from.
+00:22 We don't have to write anything
+00:23 but I want to walk you through it
+00:24 so you see what it is we're doing
+00:27 when we get to the async stuff.
+00:28 So there's a couple methods up here, get_html and get_title.
+00:32 Now the get_title is purely in memory
+00:35 CPU bound sort of thing.
+00:37 It's going to use Beautiful Soup which is a library
+00:39 that understands the HTML DOM in memory
+00:42 on the client side like here, and it's going to let you
+00:45 do queries against it that are basically like CSS queries.
+00:49 So we're going to say give me the header
+00:51 and either we're going to get missing
+00:52 or it'll give us the text cleaned up out of the header.
+00:56 This get_html is more interesting.
+00:58 We're going to give it an episode number
+01:00 so we're going to go to my podcast talkpython.fm
+01:03 and it's going to use this like short, little URL here
+01:06 this shortcut, talkpython.fm/<some episode number>
+01:09 and it will go and redirect us to the right place
+01:12 follow that redirect, and then get that data.
+01:15 So we're just going to use requests, do a get on the URL.
+01:18 We're going to verify that that worked
+01:20 and then we're going to return just the text
+01:23 and if we look down here, we're going to say get_title.
+01:26 So what it's going to do is go from episode 150 to 160.
+01:31 It's going to first get the HTML, and then it's going to
+01:34 get the title, and then it's going to print.
+01:36 Now of course this is all serial code, right?
+01:39 This is in order, so when we run this
+01:42 don't expect any speedups, but you should see it working.
+01:48 So here it is, it's getting the HTML for episode 150
+01:52 then it's getting the title, and it found that
+01:54 it's Technical Lessons Learned from Pythonic Refactoring
+01:57 then 151, and then Gradual Typing
+02:02 for Production Applications, and so on
+02:03 and we're finally eventually done.
+02:06 Let me just run it one more time
+02:07 without me around and just watch how long it takes
+02:09 get a sense for the speed here. It's doing one.
+02:12 It's waiting on the server to respond.
+02:14 It's getting a response back. It's not terribly slow.
+02:16 My website's pretty fast, but it's not that fast
+02:20 and of course, I'm on the West Coast of the United States
+02:23 the server is on the East Coast.
+02:24 There's a long ping time just to go from
+02:29 west to east back, about a 100 milliseconds, I'm guessing.
+02:34 There's a lot of places for improvement here.
+02:37 That's what we're going to work with
+02:38 and our job is going to be to take this program
+02:41 apply asyncio to the places where we're waiting
+02:44 namely that line right there
+02:47 you're doing lots of waiting there
+02:48 and make this go much, much, faster.
+02:50 And it turns out, the algorithm that we have here
+02:53 won't actually make it go faster, at least for
+02:56 this particular application.
+02:58 If we had a bunch of different attempts running parallel
+03:01 it's a really straightforward transition
+03:02 but there's one more thing to be learned
+03:04 to make this actually go faster in pure performance.

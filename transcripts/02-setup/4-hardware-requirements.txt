@@ -1,0 +1,32 @@
+00:00 You might consider what hardware
+00:02 you're taking this course on.
+00:03 Most of the time, the courses we have
+00:06 it doesn't matter what you're running on.
+00:07 You could probably take many of the courses
+00:09 we have on here, on say like, a Raspberry Pi
+00:12 or something completely small and silly like that.
+00:15 However, on this one
+00:17 you really need to have at least two cores.
+00:20 If you don't have two cores, you're not going to be able
+00:22 to observe some of the performance benefits
+00:25 that we talk about.
+00:27 So here's my machine, I have a MacBook Professional
+00:29 15 inch, 2018 edition with the Core i9
+00:33 which you can see 12 cores here.
+00:35 Six real cores, each of them hyper thread.
+00:37 So it appears as 12 to the operating system.
+00:40 But this system will really let us see a difference
+00:43 from when we're running on single threaded mode
+00:45 to parallel mode that actually takes advantage
+00:47 of all of the processors.
+00:49 But you don't have to have 12 cores.
+00:51 If you have two or four
+00:52 that will already let you see a difference
+00:54 but the more the better for this course
+00:57 because when we get to the performance section
+00:59 in particular, the CPU bound type of stuff
+01:02 we're trying to take advantage of the CPU
+01:04 you'll just see a bigger benefit, the more cores you have.
+01:07 So at least dual core is not required
+01:10 but to see some of the benefits
+01:11 you have to have more than one core.

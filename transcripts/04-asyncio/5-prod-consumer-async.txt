@@ -1,0 +1,128 @@
+00:00 You've seen our producer consumer
+00:01 running in synchronous mode.
+00:04 We generate all the data
+00:07 and then we process all the data.
+00:08 And of course the first thing happens
+00:10 and then the second because we're not using
+00:12 any concurrent algorithms or techniques here.
+00:15 Now also notice I have a produce-sync and a produce-async.
+00:19 Currently these are exactly the same
+00:21 so I'm going to leave you this sync program in source control
+00:24 so you can start from scratch and basically
+00:27 where we're starting from right now if you'd like.
+00:29 But we're going to convert this what currently
+00:31 is a synchronous program to the async one.
+00:33 So in the end async program will be, well
+00:36 the async version.
+00:38 So there's a couple of things we have to do
+00:40 to make our program async.
+00:43 Syntactically they're simple.
+00:45 Conceptually there's a lot going on here
+00:47 and we've already talked a lot about that
+00:49 with the event loop and slicing our functions up
+00:51 into little pieces.
+00:53 We've talked about the generator function
+00:55 and these restartable resumable coroutines.
+00:58 All of that stuff is going to come in play here.
+01:00 But the API, pretty straightforward.
+01:02 So what we need to do is two parts.
+01:04 Let's start with the execution of these things.
+01:09 So in order to run asynchronous coroutines
+01:13 we can't just call them like regular functions
+01:15 like right here.
+01:16 We have to run them in that asyncio loop
+01:19 and that asyncio loop is going to execute
+01:21 on whatever thread or environment that we start it on.
+01:25 And it's our job to create and run that loop.
+01:29 So let's go over here and create the loop.
+01:34 And it's really easy. All we do is say asyncio
+01:37 and we have to import that at the top.
+01:40 We say, get_event_loop().
+01:42 And later we're going to say, loop.run_until_complete().
+01:47 And we have to pass something in here.
+01:49 So we're going to talk for just a moment
+01:51 wait just a moment to see what we're going to pass there.
+01:54 So we're going to create the loop
+01:56 we're going to give it these items to execute
+01:59 and then we're going to have it run until they are completed.
+02:03 The other thing that we need to do is
+02:06 we need a different data structure.
+02:08 So right now we're passing this list and we're
+02:11 just this standard Python list
+02:13 and we're asking, hey is there something in there?
+02:15 And if there is, let me get it
+02:16 otherwise let me sleep.
+02:17 And we technically could do that again
+02:20 just with the async version.
+02:23 But it turns out that asyncio has a better way
+02:26 to work with this.
+02:27 So we can get what's called an asyncio.Queue.
+02:31 It's like a standard queue.
+02:32 You put stuff in and it sort of piles up.
+02:34 You ask for it out it comes out in the order it went in.
+02:36 First-in, first-out style okay? The benefit is
+02:40 this one allows us to wait and tell the asyncio loop
+02:46 you can continue doing other work
+02:48 until something comes into this queue and then wake up
+02:50 resume my coroutine, and get it running.
+02:53 So you'll see that it's going to be really helpful.
+02:55 Now it looks like somethin's wrong. It sort of is.
+02:59 Right here you see this little highlight around data
+03:01 and that's because in the type annotations
+03:04 we've said that this is a list
+03:06 but we just need to type that as an asyncio.Queue
+03:10 and then just adapt the methods here.
+03:13 Okay so we don't have an append, we have a put.
+03:16 We don't have a pop, we have a get.
+03:20 Now we're going to see some interesting things happening here
+03:23 that we're still going to have to deal with
+03:25 but we're going to use this asyncio queue.
+03:28 So the way it's going to work is
+03:30 we're going to track the execution of these separately.
+03:34 We're going to kick them off
+03:36 we're going to run all of those
+03:38 and then we want to go down here and say
+03:40 start them and wait until they finish.
+03:42 So we're going to use another concept to get them started here.
+03:45 We're going to go to our loop and we'll say
+03:47 create task and we're just going to pass in here.
+03:51 And we actually call the data with the
+03:52 call the function or the coroutine with the parameters.
+03:55 But like a generator function it doesn't actually run
+03:59 until you start to pull on it, make it go
+04:01 and that's what create_task is going to do.
+04:03 So we'll say task1 equals this
+04:06 and we'll do exactly the same for the other
+04:09 except we'll call it task2.
+04:10 And then we want to wait
+04:12 come down here and run our loop but wait until complete.
+04:15 Now if you look at what this takes
+04:16 it takes a single future or task.
+04:20 A single thing that is going to run
+04:23 and then we can wait on it.
+04:24 Not two, one. And that's super annoying.
+04:27 Why that's not a star args
+04:29 and they do what we're about to do automatically for us.
+04:31 It's okay, so we'll say final_task or full task
+04:34 final_task, and we're going to go to asyncio and say
+04:38 gather and what you do is you give it a list of tasks.
+04:42 task1, task2, et cetera.
+04:44 And then we run the final_task to completion.
+04:48 Alright so this is the execution side of things.
+04:51 We create the loop up here on line 10, create the loop.
+04:55 We use a better data structure
+04:57 we kick off a few coroutines and we convert them into
+05:00 a single task that we can then run until complete.
+05:04 What's interesting is nothing is going to happen
+05:07 until line 21. If we printed out
+05:10 hey starting this loop, starting this coroutine
+05:13 starting this method, generating data.
+05:15 None of that is going to actually do anything
+05:17 until we start it here
+05:18 we're going to block and then we'll be done
+05:21 and we'll figure out how long it took.
+05:23 So this is how we run coroutines
+05:25 but we don't yet have coroutines down here.
+05:28 So our next task is going to be
+05:29 to convert those into actual asynchronous coroutines
+05:33 rather than standard Python methods.

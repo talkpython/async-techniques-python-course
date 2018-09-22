@@ -1,0 +1,223 @@
+00:00 Now we're in our asyncronous program
+00:02 but notice it's still using requests
+00:04 and it's still doing the synchronous version.
+00:06 Our job, our goal, during the next few section
+00:10 is to convert this over to an async version
+00:13 that works much, much better.
+00:17 Now, in order for us to actually write
+00:19 async code that does anything interesting
+00:21 we need to use a library that supports
+00:25 asyncio, that has async methods
+00:27 and coroutines that we can actually await.
+00:30 So we're not using a requests
+00:31 we're going to switch over to this thing called aiohttp.
+00:34 Now, this is both a server and a client
+00:36 it does web sockets and all sorts of stuff.
+00:39 What we care about is this client thing.
+00:41 So we're going to use this to very simply
+00:45 convert our requests code over to asyncio.
+00:49 So let's get started. So instead of using a requests
+00:51 we're going to use aiohttp, and we're going to need
+00:55 to install some new requirements.
+00:57 So we don't need requests anymore
+00:59 and we're going to use aiohttp.
+01:01 That's the main library
+01:03 but there's actually two other libraries
+01:05 that will make this even faster.
+01:07 So aiohttp has to do DNS lookups and other things
+01:12 so there's actually an aiodns, and a cchardet.
+01:17 These two are going to be a little bit better.
+01:20 So, we're going to copy that path
+01:22 and install those requirements.
+01:30 With the requirements in place
+01:32 now we can start writing our code.
+01:34 We actually don't have to change very much.
+01:36 This line right here, I'll comment it
+01:37 out for a second so we still have it
+01:39 that's the line we have to change.
+01:41 Now, I'm going to introduce you to a new bit
+01:44 of syntax that is a little bit funky.
+01:46 We've seen how to make this method async.
+01:48 We say, async, right?
+01:50 And you might think, I would just write, await
+01:55 but it turns out aiohttp client runs in a context manager.
+02:00 Otherwise known as a with block.
+02:02 And the with block itself has to do asyncronous stuff.
+02:06 So, Python has been extended to have
+02:09 what are called asyncronous with blocks
+02:12 or asyncronous context managers.
+02:14 So what we're going to write is async with
+02:17 aiohttp.clientsession, and then within the session
+02:22 we're going to make a request
+02:24 so we have another with block
+02:28 we're going to get the URL as the response
+02:31 and then it's pretty similar to what requests has.
+02:35 We do this, and we do that.
+02:38 Now, this text here, if we look at it
+02:41 it's an asyncronous function.
+02:44 So, first of all, it wasn't a function in requests
+02:46 it is here, but it's also async so we have to await it.
+02:50 This line right here is probably the most important one.
+02:54 This one and this one, these are the
+02:55 two most important ones here
+02:57 for what we're trying to do.
+02:58 So we take this one line, and yeah
+03:00 it gets a little more complicated
+03:02 but trust me, the benefit is huge.
+03:04 All right, so let's go make this run.
+03:06 So if I just try to run it down here
+03:07 notice this is not going to work so much.
+03:10 So this is actually returning a coroutine
+03:13 not a string, and when we try to pass that
+03:15 where a string is expected, it goes whoa whoa whoa.
+03:18 Not great. So, how do we do this?
+03:21 Actually, sorry, I don't want to run it here.
+03:23 Let's go up here and do it in main.
+03:27 Then over here, I'll just say loop.run_until_complete
+03:30 and we're going to give it this
+03:31 which means we're going to make this async as well
+03:35 then this gets pretty simple.
+03:36 All we have to do is await.
+03:38 Now, this is going to absolutely run
+03:40 it's going to do it asyncronously
+03:42 I think everything is going to be perfect.
+03:44 But it turns out, there's one little problem
+03:47 that we're going to run into.
+03:48 But, let's just run to see that it still works
+03:50 at least the way it did before.
+03:52 So, we're going to run the program.
+03:55 It's working, you can see the titles are
+03:56 correct, understanding and using Python's AST
+03:59 How Python evolves, etc, etc.
+04:02 But, did you notice a difference in speed?
+04:04 Did you see things happening concurrently?
+04:06 No. Let's look at that.
+04:08 That's a little bit weird here.
+04:10 So, if we look at the main part
+04:12 we're running this function
+04:14 so let's go look at the get_title_range.
+04:17 And I'm going to make a copy of this
+04:19 so you can see how it was
+04:20 I'll call this version one
+04:22 this will be the old version
+04:23 let's call it old version.
+04:27 This is the real one.
+04:29 So what happens when we run this
+04:30 is we go through here and each time we block and stop
+04:34 before we do anything else
+04:36 and then we get the title and go on.
+04:38 So, yeah, there's this event loop
+04:39 but we're only doing one thing at a time.
+04:41 What we need to do is start all the requests and then
+04:46 then go process the responses as they come in.
+04:49 So we need to make a tiny little change here.
+04:51 Let's call this tasks equals this
+04:56 and we're going to kick them all off
+04:58 so we're going to say, we're going to append
+05:02 now I want to store basically this.
+05:05 So I'd love to just store this response here
+05:08 that we get back, however this coroutine
+05:11 that's been started, however this is not
+05:14 actually going to start it.
+05:15 Remember, these are like generators
+05:16 you have to trigger them to go.
+05:18 So, what I can do over here is
+05:19 I can say asyncio, I create_task of that
+05:24 I also need when I print this out
+05:26 I need to pass the number and the html
+05:30 so I'm going to need that later.
+05:31 So let's also pass the number as a tuple
+05:35 so we're passing one thing to our list
+05:36 which is actually this tuple right here.
+05:42 So what our goal is, is to start all the tasks
+05:46 and then for each one of them
+05:50 we then want to do the other work.
+05:53 So we'll say the html is await t
+05:56 and then we're going to put it in there.
+05:58 So we start all the task, they're running
+06:00 and then we're going to either
+06:02 just get their value right back
+06:04 or we're going to now block and wait
+06:06 for that response to come in
+06:08 and then get the next task
+06:09 maybe it's already done, we'll get it's response right away
+06:11 and we got to wait on the next one
+06:13 so the key thing here is instead of trying
+06:16 to do one at a time, we're going to
+06:18 start them all and then process them all.
+06:20 Now, if you were asking for hundreds or thousands
+06:22 of pages, you might want to somehow
+06:24 rate limit this so that the tasks
+06:27 don't get too out of control
+06:28 but if we're only doing 10, it's not too bad.
+06:31 Are you ready for the grand finale?
+06:34 For the big moment, to see if we actually got our code
+06:36 one, working, and two, faster?
+06:39 I think we have, let's try.
+06:42 Look at that. Man, that is just awesome.
+06:45 I did nothing to speed that up.
+06:47 I didn't edit the video at all.
+06:48 Let me run it one more time.
+06:54 That is so awesome, let me run it one more time.
+06:57 Start. Done. Bam.
+07:00 Notice, we started all of the requests
+07:04 and then as they came in, we started to process them.
+07:07 The way in which we processed them
+07:08 was the order we started them
+07:11 and it's probably not the order they actually finished.
+07:12 But that doesn't matter because
+07:13 all the latency around the ping time
+07:16 you know we're making 10 requests over to the server
+07:18 that's a whole second right there
+07:19 just waiting on the internet.
+07:21 Well, we can do all those requests
+07:23 and get them all started
+07:24 and really just incur probably more or less
+07:27 the ping time of one for this particular server.
+07:31 Maybe 100 milliseconds, not 1,000
+07:33 which is really, really great.
+07:34 And then of course, all the concurrent processing
+07:35 that the server's doing as well.
+07:37 So really, really awesome
+07:39 and that's how we were able to use asyncio
+07:43 and a library that can do web requests
+07:46 that itself supports asyncio
+07:49 to dramatically increase the speed.
+07:53 While we're on the subject of aiohttp
+07:55 let me just tell you a really, really quick story
+07:57 to drive this point home of how useful
+07:59 this library and this technique can be.
+08:01 We talked about this on my other podcast
+08:03 PythonBytes, and there was a listener
+08:05 he knows I share this story every now and then
+08:08 and it's pretty fun.
+08:09 So, he had some project where he was
+08:11 requesting a whole bunch of pages
+08:15 and he was using requests, and it was taking
+08:16 hours or something like that.
+08:19 He switched to this technique
+08:20 where he's using aiohttp and async and await
+08:23 and things like that, it went so fast
+08:26 that it actually crashed his server
+08:28 because the server ran out of memory
+08:30 trying to process all the requests
+08:31 it was getting back all at once.
+08:33 So, I think that's awesome.
+08:35 It goes from hours to less than a minute
+08:39 and so much data you actually have to think
+08:40 about the performance of receiving
+08:42 that much data at a time
+08:44 because you're adding so much concurrency
+08:47 to the system.
+08:48 And how hard was it? Well, yeah, this was like four lines instead of two
+08:53 maybe instead of three?
+08:55 So, not too bad at all.
+08:56 The real key to the technique is to make sure
+08:58 you start all of the work and then
+09:02 start to process the responses.
+09:04 'Cause we saw in our first version
+09:05 our old version, that we got actually
+09:08 zero speed up from that.
+09:09 Just a little bit of added complexity for no real benefit.
+09:12 So here's doing some real work with asyncio
+09:15 and async and await.

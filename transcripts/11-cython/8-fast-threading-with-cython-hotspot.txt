@@ -1,0 +1,48 @@
+00:00 Now, we're going to take this program
+00:01 and make it faster by using Cython.
+00:04 And we saw in the threaded version
+00:06 we're calling do_math
+00:07 and that's not actually helping.
+00:09 But we did try to apply threading
+00:12 to the do_math operation and break it into segments
+00:14 to see if that would help.
+00:15 And with Cython it will.
+00:17 But let's just take a step back for a moment
+00:19 before we get into all that and say
+00:21 "How do I know where my program is slow?"
+00:23 If you're going to rewrite some part in Cython
+00:26 don't do the whole thing
+00:27 just pick the one little part that really needs attention.
+00:29 How do you know where that is?
+00:31 Well, if you have Pycharm Professional
+00:33 you can run a cool in IDE tool.
+00:37 If you don't, you can go look into CProfile
+00:40 and see how to actually to that in Python
+00:42 on the command line.
+00:43 But I'll show you how to just quickly do it
+00:45 in Pycharm Pro.
+00:46 Come over here and you say profile
+00:48 this is not in our parallel one
+00:50 this is just the plain one.
+00:51 Let's ask, where is it spending it's time?
+00:53 Well, here it shows you all the operations it does
+00:56 but check out the graph.
+00:58 Does anything stand out there?
+00:59 Is something maybe a little red?
+01:01 Let's go look and see what's going on there.
+01:03 Well look at that, we're spending 1.056 seconds
+01:08 on computed, and of all that time
+01:11 all but 2 milliseconds are being spent
+01:13 in main, all of those 1054 milliseconds
+01:16 are being spent in do_math.
+01:18 So if we're going to make our code fast
+01:20 we don't need to make everything fast
+01:22 it's just this one. Right?
+01:24 So if we navigate to source, well
+01:26 that's the function we knew we we're working with
+01:27 that's where it's going to be slow.
+01:29 In a real program, this is the type of thinking
+01:32 that you can go through. Show me where it's slow.
+01:34 What's the worst case scenario?
+01:36 Ask yourself the question
+01:37 "Could this be fixed by switching to Cython?"

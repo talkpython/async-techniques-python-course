@@ -1,0 +1,55 @@
+00:00 So I said that now you have better scalability.
+00:02 You have better performance.
+00:04 Do you take my word for it?
+00:06 I wouldn't. I didn't actually.
+00:08 I said, okay, I'm going to convert this to Quart.
+00:10 Now, unless I see an improvement
+00:12 I'm actually going to not even cover it in this course.
+00:15 Spoiler alert, it's going to be better.
+00:17 But, how do you know?
+00:18 You want to do proper load testing.
+00:21 So, here's a tool called wrk, and it describes itself
+00:25 as a modern HTTP benchmarking tool.
+00:27 And you can see the URL right there at the bottom.
+00:29 So, you can go get this and install it
+00:31 and then use this to test your web app.
+00:34 Well, how do you get it? If you happen to be on Mac OS
+00:37 you're in luck. You can use Homebrew.
+00:39 If you don't know what Homebrew is, check it out at brew.sh.
+00:42 It's really awesome.
+00:43 That's the way I manage lots of things like Python
+00:45 and Node and all those types of things on my machine.
+00:47 MongoDB, for example.
+00:49 Install them and upgrade them with Homebrew.
+00:51 So, wrk can also be installed with Homebrew.
+00:53 brew install wrk. Boom, done.
+00:56 Now I know the stats on OSs
+00:58 that people use to work with Python.
+01:00 OSX, as they have here, or Mac OS
+01:02 same thing, combine it, and it's been renamed basically
+01:05 is a very small percentage.
+01:07 Even though it might appear that, you know
+01:08 go to a conference, everyone has a Mac
+01:10 I think it's like 15 to 20%.
+01:12 So that leaves a whole bunch of other folks
+01:13 who may want to use wrk. How do they get it?
+01:16 Well on Linux, on Ubuntu, you can go
+01:18 and check it out and compile it from source.
+01:20 I don't really like that answer.
+01:22 I don't really like that as an option
+01:23 but it's better than you don't get it.
+01:25 So, you can check it out and compile it.
+01:28 On Windows, the answer is a little bit less good
+01:30 than that not so good answer.
+01:32 And that is on Windows 10 you can get wrk
+01:36 because you have the Ubuntu Subsystem on Windows
+01:39 which you can turn on
+01:40 and then you can get wrk source and compile it there.
+01:44 Okay, so these are your options you have for the other OSs.
+01:47 But you don't actually have to run this.
+01:48 You can just look at the numbers that I'm going to show you
+01:50 in the next video and you can basically
+01:53 do the takeaways for yourself.
+01:54 But if you want to try it for yourself
+01:56 then here is a tool that I used
+01:58 and here's how you get it and install it.

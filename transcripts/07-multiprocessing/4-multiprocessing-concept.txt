@@ -1,0 +1,34 @@
+00:00 Let's review the core concepts around
+00:02 running our code in parallel on multiple processes
+00:04 using Python's multiprocessing.
+00:07 So, we're going to start by importing and creating
+00:10 a pool instance, and here we decided we're only
+00:13 going to let it create four subprocesses 'cause we're
+00:15 only going to ask it to do four things in parallel.
+00:18 So if you don't pass that processes equal four
+00:20 it's just going to pick the number of CPU cores
+00:22 you have a use that as the underlying process count.
+00:26 Okay, so then we go to pool and we say apply_sync()
+00:29 and we give it a function in arguments
+00:31 and then we can just tell it no more work is coming.
+00:33 And then do join, lets us just block
+00:36 kind of like when we join on a thread
+00:38 we join on this pool
+00:39 and it waits 'til all the work is done
+00:40 and then it continues.
+00:42 So we start all the work by saying apply_sync()
+00:45 and then we have to call close() and then join().
+00:48 I didn't make that super explicit but the docs say
+00:51 you should call close() and then join()
+00:53 don't just join() or you're probably going to wait a long time
+00:56 something to that effect.
+00:57 So here's the overall concept for doing parallel work
+01:01 actually skipping around the GIL by entirely
+01:03 sidestepping this GIL concept altogether
+01:06 and just going, well fine, if you're going to have a GIL
+01:08 we're going to have a single process for each
+01:10 effective line of execution
+01:12 as if they were threads
+01:13 but we'll let the OS handle the details.
+01:16 The trick is that the arguments get passed
+01:18 and we'll also see that you can get data back from these.

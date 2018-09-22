@@ -1,0 +1,33 @@
+00:00 Although I trust you can take the sun example
+00:02 and adapt it to the weather example
+00:03 let's go ahead and do that together.
+00:05 So over here we're going to say we have an async method.
+00:09 And again, this right now is a synchronous function.
+00:12 Let me just go over here and grab some aiohttp client.
+00:17 And we're going to re-implement this again, not request.
+00:22 And not response like that but like this.
+00:27 And this. Good? One more thing, async.
+00:34 Okay, so now this is an async method
+00:36 using async with and async await.
+00:41 And here, we should be able to go to this function
+00:43 and we don't get the data back, we have a coroutine.
+00:46 If we await it though, we get the data back.
+00:48 Alright, I think that's done it.
+00:50 Let's just test the weather as well.
+00:54 So there's the sun but if I change that to weather
+00:57 yep, also works. So it looks like we've converted from
+01:00 an entirely synchronous Flask based API over to Quart
+01:04 and what does that take?
+01:05 Maybe, maybe 15 minutes, probably less
+01:08 with me talking and explaining, poking around.
+01:11 If I just put my head down
+01:12 that could've been a 10 minute job, easy.
+01:15 Granted, pretty toy application
+01:17 but not entirely a toy app, right?
+01:19 It is calling other services
+01:20 it does have some reasonable structure with the blueprints
+01:23 and the config files and all that kind of stuff.
+01:25 So it's non-trivial
+01:27 even if it's somewhat on the small side.
+01:29 Hopefully you see this as pretty straight forward
+01:31 and pretty easy to do.

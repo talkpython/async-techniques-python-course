@@ -1,0 +1,29 @@
+00:00 Let's quickly review how we can use Cython
+00:02 to write native code, and then import it
+00:04 and run it in Python.
+00:06 So, all we have to do is create a pyx file
+00:09 this is the Cython extension by default
+00:12 and then we write standard Python code.
+00:15 It could be plain Python, like we have here in this top box
+00:19 or it could be specialized code
+00:20 like I showed you in the example
+00:22 where it talks about the types in terms of
+00:24 native Cython types and so on.
+00:25 And then we have to have a setup file
+00:27 so we import setup and we import cythonize
+00:30 and then we just call setup
+00:32 and set the ext_modules to include that one
+00:34 that we're working in above
+00:36 and then we just make sure we have Cython installed.
+00:39 So pip install cython, and then we run Python
+00:42 setup.py build_ext --inplace.
+00:45 That builds it, out pops a high dot platform name
+00:50 version name, et cetera, .so or depending on what platform
+00:53 of Git your on, you might get a different output there.
+00:55 And then you can just import high
+00:58 like you could any other module
+00:59 as if that was a Python file itself
+01:02 except for, now it's running native C code
+01:05 that's been compiled by being translated
+01:07 with Cython from Python into C.
+01:10 Pretty awesome.

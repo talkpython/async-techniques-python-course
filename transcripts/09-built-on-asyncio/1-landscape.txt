@@ -1,0 +1,35 @@
+00:00 In this chapter, we're going to talk about libraries
+00:02 that are built on top of async and await.
+00:05 And I'm not talking about just libraries like
+00:07 uMongo that let you use async in a way with Mongodb
+00:11 but libraries that are specifically built as frameworks
+00:14 for creating asynchronous programs that themselves
+00:18 use things like asyncio and async and await.
+00:21 So, there's a bunch of these out there
+00:23 we're going to cover a couple of them
+00:25 more as an example of a few great libraries you could use
+00:29 not an exhaustive list of all of them, of course.
+00:33 Now, I could either gray pretty much everything out
+00:36 or I could line up almost everything.
+00:37 As you'll see, we're going to touch
+00:38 on many of the things before.
+00:41 So, we're definitely built on top of async
+00:43 and that's going to let us do more at once.
+00:45 One library were going to work with, unsync
+00:47 actually works with multiprocessing threads and asyncio
+00:50 but it's primarily an asyncio type of library.
+00:53 And trio is built entirely on asyncio.
+00:57 With these two libraries, you can both do more at once
+01:00 and do them faster.
+01:02 But the reason their in this course is because
+01:05 they let you do these things more easily.
+01:08 They let you coordinate them better
+01:10 they put a unifying API on top of them
+01:12 they simplify things, stuff like that.
+01:15 They both add their own special capabilities
+01:18 so it's not like we're doing two takes on the same thing.
+01:21 They're actually quite different
+01:22 in their goals and what they do.
+01:24 I think you find unsync and trio to be excellent
+01:26 additions to the core libraries you're already
+01:29 familiar with from earlier in this course.

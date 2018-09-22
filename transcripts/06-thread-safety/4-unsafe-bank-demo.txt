@@ -1,0 +1,127 @@
+00:00 Welcome to our next set of demos.
+00:01 So we're going to have two or three different sets
+00:04 of programs we're going to go through.
+00:06 We have an unsafe bank
+00:08 which you should never, ever put your money
+00:10 in the unsafe bank. It may lose your money.
+00:12 Trust me this is bad.
+00:13 And we have this thing I've called a safe bank.
+00:16 Now the safe bank starts out unsafe.
+00:18 Our job is to take the unsafe bank and make it safe.
+00:22 How do we know it's unsafe?
+00:23 Well let's go and see what it does and we'll talk about it.
+00:26 So down here we have our main method.
+00:28 Well, first of all we have different accounts.
+00:30 They're extremely simple.
+00:31 They don't have to keep track of much.
+00:33 So we just have a balance right?
+00:35 In reality they have owners and numbers
+00:37 and things like that but ours just has a balance.
+00:41 And so we're going to create a bunch of accounts
+00:44 and we're going to figure out what the total number is
+00:46 in these accounts.
+00:47 The total value of these accounts and then
+00:49 we're going to go about transferring money between them.
+00:52 One of the mathematical properties that should always
+00:55 be true if we're taking money from one account
+00:58 and putting it into the other all within the same bank
+01:01 no matter how many accounts are there, the number
+01:03 the overall total should always be the same.
+01:06 Now that's excluding real things like fees
+01:08 and external banks and stuff like that but
+01:11 this is a simple bank.
+01:12 What we should be able to see is at no time
+01:16 will we ever not have a total amount
+01:18 whatever that total turns out to be
+01:20 of money in the overall bank
+01:22 if we look at all the accounts, yeah?
+01:24 And that's what validate_bank() does here.
+01:28 So we'll go look at that. Now we're going to kick off what is that, five threads?
+01:31 Going to kick off a bunch of threads
+01:32 and they're all going to run this do_bank_stuff()
+01:34 they're all going to have the accounts.
+01:37 I'm going to pass the total so they can do a little check
+01:39 to see if the bank is still valid.
+01:42 We're going to kick them all off
+01:44 and then we're going to wait for them to finish.
+01:45 That's standard stuff.
+01:46 We talked about that before.
+01:48 Now down here in do_bank_stuff()
+01:50 we're just going to go for 10,000 times around.
+01:54 We're going to randomly get two different accounts.
+01:58 We're going to create a random amount between one and $100.
+02:01 We're going to transfer money between them
+02:03 and we're going to validate that it's fine.
+02:06 So let's look at that transfer
+02:07 that's probably the last thing to do.
+02:09 So to transfer, super easy.
+02:12 We're given a from account to take the money from
+02:15 a to account to put the money in and how much to do.
+02:19 Add a little error checking in the top
+02:20 and then we just go take the money out of the top one
+02:23 and put it into the to account.
+02:26 Take it out of the from, put it into the to.
+02:27 And then just to simulate some real activity right
+02:31 something other than Python's GIL
+02:34 not really lettin' us do anything
+02:35 we're going to say, let's just give up our current time slice.
+02:39 We're not even sleeping for one millisecond
+02:41 but just imagine that this operation
+02:45 that we're trying to do here, this do transfer
+02:47 takes one millisecond right?
+02:49 It's just a little, tiny bit of time
+02:51 that is going to be the key to all sorts of problems.
+02:54 It just means these problems are going to be more observable
+02:58 but it doesn't actually mean the problem would go away
+03:00 if I were to comment that line out.
+03:02 Okay finally, final thing
+03:03 is we're going to say validate_bank().
+03:05 That is just to sum up the current balance and see
+03:08 if the current is the total and things like that.
+03:11 So if the current and the total ever differ
+03:14 we've got something wrong right?
+03:16 That's a property of our bank
+03:17 we should always have the same money
+03:19 if we're just shifting around accounts.
+03:21 Whew, well that's the introduction.
+03:23 You want to run it and see what happens?
+03:24 Let's kick off these five threads that are each going
+03:26 to do 10,000 requests across balance transfers
+03:31 between these various accounts and we'll see how it works.
+03:35 We're going to run safe bank.
+03:37 Alright so let's kick that off.
+03:39 Huh, what do you think?
+03:41 Well first of all, let's imagine we didn't do that.
+03:43 Let's put this away for one second.
+03:44 Let's imagine it's single-threaded.
+03:47 How does it work? We're starting transfers
+03:49 everything was good in the beginning
+03:51 did a bunch of transfers, was good in the end.
+03:54 That's how it should work all of the time
+03:57 but this is not thread-safe and I have set it up
+04:00 to be pretty likely to hit that error actually.
+04:03 If we run it now though
+04:04 you can see what's happening.
+04:08 One of these, let's say this thread
+04:10 is comin' along and transferring money
+04:12 from account A to account B.
+04:13 It's halfway through so it's taken money out of A
+04:15 but not in B.
+04:17 This one just finished a transfer and calls validate.
+04:19 It sees the invalid state that the first thread
+04:22 on line 21 has created, and it shoots out an error
+04:25 oh my gosh warning warning warning.
+04:27 Eventually the top thread here puts it back
+04:31 into a valid state but this is not good okay?
+04:35 So here you can see tons and tons of errors in this bank
+04:39 like look at that scroll bar.
+04:40 That is bad news bears right there.
+04:42 But at the end everything is fine, no problem.
+04:44 It's just a matter of
+04:45 did you observe that invalid state or not?
+04:48 And it turns out because so much stuff is happening
+04:50 you're observing it a whole lot.
+04:53 Would you like to put your money in this bank?
+04:55 It's called safe bank but it is nowhere near safe, yet.
+04:59 So our goal will be to use the various constructs
+05:02 in Python to make it safe.

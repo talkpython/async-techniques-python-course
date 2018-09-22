@@ -1,0 +1,80 @@
+00:00 What we're talking about
+00:01 with this wrk benchmarking tool
+00:03 is otherwise what's known as load testing.
+00:05 Let's hit the server with as much traffic
+00:09 and as many concurrent users as we can.
+00:11 Just keep ramping that up until it fails.
+00:14 Well, it turns out the way we've implemented this is
+00:17 we're not talking to a local database
+00:19 and then just sending responses.
+00:21 We're basically orchestrating external services.
+00:25 So by load testing our code
+00:27 we're going to end up load testing those services.
+00:30 Alright, the harder we hit our service
+00:31 the harder we're going to concurrently hit those services.
+00:36 Now either because those services can't take it
+00:39 or because those service just have built in
+00:42 rate limiting to not let you do that much processing
+00:46 that many concurrent requests, they're going to fail.
+00:49 And that is going to make it seem like
+00:50 our app is failing but it's only because
+00:52 we're hammering the external services
+00:54 they either can't take it or don't like it
+00:56 and then they fail on us. So that's a problem.
+01:00 How do we do load testing with these external services
+01:03 without getting into trouble by hitting them too hard?
+01:06 Well, you may have noticed this measured latency
+01:09 in seconds and if used cache data.
+01:12 That by the way is set right here.
+01:15 I'm not going to turn it on it doesn't matter right now
+01:17 but you can turn it on when we
+01:20 do the load testing if you want.
+01:21 You're going to need to turn it on
+01:23 or you're not going to get the right numbers more or less.
+01:25 So how did I come up with these numbers
+01:26 and what is this doing? So I ran
+01:28 some simple repetitive tests against this
+01:31 over and over and over
+01:32 and figured out how long does that operation
+01:35 right there take?
+01:37 One time it took this long and one time it took that long
+01:39 and you can see all of these numbers
+01:41 that's how long it took for this to be done.
+01:45 And I said okay well that's pretty representative
+01:46 at least from the West coast of the US.
+01:48 So lets just record those numbers
+01:51 and for load testing purposes we'll be able to go
+01:54 and actually just simulate those.
+01:56 So if we say use cache data we're going to simulate
+01:59 calling that thing.
+02:01 We're going to randomly pick one of the real measured latencies
+02:04 and then we're going to return some fake data
+02:06 just something I grabbed somewhere near Portland.
+02:09 I'm not sure exactly where that is.
+02:10 So if you're doing any sort of load testing
+02:13 you have to go into the config file you're using
+02:16 and set use cache data true
+02:18 or it's just going to freak out and you're going to end up
+02:20 load testing datasciencetoolkit.org
+02:23 which is not really what we want to do
+02:25 please don't do that to them.
+02:26 And it turns out it fails anyways so it
+02:28 wrecks your test, not great.
+02:30 If they're not explicitly rate limiting you
+02:32 maybe what they should be doing is
+02:33 also using asyncio and things like that.
+02:36 But anyway, you'll see this in each one of the services.
+02:40 So the lat long service has it
+02:42 the sun service has just some hard coded sun data.
+02:47 Exact same thing, here's the measured latencies.
+02:49 If you turn on this it just uses the asyncio
+02:52 friendly sleep and then to simulate the time
+02:55 that it takes to return the fake data.
+02:57 I want to make sure you're aware
+02:58 that because we're depending on these external services
+03:01 for load testing, you don't want to load test them
+03:03 you want to simulate what it would be like in a real system.
+03:07 Now granted you may not want to actually depend on them
+03:09 if they can't take your load testing
+03:11 in a real one but this is a toy course demo, right?
+03:15 No harm here.

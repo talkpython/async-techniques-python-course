@@ -1,0 +1,137 @@
+00:00 We saw that our now safe bank
+00:01 uses a single global lock.
+00:03 And if we look and we think a little bit about that
+00:05 what that means is even if we have 50 threads
+00:08 trying to do transfers between thousands of accounts
+00:12 every single transfer is going to have to slow down
+00:15 and go through a single thread
+00:17 effectively a single processing pipeline
+00:19 because we're taking a lock for the entire process.
+00:23 And you may think well what we could do is we could
+00:27 actually, instead of using the same lock
+00:29 for every transfer, we could somehow come up with
+00:31 a lock that has to do with the various accounts.
+00:34 And if two accounts are being transferred by one thread
+00:38 and two other accounts are being transferred
+00:39 by a separate thread
+00:41 those two could actually happen in parallel.
+00:42 There's no data problem there.
+00:45 The problem is if they're using the same account
+00:48 you might think well we could gain a whole lot
+00:50 of parallelism, a whole lot of performance
+00:53 if we change from this coarse grain lock
+00:55 to a very fine grain lock.
+00:57 Now I want to say this right up front
+00:59 this turns out to be probably a bad idea in Python
+01:03 you'll see for performance reasons
+01:05 in this particular example and it turns out to make
+01:08 things a lot more complicated.
+01:10 We'll make it work. I'll show you how to do it
+01:11 but mostly the point of this
+01:13 the takeaway is going to be, oh that added a whole lot
+01:16 of complexity and it didn't really add any benefit
+01:18 or maybe it even made it worse or will see.
+01:21 Because of that, let's think about how much locking
+01:25 and how much complexity we're willing to do
+01:26 and what the trade-offs are.
+01:27 Okay so this is almost a lesson in
+01:30 don't go too far with this
+01:31 because it might become worse and not better.
+01:35 That said, let's set this up
+01:37 and see what we're going to do.
+01:39 So what we're going to do is have each account itself
+01:41 have a lock. I'm going to take both locks of this and locks
+01:45 take both of those locks at the same time
+01:48 before we can do transfers between any two accounts.
+01:51 Now that's easy.
+01:52 Just go over here and just say self.lock = RLock().
+01:58 And we see how to do this here.
+02:01 So instead of doing with transfer lock
+02:02 we're going to say from_account.lock like so
+02:08 and to_account.lock.
+02:11 And then we just indent this.
+02:12 It looks like everything is golden.
+02:15 It's going to be so wonderful.
+02:16 But remember, this is a lesson in
+02:19 what you need to be aware of.
+02:20 So I'm going to do a little print statement here.
+02:22 Because it's going to look like it actually goes slow
+02:25 but it's not going slow
+02:26 or there's something worse going on.
+02:28 Let's just run it so you can see the whole path here.
+02:31 So, what we're going to do is do a bunch of transfers
+02:33 and we'll be done. Shouldn't take that long.
+02:36 It's running. See we got some inconsistent balance.
+02:39 We'll talk about why that is in just a sec.
+02:46 It's just kind of sitting there.
+02:47 It is computing? Is it taking longer? No!
+02:53 If we go over here and we search for python
+02:57 in the process, zero CPU. It's doing nothing.
+03:00 It's just sitting there. What the heck is it doing?
+03:03 Let's put some print statements.
+03:04 We could also do some debug statements
+03:06 but print statements will probably suffice here.
+03:09 Taking first lock, ... Taking second lock.
+03:16 And then we should see let's reverse that here.
+03:23 Oh I'm not going to leave this code in.
+03:24 But just so you see it
+03:25 we're taking the lock, we're releasing the lock.
+03:27 Things like that. All right again.
+03:29 Oh, we're taking... Doing some release.
+03:33 Taking first, taking second
+03:34 taking first and then we're done.
+03:36 We never got to taking the second lock.
+03:40 And what's going on here?
+03:41 So this is really hard to understand actually.
+03:43 We have one, two, three, four, five, six accounts
+03:46 and maybe six threads. If the accounts are separate
+03:49 everything is fine. But what if we're you know
+03:52 let's say thread 1 is transferring from account A to B.
+03:57 Thread 2 is transferring from B to A.
+04:00 They both get to line 64. They run that.
+04:05 Thread A takes a lock on.
+04:06 Sorry, thread 1 takes a lock on account A.
+04:09 Thread 2 takes a lock on account B.
+04:12 Now for B to continue, A has to release the lock
+04:16 on the first account, right?
+04:18 Sorry, thread 1 has to release the lock
+04:20 on the first account and for thread 1 to continue
+04:23 the lock on the other account has be to released.
+04:25 But they're both stuck here waiting
+04:28 for that second lock.
+04:30 All right, they've sort of criss crossed over
+04:31 on the two accounts and neither of them can make progress
+04:34 so they're in what's called a deadlock.
+04:36 So that's what's happened to our program.
+04:37 It's in a deadlock.
+04:38 You can see it's still trying to run here.
+04:41 So let me try to get rid of it.
+04:42 Kill these off.
+04:44 So the problem is by doing this
+04:46 we've actually created a deadlock.
+04:48 Now the other thing we have to do
+04:49 is this gets harder as well
+04:51 our validate_bank.
+04:52 Remember we're doing this safety check on the account.
+04:55 We're just taking one lock
+04:56 and then summing up all the accounts.
+04:58 Well, now we can't do that.
+05:00 We have to do it more like this.
+05:02 Let's copy that.
+05:04 We have to say account.lock.acquire for a in accounts.
+05:11 And we should spell that right.
+05:13 And then we should release it.
+05:16 And of course we should put this in to try/finally
+05:18 just to be safe but I'm just going to
+05:19 put it here like this.
+05:21 So we shouldn't see any of those errors anymore.
+05:24 Any of the inconsistencies cause now it's really safe.
+05:27 However, we're still deadlocked.
+05:29 Taking first lock, taking first lock, you are done.
+05:32 And these are where the threads are just finished.
+05:35 They've all mangled themselves up
+05:37 and they just stopped. So how do we fix this?
+05:40 Well, that's what we're going to do next.
+05:42 So we're going to come back and actually fix this
+05:45 and see if this trick that we did
+05:47 is really better than what we had before.

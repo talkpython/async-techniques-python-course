@@ -1,0 +1,93 @@
+00:00 So I told you that threading
+00:01 requires extra safety, that it can introduce these bugs
+00:05 so lets talk about why they primarily exist.
+00:09 So let's take a step back and just think about the state
+00:12 of a program as we call an individual function.
+00:16 So this little box here this represents a function call
+00:19 and top to bottom is time, I guess.
+00:22 The blue stuff on the right, these are our data structures.
+00:25 We actually have two pointers one to the next, let's say
+00:27 a class that holds another class that then points
+00:29 at an item in a list.
+00:31 And then another one that actually holds a list.
+00:34 And what we're going to do is we're going to say
+00:35 blue represents a valid state.
+00:38 So if you were to stop running
+00:40 and let some other part of the system
+00:42 or return from the function.
+00:44 Your program is left in a valid state
+00:46 and unless you do something terribly wrong
+00:48 while you're writing code, this is always the case.
+00:50 You don't have to worry about some kind of weird situation
+00:53 coming up, you can exit your program and its
+00:55 in an invalid state.
+00:56 You normally don't write code like that.
+00:58 But you do often put your program into invalid states.
+01:03 Let's see how that works.
+01:04 So here we're going to come along
+01:06 we're going to call this function.
+01:07 A little bit of work happens.
+01:09 Everything's fine.
+01:10 We're going to make a bunch of changes
+01:12 to these data structures to evolve our program
+01:15 from one state to another.
+01:16 This happens all the time.
+01:19 We can't make them all at once.
+01:20 We can only change, say, one part now
+01:24 and then we're going to go along
+01:25 and run some more code and make another decision.
+01:28 And we're going to change another part here.
+01:31 And then finally we're going to make one
+01:33 more change that's going to put this all back
+01:35 into a valid state.
+01:37 What's the problem?
+01:38 Well, normally our code runs from top
+01:42 to bottom like that, and at the end
+01:43 it's back in some, probably new
+01:46 but still valid state.
+01:48 However along the way it enters
+01:49 these temporarily invalid states.
+01:52 The problem with threading is you have two
+01:54 of these things running at the same time, potentially.
+01:57 If they share any of these data structures
+02:00 one of the functions looks at it
+02:02 while another function has put it
+02:03 into this temporarily invalid state.
+02:05 Wham!
+02:06 You have a threading bug.
+02:09 So your goal with thread safety
+02:12 is to make sure that any time you're going
+02:15 to evolve your program into a temporarily invalid state
+02:19 during that step you don't let other parts of the program
+02:22 interact with the parts of data that you're working with.
+02:26 This can be very coarse-grained
+02:27 like, don't let anything else happen
+02:29 in the program while it's in this red state.
+02:31 Or it can be very fine-grained.
+02:33 Don't let anybody touch those two red pointers
+02:36 while it's in the state, but if they have other things
+02:38 to do, let them just carry on.
+02:40 There's this trade-off between how much work
+02:42 and management do you want to do
+02:43 to try to juggle that very fine grain, and stuff
+02:46 how much overhead is there having tons
+02:48 of little locks and other checks around all
+02:51 that kind of stuff.
+02:52 So, it depends on what you're doing
+02:54 how you're going to do this. But the key take-away is, you cannot help
+02:58 but put in your program into threading invalid states.
+03:01 Think of traditional C code that
+03:03 just even swaps two variables.
+03:05 That requires three steps.
+03:07 In Python we have tuple unpacking
+03:09 and so you can sort of do it in a line
+03:11 but probably in terms of operations
+03:13 that still could introduce some kind of threading problem.
+03:17 You have to have these temporarily invalid states.
+03:19 That's how programs work.
+03:20 Your goal is to isolate the data
+03:22 that is temporarily invalided
+03:24 when that's happening, and then, once it goes back
+03:27 you can let all the threads have at it again.
+03:29 Then, of course, our program returns
+03:32 and everything is left as it should be.

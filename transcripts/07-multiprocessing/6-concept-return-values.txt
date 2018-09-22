@@ -1,0 +1,28 @@
+00:00 Let's wrap up this chapter on multiprocessing
+00:02 by talking about exchanging data.
+00:04 So we've seen that we start the work
+00:06 by saying pool.apply_async()
+00:08 give it a function, and some arguments.
+00:10 That's the first aspect of exchanging data
+00:13 so we can pass in these arguments, 0 and 100
+00:17 in this example.
+00:18 And we're going to capture the results
+00:20 and then after the work is done
+00:22 after the pool's been joined and closed
+00:24 and all that kind of stuff
+00:25 we can go to the results and we can even check
+00:27 if it were successful
+00:28 and then we could call result.get
+00:30 and that's going to give whatever the return value of
+00:32 from do_math() work.
+00:35 And those values that can be exchanged
+00:37 they're pretty rich.
+00:38 Basically, anything that can be pickled
+00:40 which are most things, but not all things Python
+00:43 those things can be created and passed in
+00:45 or returned from these various functions.
+00:48 So we're passing the arguments
+00:50 we captured the results and hang onto it
+00:53 and then when all the work is done
+00:54 we just call get() to receive value from the function
+00:57 that we ran in multiprocessing.

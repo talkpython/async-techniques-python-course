@@ -1,0 +1,35 @@
+00:00 We've seen just how powerful
+00:02 asynchronous web requests can be.
+00:04 After all, what are you doing
+00:05 when you're making a web request?
+00:07 You're waiting on the server.
+00:09 So, you can wait on a whole lot of servers
+00:11 all at the same time, and get a ton done concurrently.
+00:14 So, let's review some of the concepts around it.
+00:17 Well, of course, we're going to have an asynchronous method
+00:20 this get_html method.
+00:22 If it's not async, we can't do this.
+00:24 But assuming we're within an asynchronous method
+00:26 what we need to do is we're going to need to find
+00:28 these async with blocks for the aiohttp library.
+00:32 So, we're going to create a client session
+00:34 and then from that session we're going to
+00:36 asynchronously do a get request
+00:39 that'll give us a response.
+00:41 That one's the one that probably takes the longest.
+00:43 Want to do this raise_for_status
+00:45 just to make sure that we got to 200
+00:47 or some form of success code.
+00:50 And, by the way, that does not come up in PyCharm
+00:53 when you say resp.raise_for_status() doesn't come up
+00:57 but it is there and it works.
+00:58 And then finally, we want to read
+01:00 the content from the network stream.
+01:02 So not just start the response
+01:04 but actually get all the content back.
+01:06 So, we'll say resp.text and that's also a coroutine
+01:10 so we're going to await it as well.
+01:11 Convert it from a coroutine into a string
+01:14 and send that back.
+01:16 So, here's how we do asynchronous web processing
+01:19 web request, with aiohttp and asyncio.

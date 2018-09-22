@@ -1,0 +1,59 @@
+00:00 Before we get into the actual programming with threads
+00:03 I want to take a little step back
+00:04 and help you decide which way to go
+00:07 between threads and AsyncIO.
+00:09 We've seen in that landscape section
+00:11 that they live in the same area.
+00:12 They're in the do more at once
+00:14 while you're waiting on other things
+00:16 rather than leverage the computational aspects
+00:19 of, say, your CPU cores.
+00:21 In some sense they kind of do the same thing.
+00:23 I'll tell you I think the AsyncIO programming model
+00:25 is actually nicer, it's cleaner.
+00:29 It's basically the synchronous regular programming model
+00:32 with just understanding these restartable coroutines.
+00:36 But once you get that idea
+00:37 it's a lot easier to do AsyncIO programming
+00:39 than it is to do threaded programming.
+00:42 So why are we talking about threads?
+00:43 Like, why would you even care about them?
+00:44 They're old school, get 'em out of here, we're done.
+00:47 Well, not so fast.
+00:48 We saw that you can only take advantage of AsyncIO
+00:51 if you have libraries that themselves are built for AsyncIO.
+00:57 Most libraries out there are not.
+00:59 Sometimes you'll get lucky and you'll find some system
+01:02 some library that you can talk to asynchronously
+01:06 with async and await, but much of the time you won't.
+01:09 There won't be anything available that you can use
+01:12 but you still want to take advantage of the concurrency.
+01:14 When we spoke about the GIL we said threads are no good
+01:17 for concurrency when you're trying to leverage
+01:19 CPU bound operations in the Python steps themselves.
+01:24 And that's because the GIL will only let you execute
+01:27 one operation at at time.
+01:29 One of the really important caveats around that is
+01:33 if you call a function that itself is, say
+01:35 going over the network or talking to the file system
+01:38 deep down in the implementation
+01:40 Python will let go of the GIL
+01:43 while it's waiting on that IO operation.
+01:46 So imagine I have, let's say, SQLAlchemy Code.
+01:49 I have no idea if SQLAlchemy is thread safe
+01:51 if this is a good idea, but it's just an example.
+01:53 So, suppose I have SQLAlchemy
+01:55 which is an ORM that talks to the database.
+01:56 Doesn't really have a great AsyncIO story.
+02:00 It does talk to the database so I could run these queries
+02:02 on multiple threads as we're waiting on the network.
+02:05 It's going to release the GIL and let it keep going.
+02:07 So we actually could add this AsyncIO type of programming
+02:12 to systems that don't have it. So here's the take away.
+02:15 AsyncIO when you can, threads when you must, all right?
+02:18 If you can use AsyncIO.
+02:20 Obviously it's a nice, cleaner way to do it in my opinion.
+02:23 But a lot of times it's not available.
+02:25 Threads are there to basically do the same thing.
+02:27 You just have to construct it a little more yourself.
+02:30 Hope that helps. Now, let's learn the threaded programming model.

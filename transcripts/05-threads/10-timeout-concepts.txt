@@ -1,0 +1,33 @@
+00:00 Let's quickly review this timeout operation that we did.
+00:04 So here we have some threads
+00:05 and we've started all the threads.
+00:07 What we'd like to do is, if we get some kind of signal
+00:09 and like I said, this can be many, many different things.
+00:12 A Boolean variable should exit is set to true
+00:15 or a value set in the database or you've received an email
+00:19 I don't know, it could be anything.
+00:21 I want to let these threads run until I get that message
+00:24 and then I'm going to bail out of them.
+00:27 So far we've been able to make them stop
+00:30 by basically just letting our process exit.
+00:33 If this was like a web service
+00:34 or something that was alive for a long time
+00:36 you'd have to abort the various threads.
+00:37 So keep that in mind. So here we have a while loop
+00:40 and we're saying, while any of the threads are still working
+00:43 we're going to do a quick join on them
+00:46 and that let's us say real quick, hey, wait for a little bit
+00:51 and then we're going to do our check.
+00:53 Now we're going to ask the question, are you alive?
+00:55 And then basically use join to put our thread to sleep.
+00:58 We could just as well do a time.sleep(), I suppose
+01:01 but this one will cancel quicker
+01:03 if all the threads are basically finished.
+01:07 And then I want to check
+01:08 and we just keep going around and around
+01:09 we'd break out of this loop whenever we decide
+01:12 we're done waiting, we want to cancel out.
+01:14 If we don't break out
+01:15 then the threads are going to run to completion.
+01:17 That's a simple time out pattern
+01:19 that we can use in Python threads.

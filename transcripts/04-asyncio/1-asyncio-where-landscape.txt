@@ -1,0 +1,32 @@
+00:00 We're going to start our actual exploration
+00:02 and programming examples of concurrency in Python
+00:05 without threads and without sub-processes.
+00:09 That's right, we're going to do concurrent programming
+00:11 no threads, no sub-processes.
+00:14 It may sound impossible.
+00:15 It certainly sounds kind of weird, right?
+00:17 We think of parallel programming
+00:19 as involving multiple threads or maybe multiple processes
+00:22 in the case of a sub-process.
+00:24 But we're going to see that there's a new, fancy way
+00:27 that is mostly focused on scalability
+00:29 that does not at all involve threads in Python.
+00:32 It is my favorite type of concurrent programming
+00:34 in Python by far.
+00:36 Of course I'm speaking about AsyncIO.
+00:38 AsyncIO is what you might call
+00:41 cooperative concurrency or parallelism.
+00:44 The programs themself state explicitly
+00:47 "Here's a part where I'm waiting
+00:49 you can go do something else.
+00:50 Here's another part where I'm waiting
+00:51 on a web request or a database
+00:53 you can go do other work right then, but not other times."
+00:57 With threads we don't have this
+00:58 certainly with multi-processing in Cython
+01:00 we don't have this. So where are we on this landscape?
+01:02 We're in this green AsyncIO area
+01:05 and of course, Trio and Unsync are built on top of that.
+01:08 So, I kind of highlighted that as well
+01:09 but we're not going to talk explicitly about those yet.
+01:12 This is the foundation of those libraries.

@@ -1,0 +1,68 @@
+00:00 Okay, okay I hear you.
+00:01 You either don't want to write C, you would rather avoid
+00:03 writing C, or you don't even know C.
+00:06 Great, you can still write really awesome
+00:08 code with your Python knowledge
+00:10 using something called Cython.
+00:13 Now, Python officially is known as its internal runtime
+00:18 what's called the interpreter sometimes is known as CPython.
+00:21 That's because the interpreter, the runtime
+00:24 is implemented in C but you take
+00:26 regular Python code and it is interpreted on top of it.
+00:29 Cython is unrelated to CPython
+00:31 even though they differ by only one letter.
+00:33 Cython is an optimizing static compiler
+00:36 for the Python programming language.
+00:38 And what does it compile to? Well, it first compiles to C
+00:41 and then C compiles to actual machine instructions
+00:44 for your operating system.
+00:46 It's as if you had written C code
+00:49 but the syntax you had to write
+00:51 and the libraries you get to use are Python.
+00:53 It's beautiful and it makes writing C extensions
+00:56 for Python as easy as Python itself
+00:59 and you can bet it actually has some
+01:01 threading implications along the way.
+01:03 So, why would we do this?
+01:04 Well, writing C, we already talked about some
+01:06 of the advantages there but calling them out explicitly
+01:09 we have, you can write Python code that at any point
+01:14 can call back and forth between native C or C++ code.
+01:18 So if you want to do any integration with other C code
+01:21 or bring that into your system, guess what?
+01:24 You can do that in Python back and forth.
+01:26 Not with some weird integration layer
+01:28 but just as if you were using that library directly.
+01:31 You could easily take Python code and convert
+01:33 it to high performance C code by just changing it
+01:37 a little bit by adding static type declarations.
+01:41 You get integrated debugging, so you can debug from
+01:43 Python to Cython to C and back. That's pretty awesome.
+01:47 You can interact effectively with large data sets.
+01:50 Cython actually comes from the computational
+01:52 numerical analysis side of Python
+01:54 and the mathematical spaces and so on.
+01:56 So it has good support with things like
+01:58 Numpy which also, as I said, has big parts of it in C.
+02:02 So why do you need to filter all of that data through Python
+02:06 to get it over to the Numpy C stuff?
+02:08 Just work directly here and you can
+02:09 get some really good performance.
+02:11 Because Cython can interact with the libraries
+02:14 from CPython, you can pip install some random library
+02:18 and use that.
+02:19 All of the magic and power of CPython's ecosystem
+02:24 is available to your what is effectively C code in Cython.
+02:28 So that's pretty awesome.
+02:29 You want to use requests from Cython, no problem.
+02:32 Finally, you can integrate natively with existing code.
+02:35 Is there some C library that you would like to use
+02:39 but you want to write in Python
+02:40 and how do you link those together?
+02:42 Or do you have some big application that is written in C?
+02:45 Well this is a really easy way to bring that into Python.
+02:48 So these reasons and more are why
+02:50 you might be interested in Cython.
+02:52 There's a lot to it but simple use cases pretty simple
+02:56 and we're going to get some really cool
+02:57 performance outcomes from it.

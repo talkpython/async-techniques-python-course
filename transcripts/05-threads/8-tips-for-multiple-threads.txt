@@ -1,0 +1,23 @@
+00:00 We saw a few nice little techniques
+00:01 for working with sets of threads
+00:03 more than one thread at a time.
+00:05 So let's suppose that we're going to create
+00:08 three threads and we want to work with them as a set.
+00:10 Basically we want to spin those three off
+00:12 and then we're going to start them
+00:14 and then wait for them all to finish.
+00:15 So we did that in our producer consumer example
+00:18 while having a list of threads
+00:20 and we create them all
+00:21 and just in line like this.
+00:22 We could do it in a loop.
+00:23 Append if you wanted.
+00:24 But in this case
+00:25 we didn't need to do that.
+00:27 Next we're going to start them all
+00:28 using this cool little list comprehension.
+00:31 t.start() for t in threads.
+00:33 Potentially do some other work
+00:35 and then wait for them to finish.
+00:37 So t.join() for t in threads.
+00:40 Pretty simple right.

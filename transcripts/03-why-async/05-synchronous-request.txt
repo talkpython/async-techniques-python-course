@@ -1,0 +1,84 @@
+00:00 Let's visualize this concept of scalability
+00:03 around a synchronous series of executions.
+00:06 So many web servers have built in threaded modes
+00:10 for Python and to some degree that helps
+00:13 but it just doesn't help as much as it potentially could.
+00:18 So we're going to employ other techniques
+00:19 to make it even better.
+00:20 So let's see what happens if we have several requests
+00:22 coming into a system that executes them synchronously
+00:25 one after another.
+00:27 So a request comes in, request 1, request 2
+00:29 and request 3 pretty much right away.
+00:31 In the green boxes request 1, 2 and 3
+00:34 those tell you how long those requests take.
+00:38 So request 1 and request 2, they look like maybe
+00:41 they're hitting the same page.
+00:42 They're doing about the same thing.
+00:43 3's actually really short.
+00:45 Could theoretically if it were to move to the front
+00:47 be needing a return much quicker.
+00:49 So let's look at how this appears from the outside.
+00:52 So a request 1 comes in and it takes about that long
+00:57 for the response.
+00:58 But during that time request 2 came in and now
+01:01 before it could even get processed we have to wait
+01:03 for most of 1.
+01:05 So that's actually worse because we're not scaling.
+01:09 Okay, we can't do as much concurrently.
+01:11 And finally if we look at 3, 3 is really bad.
+01:14 So 3 came in almost the same time as 1 started
+01:18 but because the two longer requests were
+01:20 queued up in front of it, it took about five times
+01:24 four times as long as the request should of taken
+01:27 for it to respond because this system was all clogged up.
+01:30 Now let's zoom into one of these requests
+01:32 into request 1 and if we look deep inside of it
+01:36 we can break it down into two different operations.
+01:39 We have a little bit of framework code
+01:41 I'm just going to call that framework because
+01:42 you can't control that, you can't do much with that, right.
+01:44 This is the system actually receiving the socket data
+01:48 creating the request response objects, things like that.
+01:50 And then right at the beginning
+01:52 maybe the first thing we want to do is say
+01:54 I would like to find out what user's logged in
+01:57 making this request.
+01:58 So when I go to the database, I want to get
+02:00 we'll maybe get a user ID or some kind of cookie
+02:03 from their request and I'm going to use that cookie
+02:05 to retrieve the actual object that represents this user.
+02:08 Then maybe that user wants to list, say their courses.
+02:12 So then we're going to do a little bit of code
+02:14 to figure out what we're going to do there.
+02:15 Okay, if the user's not None and we're going to make
+02:18 this other database call
+02:20 and that database call might take even longer
+02:22 in terms of more data.
+02:23 And then that response comes back.
+02:25 We do a little bit of work to prepare it
+02:26 we pass off to the framework template
+02:29 and then we just hand it off to the web framework.
+02:32 So this request took a long time but if you look
+02:34 why it took a long time, it's mostly not because
+02:38 it's busy doing something.
+02:39 It's because it's busy waiting.
+02:41 And when you think about web systems, websites
+02:44 web servers and so on, they're often
+02:47 waiting on something else.
+02:49 Waiting on a web API they're calling
+02:51 waiting on a database, waiting on the file system.
+02:54 There's just a lot of waiting. Dr. Seuss would be proud.
+02:57 Because this code is synchronous, we can't do anything else.
+03:00 I mean theoretically, if we had a way to say
+03:03 well we're just waiting on the database
+03:04 go do something else, that would be great. But we don't.
+03:07 We're writing synchronous codes, so we call this function
+03:10 call the database query function
+03:11 and we just block 'til it responds.
+03:14 Even in the threaded mode, that is a tied up thread
+03:18 over in the web worker process so this is not great.
+03:22 This is why our scalability hurts.
+03:24 If we could find a way to process request 2
+03:27 and request 3 while we're waiting on the database
+03:29 in these red zones, we could really ramp up our scalability.

@@ -1,0 +1,59 @@
+00:00 I'm guessing most of you have never written Cython code.
+00:03 You might not even know what Cython code looks like.
+00:07 Maybe if you saw it you could tell me
+00:09 okay, I think that's not Python, it might Cython
+00:11 but it turns out the language is slightly
+00:14 ever so slightly different. So, let's look at its syntax.
+00:16 And here's the example we're going to work with.
+00:19 We're going to do some computational stuff here.
+00:21 The function is called do_math.
+00:23 It takes a start and the number of times
+00:25 it's going to increment from there.
+00:27 And we've seen this before when we did our threading
+00:29 and our multiprocessing.
+00:30 It's just a silly math function that does useless math
+00:33 but it lets us do performance testing
+00:35 and parallelism testing and things like that.
+00:37 It's using Python 3.5's type annotations.
+00:42 So, up there we have start:, num: and so on
+00:44 but of course we could omit those
+00:45 and things will still work just the same.
+00:47 Right, so this is pure Python, this is not Cython.
+00:50 I'm going to show you this function converted
+00:53 over to Cython. You ready? Keep your eye on it.
+00:57 There's the Cython. There's Python. There's Cython.
+01:01 Two changes, one, we have more type annotations
+01:05 so start in the argument there is no longer an integer
+01:08 it's a Cython int.
+01:10 In Python, in CPython, integers and numbers and stuff
+01:13 they're still basically objects on the heap.
+01:16 They're not allocated on the stack as four bytes
+01:18 or eight bytes or whatever the size of these are.
+01:21 They're actually allocated in the heap
+01:23 and there's pointers, and that really slows down math
+01:25 and adds a lot of overhead.
+01:26 So we can explicitly say that start
+01:28 and num are Cython integers
+01:30 and that means they're going to be allocated on the stack in C.
+01:34 And then we have three local variables
+01:35 which we had before but we didn't explicitly say the type.
+01:38 Here we're saying explicitly that's a cython.float.
+01:41 cython.float, cython.float.
+01:42 And then, we're doing our while loop exactly the same.
+01:46 So that's the only change.
+01:47 We've done a little bit of type annotations
+01:50 and we're using a more high performance square root.
+01:53 We were using math.sqrt before
+01:55 which is Python's standard library.
+01:57 Fine, and that would still work in Cython
+01:59 but it turns out to be slower and it prohibits
+02:02 one of the techniques we want to apply later.
+02:04 So we have this libc.math that actually has sqrt
+02:08 and a bunch of other math operations
+02:10 that you might want to do.
+02:11 So we're going to use Cython's built-in
+02:14 more high performance math operation. That's it.
+02:18 I'll flip back and forth a couple times for you
+02:20 one more time.
+02:21 Just notice, just a few more type decorations
+02:23 and a different square root. Pretty sweet, right?

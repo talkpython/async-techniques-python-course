@@ -1,0 +1,33 @@
+00:00 It's always good to have a picture of what's going on
+00:02 in our code, in our programs as they run.
+00:05 Here's a picture that I drew
+00:07 trying to simulate that, or visualize that
+00:10 for you in Python.
+00:11 So, this big box is our process
+00:14 and the process itself can kickoff different threads.
+00:18 And those are the little gray arrows.
+00:20 The ..., that's just waiting.
+00:22 We have our main program is running
+00:24 and then at some point it kicks off two additional threads
+00:26 does a little more work
+00:27 then waits for the two threads to finish
+00:29 and then carries on working.
+00:31 So, this fork-join pattern, kick a bunch of work off
+00:34 wait for it to finish, and then carry on
+00:36 is very common in threaded programing.
+00:39 And it's important to realize
+00:40 these threads are all in the same process.
+00:42 They all work on the same memory.
+00:44 So, if I have a variable or a data structure in Python
+00:47 which is always the pointer
+00:48 pointers are shared data structures
+00:50 per process in the global memory heap.
+00:52 If I have one of those, and different threads
+00:55 are working with it, it's the exact same object.
+00:59 So we'll have to see, you're going to have to be
+01:00 kind of careful with your data structures
+01:02 and the state of your program.
+01:04 When you're doing programing with threads in Python.
+01:06 So, here's a picture to keep in mind
+01:08 to help you visualize typically what's happening
+01:10 with our threads in Python.

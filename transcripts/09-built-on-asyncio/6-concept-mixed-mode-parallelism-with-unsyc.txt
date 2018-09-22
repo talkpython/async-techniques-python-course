@@ -1,0 +1,80 @@
+00:00 We've seen mixed mode parallelism.
+00:02 It's something you could easily run into.
+00:03 Do you have to do some work where some of its computational
+00:06 and some of it is based on I/O
+00:09 either explicitly through asyncio
+00:10 or just because it's talking to a network
+00:12 or a database or something like that?
+00:14 How do you put that work together?
+00:16 That's not super easy and that's why we started talking
+00:18 about unsync because it solves this problem exactly.
+00:22 So, here we're not using unsync.
+00:23 This is the asyncio style
+00:26 and we're going to create event loop.
+00:28 Again, that event loop is actually hard to get ahold of
+00:31 and pass around if you're passing this
+00:33 through tiers of your application
+00:35 or down into another library or something like that.
+00:37 So it looks like no problem here
+00:38 but it can actually be a challenge in your architecture.
+00:42 Then we're going to create a bunch of tasks
+00:43 so we can't just call compute_some or download_some_more
+00:46 because those don't return values
+00:48 those return coroutines, OK?
+00:50 So we've got to create a task from them
+00:52 and queue them up like that using loop.create_task.
+00:54 But, more importantly, where should these run?
+00:58 Compute some, give it obvious names, kind of giveaway names
+01:01 but compute some is CPU-bound.
+01:04 Download some more uses asyncio.
+01:07 When we wrote this we decided, hey, some of these functions
+01:10 can use asyncio, so let's go that way.
+01:12 Let's just go and do this work in asyncio.
+01:14 And for the green ones, download_some_more and wait_some
+01:17 that's a good choice.
+01:18 But download_some, that one is implemented in requests
+01:22 it's API is.
+01:23 So there's no way to really take advantage of it here.
+01:25 It's just going to block things up.
+01:26 Effectually that part becomes a serial thing, not parallel.
+01:30 Similarly for the compute_some, it should be run
+01:33 probably in multiprocessing.
+01:34 But how should we know that, as the caller of the function?
+01:37 Maybe we didn't implement it.
+01:38 Maybe we're using it from somewhere else. How do we know?
+01:41 That's, kind of, not great.
+01:43 So we have to make this decision, how shall we run it
+01:45 and actually, truly mixing together
+01:47 is not super easy, either.
+01:49 And then finally we have to create this loop
+01:51 we got to use the loop and call run til completed
+01:53 at the end and gather up the tasks and so on.
+01:56 And that's not great.
+01:57 So let's see how unsync solves that.
+02:01 We have that top block where it says tasks.
+02:03 That's the entire previous slide.
+02:05 Well, that and the list comprehension to block
+02:08 but it's not up to us where we're calling it
+02:10 to decide how our code runs.
+02:12 It's up to the implementer of that function.
+02:15 Who wrote that function, they decide where
+02:18 and how it runs.
+02:19 So the compute_some, that one's going to run multiprocessing.
+02:22 Download_some_more, asyncio, download_some on a thread.
+02:26 We don't know or care about that really at all.
+02:30 It's just going to work, as far as we're concerned.
+02:32 There's some future, it's running, when it's done
+02:35 it's done, do it the best way that you can.
+02:37 And the way we indicate that is we have
+02:40 either regular or async methods.
+02:42 So, like, compute_some and download_some
+02:43 those are not async. One of them is just regular unsync
+02:47 and that means run on a thread.
+02:49 The compute_some is unsync and CPU-bound
+02:51 which means run in multiprocessing.
+02:54 And that just happens automatically above
+02:56 when we create that list of tasks.
+02:58 We don't know or care about that it's all transparent.
+03:01 And finally, at the bottom, we have an async method
+03:04 that is unsync, that means run on the ambient
+03:06 hidden, asyncio event loop. Beautiful, right?

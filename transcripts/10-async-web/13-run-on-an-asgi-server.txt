@@ -1,0 +1,39 @@
+00:00 So when we talked about the performance and profiling
+00:02 and load testing previously, just the previous video
+00:06 I said you have to run on an ASGI server.
+00:09 WSGI, traditional Web Service Gateway Interface
+00:13 that's how Django, Pyramid, Flask, all of them work.
+00:16 They're all based on this.
+00:18 Basically the underlying web API
+00:21 that integrates these frameworks into the server
+00:23 those are serial.
+00:24 So there's no way to do asynchronous programming
+00:27 or execution for those frameworks at all.
+00:30 So in order to actually get the scalability
+00:32 and to actually execute our code on asyncio event loops
+00:37 you have to use what's called as ASGI server.
+00:40 An Async Service Gateway Interface
+00:43 something to that effect. So you can use Hypercorn.
+00:46 Hypercorn comes when you pip install quart
+00:48 you get Hypercorn, this is an option.
+00:51 It says you don't type run.
+00:52 You know, don't like just run this here.
+00:55 What you're going to do instead is you type hypercorn
+00:58 module name and then app name that you want to run, okay?
+01:02 Also lists some others down here, Uvicorn.
+01:05 We talked about uvloop based on that, right?
+01:08 And some of its capabilities.
+01:10 So you can see Hypercorn is pretty awesome.
+01:12 I believe it's based on Gunicorn
+01:14 much like Uvicorn is as well
+01:16 and I honestly don't know enough about them
+01:19 to like help you decide between one or the other
+01:21 but this one looks like it has more features.
+01:23 That seems good. Make sure if you do any load testing
+01:27 or you do this in production
+01:28 that you run it on an ASGI server
+01:31 or you're basically going to get exactly the same
+01:33 as what you had with Flask and if that's what you're getting
+01:36 you might as well keep the more well-known
+01:38 well-tested API, right?
+01:40 Be sure to use one of these servers.

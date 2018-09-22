@@ -1,0 +1,100 @@
+00:00 Now you may be thinking, "Oh my gosh, Michael
+00:02 you have 12 CPUs, you can make your code
+00:05 go 12 times faster."
+00:08 Sorry to tell you that is almost never true.
+00:11 Every now and then you'll run into algorithms
+00:13 that are sometimes referred to
+00:15 as embarrassingly parallelizable.
+00:17 If you do, say, ray tracing, and every single pixel
+00:21 is going to have it's own track of computation.
+00:24 Yes, we could probably make that go nearly 12 times faster.
+00:27 But most algorithms, and most code, doesn't work that way.
+00:32 So if we look at maybe the execution
+00:34 of a particular algorithm, we have these two sections
+00:38 here, these two greens sections
+00:39 that are potentially concurrent.
+00:41 Right now they're not, but imagine when we said
+00:43 "Oh that section and this other section.
+00:45 We could do that concurrently."
+00:47 And let's say those represent 15% and 5%
+00:50 of the overall time.
+00:52 If we were able to take this code
+00:54 and run it on an algorithm that entirely broke
+00:57 that up into parallelism, the green parts.
+01:00 Let's say the orange part cannot be broken apart.
+01:02 We'll talk about why that is in just a second.
+01:04 If we can break up this green part
+01:06 and let's imagine we had as many cores
+01:08 as we want, a distributed system
+01:10 on some cloud system.
+01:11 We could add millions of cores if we want.
+01:13 Then we could make those go to zero.
+01:15 And if we could make the green parts go to zero
+01:18 like an extreme, non-realistic experience
+01:21 but think of it as a upper bound
+01:23 then how much would be left?
+01:25 80%, the overall performance boost
+01:28 we could get would only be 20%.
+01:30 So when you're thinking about concurrency
+01:32 you need to think about, well how much
+01:33 can be made concurrent
+01:36 and is that worth the added complexity?
+01:38 And the added challenges, as we'll see.
+01:41 Maybe it is. It very well may be. But it might not be.
+01:45 In this case, maybe a 20% gain but really added complexity.
+01:49 Maybe it's not worth it. Remember that 20% is a gain
+01:52 of if we could add infinite parallelism
+01:55 basically, to make that go to zero
+01:56 which won't really happen, right?
+01:58 So you want to think about what is the upper bound
+02:00 and why might there might be orange sections?
+02:03 Why might there be sections
+02:04 that we just can't execute in parallel?
+02:06 Let's think about how you got in this course.
+02:10 You probably went to the website, and you found the course and you clicked a button
+02:11 and said, "I'd like to buy this course,"
+02:13 put in you credit card, and the system
+02:15 went through a series of steps.
+02:16 It said, "Well, OK, this person wants to buy the course.
+02:18 "Here's their credit card.
+02:19 We're going charge their card
+02:21 then we're going to record an entry in the database
+02:24 that says they're in the course
+02:25 and then we're going to send an email
+02:26 that says, hey, thanks for buying the course
+02:29 here's your receipt, go check it out."
+02:31 That can't really be parallelized.
+02:34 Maybe the last two.Maybe if you're willing to accept
+02:37 that email going out potentially
+02:38 if the database failed, it's unlikely
+02:40 but, you know, possible.
+02:42 But you certainly cannot take charging the credit card
+02:45 and sending the welcome email
+02:47 and make those run concurrently.
+02:49 There's a decent chance that for some reason
+02:51 a credit card got typed in wrong
+02:53 it's flagged for fraud, possibly not appropriately
+02:57 but, right, you got to see what the credit card system
+03:00 and the company says.
+03:02 There might not be funds for this for whatever reason.
+03:04 So we just have to first charge the credit card
+03:08 and then send the email.
+03:09 There's no way to do that in parallel.
+03:11 Maybe we can do it in a way that's more scalable
+03:13 that lets other operations unrelated to this run.
+03:17 That's a different consideration
+03:19 but in terms of making this one request
+03:21 this one series of operations faster
+03:24 we can't make those parallel.
+03:26 And that's the orange sections here.
+03:27 Just, a lot of code has to happen in order
+03:29 and that's just how it is.
+03:32 Every now and then, though, we have these green sections
+03:33 that we can parallelize, and we'll be focused
+03:36 on that in this course.
+03:38 So keep in mind there's always an upper bound
+03:40 for improvement, even if you had infinite cores
+03:43 and infinite parallelism, you can't always
+03:45 just make it that many times faster, right?
+03:48 There's these limitations, these orange sections
+03:50 that have to happen in serial.

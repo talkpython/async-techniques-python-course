@@ -1,0 +1,64 @@
+00:00 Now that we know a little bit about Cython
+00:02 and how to use it, it's time to take the Cython power
+00:05 and apply it to concurrent parallel programming
+00:08 apply it to threads, and you're going to see
+00:10 how Cython first just speeds up the code, period
+00:13 because it's C and not Python and then breaks us free
+00:16 from the GIL so we can go even faster.
+00:19 There's just a handful of concepts that we got to learn
+00:21 to convert the code we've already written
+00:23 to extremely high performance C code.
+00:26 Now let's go back to this computed useless math thing
+00:29 that we're doing.
+00:30 Right here is our do_math, and remember, we have
+00:34 let me again put the little digit grouping things
+00:36 in here so you can tell more easily.
+00:38 We're asking this little math function
+00:41 to increment an integer
+00:42 and to do some square roots and multiplication
+00:45 and subtraction 30 million times.
+00:48 Now, turns out for 30 million times
+00:51 this is actually pretty fast.
+00:52 Let's run it. 7.6 seconds.
+01:02 Yeah, that's good.
+01:03 I mean, we did 30 million things
+01:05 actually way more than that, so impressive
+01:08 but we can do it way faster.
+01:10 So this you've already seen, and we talked about this
+01:12 in the threading section
+01:13 in the multiprocessing section, and so on.
+01:16 So we said, well, if we'd run this in a threaded mode
+01:19 on 12 processors, remember how awesome this computer is?
+01:21 It has 12 cores.
+01:22 Maybe cores is a better word than processors.
+01:24 Doesn't really matter. It should get faster.
+01:26 Oh, about the same.
+01:29 I threw in a little factor for these so you could tell based
+01:32 on some standard, running this a few times
+01:34 how much faster or slower.
+01:35 So the threaded version's about the same.
+01:38 This one, do the multiprocessing way better.
+01:41 Yes, it's 1.79 seconds, 4.7 times faster.
+01:46 That is a big improvement. Can it get better still?
+01:49 So that's our goal. Our goal is to take this code.
+01:54 Actually, we're going to take the threaded version here
+01:57 the threaded version, and that's using 12 threads
+02:01 'cause there's 12 cores, and it's trying to run it
+02:04 and we saw that this one actually was almost exactly
+02:06 the same speed as just the serial one.
+02:09 We saw with multiprocessing
+02:10 that we can get 4.7 times faster
+02:13 but why again is this threading one not helping us?
+02:16 It's not helping because all of the execution
+02:20 all the math work that we're doing is a series
+02:22 of interpreter instructions in CPython.
+02:24 The GIL tells us that one instruction at a time can run
+02:28 period, regardless of how many threads
+02:30 or things like that are running.
+02:32 So this is clogged up.
+02:33 It can't go any faster with threading
+02:35 but that's because of the GIL.
+02:37 What if we could use Cython to make this happen in C
+02:40 and break free from the GIL?
+02:42 Well, it'd definitely be on, wouldn't it?
+02:43 And it turns out we are going to do that next.

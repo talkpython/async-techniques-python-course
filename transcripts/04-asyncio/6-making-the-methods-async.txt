@@ -1,0 +1,154 @@
+00:00 We've got the execution of our async loop working
+00:04 and we've created our tasks, we've gathered them up
+00:06 we're waiting to run until complete.
+00:08 But obviously these are standard old Python methods
+00:11 so what we need to do is adapt these two methods
+00:15 generate_data and process_data so they work.
+00:18 If we try to run it now
+00:19 I'm not really sure what's going to happen
+00:20 it's got to be some kind of error, let's find out.
+00:23 Run time warning, stuff is not awaited.
+00:28 Well they did start but when we tried to generate
+00:32 and when we tried to gather up the data and process it
+00:34 didn't work out so well, did it?
+00:37 No, it did not. Yeah, right here it said
+00:40 you know that didn't work, we called it
+00:43 it returned None and this thing said I expect a coroutine
+00:46 not this thing that ran and returned some value.
+00:51 Let's go and convert this, now there's
+00:53 two things that we have to do to make our
+00:57 method's coroutines, asynchronous coroutines
+01:01 and there's two Python keywords to make this happen.
+01:05 So what we have to do is we have to
+01:06 mark the method as an async method.
+01:08 So we say async like this
+01:10 this is a new keyword as of Python 3.5.
+01:13 So now we have two async methods, and if we run them
+01:17 they do sort of run
+01:20 but notice there's no asynchronous behavior here
+01:22 they're not actually asynchronous, so that's not great.
+01:27 Because just the fact that we say they're asynchronous
+01:29 you know, Python doesn't decide how to slice them up.
+01:33 Our job is to take this code here
+01:37 and say I would like to break it into little pieces
+01:39 that can run and the dividing points
+01:42 are where we're waiting.
+01:44 Well, what are we waiting on here?
+01:46 So PyCharm helps a little bit
+01:48 and this data structure helps a lot.
+01:51 So there's two places we're waiting on generate_data
+01:54 we're waiting, clearly on line 33, we're saying time.sleep.
+01:59 Now you don't want to use time.sleep
+02:01 this puts the whole thread
+02:02 and the entire asyncio loop to sleep.
+02:06 There's a better way to indicate I'm done for a while
+02:10 I'm just going to sleep, you can keep working
+02:12 so we can use the asyncio's sleep, okay?
+02:16 Same as time.sleep, but now there's two warnings
+02:19 and what are those warnings?
+02:21 It is PyCharm saying you have an asynchronous method
+02:23 with two places you could wait
+02:26 you could tell the system to keep running
+02:28 and go do other stuff, but you're not.
+02:31 So Python has a cool keyword called await
+02:34 and you just put that in front
+02:36 and these are the markers on line 30 and 33 that tells
+02:39 Python to break up the code into little slices.
+02:42 Come in here, run until you get to this point
+02:45 wait and let other stuff happen here
+02:47 when you're done with that and you have some time
+02:48 come back and do this
+02:51 and then wait until you're done sleeping
+02:53 which is, you know, .5 to 1.5 seconds
+02:56 and then carry on again, okay?
+02:59 So we've converted this to an async method
+03:02 now we got to do the same thing down here.
+03:05 So this is async, and this one, what we have to do is
+03:08 for some reason PyCharm doesn't know about the get
+03:10 but if you go here you can see it's an async method.
+03:15 So that means that we have to await it
+03:18 when you await the item, it's going to block
+03:20 until the return value comes out
+03:22 and the return value is going to be this tuple.
+03:24 Notice before the await, we had errors here
+03:26 it was saying coroutine does not have get_item.
+03:30 So when you call a coroutine you have to await it
+03:33 to actually get the value back from it, okay?
+03:36 Again, we were sleeping down here
+03:38 so this is going to be an asyncio.sleep
+03:40 and now that it's that style we have to await it as well.
+03:43 So pretty simple, the two steps
+03:45 mark the methods as async required
+03:48 and then once you do that, you can use the await keyword
+03:51 anywhere you would have waited.
+03:53 You're calling a function that is async.
+03:56 In this case it's kind of silly, sleep stuff
+03:59 but we're going to do a much better, realistic example
+04:01 when we start talking to web servers and stuff, real soon.
+04:04 So this is sort of a toy example
+04:06 we're going to get some real work done
+04:08 with async and await in just a moment.
+04:11 I think we're ready, our times are awaited and they're async
+04:15 and the various places where we get
+04:16 and put data we're awaiting
+04:17 and we have the async methods here
+04:19 let's run this and see what we get.
+04:21 Notice we don't need time anymore.
+04:25 Notice a very different behavior, look at this
+04:30 we're generating the item and then we're going
+04:32 to wait on something, waiting for more data to be generated
+04:35 or delivered, so then we can immediately go and process it.
+04:38 Look at that latency, 0, soon as an item is delivered
+04:43 or almost as soon, we can go and pick it up.
+04:46 It took 20 seconds instead of 30, that's pretty awesome.
+04:51 Now we're having 0000 here because
+04:54 the producer is not producing as fast
+04:57 as the consumer can consume.
+04:59 So let's take this and make one minor change here
+05:01 let's generate one more of those, I call that a task2
+05:05 that task3, and this one we need to tell it
+05:08 it's expecting more data
+05:10 we're not dealing with cancellation
+05:11 and our other types of signals like that
+05:13 not yet, task3, okay.
+05:17 So now we should be producing more data than we can consume
+05:20 and that should be even a little more interesting.
+05:23 Notice the beginning it's kind of similar
+05:24 but now we sometimes process two
+05:27 sometimes we're processing one.
+05:29 The latencies are still pretty good
+05:31 but like I said, we can't quite keep up, so that's okay
+05:35 let's see what happens at the end.
+05:44 Yeah, pretty good, so in the beginning
+05:46 we generated a couple
+05:47 had to kind of do a couple double steps to catch up
+05:50 but in the end we were more or less able
+05:52 to keep up after we generated all the data
+05:54 especially when one of them finished
+05:56 and the other was still working.
+05:58 Really, really cool, even generating twice as much data
+06:02 it took only 22 milliseconds.
+06:04 I believe that would have been 50, sorry 22 seconds
+06:08 I believe that would have been 50 seconds
+06:11 if we had done that synchronously. How cool is this?
+06:14 So all we had to do is to break up these functions
+06:18 into parts where we're waiting on something else
+06:20 we're waiting on putting items into a queue
+06:23 we're waiting on, well, time, but like I said
+06:25 that's a stand-in for database access
+06:28 file access, cache, network, etc.
+06:32 Okay so we just break them up using this await keyword
+06:35 we didn't have to change our programming model at all
+06:37 that's the most important takeaway here.
+06:40 We didn't have to, all the sudden
+06:41 start off a thread, use callbacks
+06:44 and other weird completion.
+06:46 It's exactly the same code that you would normally write
+06:49 except for you have async and you have these await sections.
+06:52 So the programming model
+06:53 is the standard synchronous model that you know
+06:56 and that's really, really nice and important.
+06:59 All right, that's a first introduction to asyncio.
+07:03 We create the loop, we create some tasks based on
+07:09 some coroutines that we're going to call
+07:12 and then we run until they're complete.

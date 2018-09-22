@@ -1,0 +1,163 @@
+00:00 Now you're familiar with the program
+00:01 in its synchronous form let's make it asynchronous.
+00:04 And that let's me introduce an entirely new module
+00:07 that is built into Python.
+00:08 So these two are external packages
+00:10 but what we're going to work with now comes with Python.
+00:12 So import concurrent.futures
+00:17 and actually we want to get something out of it
+00:19 we'll say from that import Future.
+00:23 So this Future thing here
+00:25 this is a class that's going
+00:27 to represent some asynchronous computation.
+00:31 It's going to be the return value
+00:32 of starting one of these asynchronous operations
+00:35 and it doesn't matter if it's a process
+00:37 or a thread that it represents.
+00:39 So that's a really great thing.
+00:41 We saw that we have this concept of a pool
+00:43 one of these multiprocessing pools before.
+00:46 And the idea of a pool for either threads
+00:48 or processes is really great.
+00:50 They take a little bit of work to spin up and get started.
+00:53 It'd be great if they could just run
+00:55 and then we could assign work to them that they pick up
+00:57 and go with. So that's the general idea here.
+01:00 So we're going to say from concurrent.futures.threading
+01:05 or rather thread, import ThreadPoolExecutor.
+01:09 Now, I can say this and just leave it like this
+01:12 but let me add a little bit as PoolExecutor.
+01:16 So that'll let us reassign what this type means.
+01:19 That's going to be really handy.
+01:21 So what we're going to do is we're going to go create one of these
+01:23 kind of like we did with the process pool in multiprocessing.
+01:25 So down here, instead of just calling this work
+01:29 let's assign the work to be done.
+01:32 So we'll go like this and we're going to use this
+01:33 in a context block, a with manager
+01:35 so we'll say PoolExecutor() as executor.
+01:40 Okay, create a variable like that
+01:41 and we're going to work with it.
+01:43 Then we're going to do all this work here like so.
+01:46 This line, instead of doing this
+01:48 we're going to come over here and say f
+01:50 that's going to be a Future
+01:52 we're going to say executor.submit().
+01:56 The work that we want to submit
+01:58 is we're going to tell the function, that's the f in
+02:00 it's going to be that
+02:01 and the args is a *args so we can just pass them
+02:04 one after another, which is pretty handy.
+02:06 So we'll just say url. Alright, that's pretty cool.
+02:10 And then we can't now print out the work just yet.
+02:13 We'll do that in a little bit.
+02:15 Like before, we may want to get a hold of these answers
+02:17 after they're done.
+02:18 So let's go over here and say work, it's like this
+02:23 and work on f is this future. Okay, so, that's it.
+02:28 We're going to kick off all of this work
+02:29 maybe do a little print statement
+02:31 like waiting for downloads. Just so you know
+02:37 we've already started all of the work.
+02:40 And then when it's done
+02:41 we're going to leave that with block
+02:43 on line 28, between 28 and 29.
+02:45 There's not really, I guess
+02:46 there's like kind of the end right there, huh?
+02:48 When we leave that with block
+02:50 everything's going to be great.
+02:51 We're going to be ready to roll.
+02:53 Here we go, executor. Let me spell that better.
+02:57 Alright, so then we can just print out what we did before.
+03:00 Say for so for f in work:
+03:03 and then we can print almost what we had here
+03:05 but instead of title we have our future
+03:08 and we can say go to it and it has a result.
+03:10 Notice it has all sorts of things, right?
+03:12 It has cancel, cancel done, whether there's an exception
+03:16 whether it's running, all kinds of great stuff
+03:18 add a callback when it's finished.
+03:19 But we're just interested in the result
+03:22 which we could give a timeout or not.
+03:23 So that's going to print out the titles.
+03:25 Well, it's going to whatever get_title() returns
+03:28 and right now it's returning the title.
+03:30 Okay, so, here's our pool executor.
+03:33 Looks like it's ready to go.
+03:34 I think we've got everything going
+03:37 and we aren't doing any print stuff.
+03:38 We're going to add a little trace here
+03:39 just so we can figure out what's going
+03:41 a little bit better in just a second.
+03:42 But let's just run it and see if it works. Running.
+03:45 Guess I'll watch the titles and bam! Look at that!
+03:48 Now, our formatting wasn't so great.
+03:53 Let's put this down here.
+03:57 Actually, I'll leave it here for you like this.
+04:00 You can uncomment it.
+04:02 And let's put that down here just so we have
+04:04 a printing out.
+04:05 And we're going to put a proper end on it.
+04:07 See, if we get them all at once
+04:09 and then all of the results come back.
+04:11 So make it a little bigger, maybe, so you can see it run through it's entirety.
+04:15 Now let's run it one more time.
+04:16 Getting all the stuff waiting done.
+04:18 So, start the work, waiting, done
+04:21 and then here are the answers.
+04:23 We don't get one back from Google, remember.
+04:25 Now, we're not tying these together.
+04:27 It would be great if we had a way
+04:28 to figure out what the url was.
+04:31 Oh, and I noticed we could probably improve
+04:33 on that a little.
+04:35 If we could figure out what the domain was
+04:37 and print it here. But we could do it
+04:39 it'd just be a little bit changing the return value
+04:41 which I don't know that we're going to mess with.
+04:43 But would be nice to see.
+04:44 Nonetheless, this is working.
+04:46 The question is where is it working?
+04:49 What thread is it running on? Or is it even a thread?
+04:52 Is it maybe another process? So, let's go over here.
+04:56 I'm going to add a little debugging.
+04:58 I'm going to add a little debugging here.
+05:00 Now, I'm going to import something inside this function.
+05:03 Not normally recommended but it's just
+05:05 a temporary sort of trace diagnostics thing
+05:08 we're going to comment out so it doesn't clutter up
+05:10 the rest of the file. I'm going to import multiprocessing.
+05:13 'Cause we actually need that.
+05:16 So we can say, and get the current process.
+05:18 So we'll say p = multiprocessing.current_process()
+05:23 And then we can use that process
+05:25 to make some statements about this.
+05:27 So we can say getting title form that
+05:28 and we can list out the process ID and the process name
+05:33 and we already have the url.
+05:34 So let's go down here and wrap this format
+05:36 a little bit and this is easy
+05:38 pid and p.name, okay.
+05:44 And let's just tell PyCharm everything's cool.
+05:46 Okay, so let's run it one more time
+05:48 and just see what we get.
+05:50 You can see we're getting all of these titles
+05:52 and got some sort of race condition on our endline
+05:58 that's okay though. So we got all of this coming through
+06:02 and you'll notice the process is all the same.
+06:04 It's always 66203 for the moment.
+06:07 Won't be the same every time
+06:08 but it should be consistent for a run, right?
+06:10 And it's main process.
+06:12 So that means this get title is running
+06:14 on a bunch of different threads in the same process.
+06:18 That's not surprising 'cause we came over here
+06:21 and we said we're going to use the ThreadPoolExecutor, right?
+06:25 Pretty cool. And we can make this a little more explicit.
+06:29 Make this a, mark that as a Future
+06:31 that's why I import it, so.
+06:33 Make sure the auto complete works.
+06:34 Sometimes it does, sometimes it doesn't.
+06:37 This will be sure to help in your editor.
+06:39 Just that requires Python 3.6, so be aware.
+06:41 I think this is working for our threaded version.

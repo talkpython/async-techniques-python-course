@@ -1,0 +1,28 @@
+00:00 So the example you saw before
+00:01 this producer and consumer thing
+00:03 maybe it felt like a toy example, an artificial example.
+00:06 And you're like, "Well, Michael, you took this
+00:08 latency of average of 15 seconds down to 0.25 seconds
+00:12 made it 60 times better, but it was fake.
+00:15 It wasn't a real thing
+00:17 and how about we do some real work
+00:19 and actually see if you get anything close to that?"
+00:22 Well, we will, we definitely will.
+00:24 So it is time to do some real work
+00:26 and the example that I chose is web scraping.
+00:29 So what we're going to do, we're going to go
+00:31 do some web scraping, make a bunch of
+00:33 HTTP requests against the server
+00:35 download some stuff, run some BeautifulSoup web scraping
+00:39 type queries against it, and get a little bit of data out
+00:42 and then print that out to the console, okay?
+00:45 We're going to request a bunch of pages
+00:46 and this is a perfect example for asyncio
+00:49 'cause while we're waiting on one server to respond
+00:51 we can issue another request
+00:53 and another, and another, and another, right?
+00:56 Within that hundred milliseconds
+00:57 or whatever the response time is
+00:59 we could issue many requests to many of our servers
+01:02 and really just incredibly amplify the speed
+01:05 so that's what up next.

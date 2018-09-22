@@ -1,0 +1,32 @@
+00:00 Now that you've seen our asyncio example in action
+00:03 let's look at the anatomy of an async method.
+00:05 Remember there's two core things we have to do.
+00:08 We begin by making the method async.
+00:11 So we have a regular method def method name and so on.
+00:13 To make it async you just put async in front.
+00:17 Remember requires Python 3.5 or higher.
+00:20 And then you're going to await
+00:21 all of the other async calls that you make
+00:24 so anytime within this method
+00:26 if you're going to call it another async method
+00:28 you have await it.
+00:30 And that tells Python here is a part, a slice of this job
+00:34 and you can partition with other slices of other jobs
+00:37 in the asyncio event loop.
+00:40 So we know that get is an async method.
+00:43 Python didn't help us this time very much on this one
+00:45 but if you go to the definition you'll see
+00:48 and also we didn't actually get a tuple back
+00:49 we got a coroutine, so that's a dead giveaway there.
+00:52 And that's pretty much it.
+00:53 You don't really have to do much differently at all.
+00:56 The most important thing is that anytime you can
+00:59 that you use some sort of method
+01:01 that actually supports asynchronous calls.
+01:04 So if you're talking to a database try to find the driver
+01:07 that supports asynchronous operations and so on.
+01:10 We're going to talk more about that later
+01:11 as we get farther in the class
+01:12 but the more times you can await stuff
+01:14 the more fine-grain the work will be
+01:16 probably the better.

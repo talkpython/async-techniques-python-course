@@ -1,0 +1,81 @@
+00:00 There's a couple of things that are interesting here
+00:01 that we might want to dig in deeper
+00:03 really quickly before we get to a real project.
+00:05 One is how do we work with say multiple threads?
+00:09 So let's go down here and rename this to t1.
+00:13 And then we'll have another one, t2.
+00:19 And this is going to be Sarah, and this will be five.
+00:25 And we're going to start both of those
+00:28 and we're going to wait for them both to finish and then
+00:33 we're going to be done.
+00:35 This is sub optimal but just hang with me for a minute.
+00:38 It's part of a journey. Alright look here we go.
+00:42 Hello Michael, Sarah is in the work.
+00:43 Hello, print, print, you can see the print
+00:47 is actually somehow even not getting
+00:49 the new line in there sometimes, that's pretty cool.
+00:52 So Michael actually had more but here
+00:54 Sarah, Michael, Sarah, Michael.
+00:56 Pretty cool. So you can see that the, more time to sleep.
+01:00 We're actually giving up our time slice
+01:02 to let the other thread run.
+01:04 That's pretty cool already.
+01:06 So here's how we could do this.
+01:08 What if we had 10 things we wanted to do?
+01:10 What if we had arbitrary many? Not so great.
+01:13 So let's do it like this and let's say all of our threads
+01:15 are going to be in here, just put them into a list, okay.
+01:20 This will be much nicer.
+01:22 Put them in a list, and then we can do
+01:25 a little list comprehension, t.start() for t in threads.
+01:31 And down here, similarly t.join().
+01:35 What do we get when we run those two comprehensions?
+01:38 A bunch of Nones probably but it doesn't matter.
+01:41 The fact is we're taking the return by here
+01:45 which like I said is probably None
+01:47 and just put it into a list but
+01:49 as part of going to that list to generate it
+01:51 we're of course waiting.
+01:52 So now this will do exactly what we had before
+01:55 and it lets us have even more of these.
+02:02 Sorry Mark, 2, 11 obviously some commas in there.
+02:07 Everything's going to go there they go.
+02:11 A bunch of stuff is happening.
+02:13 They're all cranking out answers.
+02:14 Pretty soon we're going to be done.
+02:17 But notice we're waiting for all of 'em.
+02:18 We've started them all.
+02:22 We're down here on line 18 waiting and now we're done.
+02:24 Okay so this is a real nice pattern here.
+02:26 This create a list of threads.
+02:29 Used a list comprehension to start them
+02:30 a list comprehension to wait on them and so on.
+02:33 The final thing I guess worth looking at here
+02:35 would be to say, come over here we could set a timeout.
+02:40 So we're waiting right now forever
+02:43 and let's say we're only willing to wait 5 seconds.
+02:45 So maybe Sarah will be done.
+02:47 Maybe Zoe, definitely Zoe will be done
+02:49 but Michael and Mark, they won't be.
+02:51 So let's say timeout is 5 seconds.
+03:04 It went through all of them
+03:06 because it first waited for that one which is 5
+03:08 and then it waited on that one and that one.
+03:11 Alright so let's make that, 'cause we're waiting on a bunch
+03:14 to make that a little bit small and let's make it 1.
+03:15 So now we're waiting for 4 seconds
+03:17 I guess total probably.
+03:23 Here you go. So you can see we got through basically 3
+03:25 sorry 4 reps that are based of all of them
+03:28 and then we just baled out.
+03:29 So you may want to use that.
+03:31 We're going to use that for good use in our little program
+03:33 we're going to build in a moment.
+03:35 Alright, so here's some cool techniques.
+03:36 I guess I'll leave the timeout there for you
+03:38 just in your code sample.
+03:41 Good technique, you want to spin up a bunch of threads.
+03:43 You want to start them, do the work potentially
+03:47 and wait on them.
+03:48 You can use a list and list comprehensions
+03:50 to make this a lot cleaner in Python.

@@ -1,0 +1,66 @@
+00:00 Now, looking at this timing here
+00:02 I think the times are so incredibly small
+00:05 that the stuff we're doing around the edges
+00:07 is actually starting to show up.
+00:08 So, I tweaked things just a little bit.
+00:10 First of all, I'm still concerned these
+00:12 numbers might overflow, so I switched
+00:14 them all to float, okay, float, float, float
+00:17 and they're much less likely to do that there.
+00:20 Then over here, I said we're taking all this
+00:22 time to create the threads, and then
+00:25 then, you know, we had this time starting
+00:27 like way up here, so, I decided
+00:31 like let's create all the threads
+00:33 and then start them, and the second
+00:35 they're started, start the time, okay?
+00:37 Cause, now we're going to wait
+00:38 and then we're going to print out the time here.
+00:40 Because, I didn't see as much of a change
+00:42 between the serial version and the main one.
+00:45 So now, now, if we run exactly the same amount
+00:49 and we don't do this sort of, especially this stuff
+00:52 like getting the processor count, and so on.
+00:53 Now, if we run it, now we have a really, really sweet
+00:58 performance increase here. Let's actually add one more zero.
+01:01 Make that 3,000,000. One final time on this one as well.
+01:06 Get our new baseline number. So, 80, I'll put 80 here.
+01:13 Now, we can run it, and see what we get.
+01:15 Whoops, If you're on the same one
+01:16 you get the same number.
+01:17 Let's run the Cython line one more time.
+01:19 There we go, look at that, 2,000 times faster.
+01:23 2,000. 2,200. That is so awesome.
+01:27 Let's just make sure that this parallelism
+01:29 is having some effect, so what if we go over here
+01:31 and we say only use six cores instead of twelve.
+01:35 That may make a difference.
+01:38 It's a little slow right? Actually, almost half but if we only use two cores?
+01:43 Three hundred, three hundred.
+01:45 So, you can see the fact that we're doing threading
+01:47 It's definitely getting faster and faster
+01:49 by using threading, I mean we still have zeros
+01:51 all across the board but somewhere in there
+01:52 are milliseconds, or microseconds, or something like that
+01:55 that we're we're tracking here.
+01:57 So, just wanted to, You know, we're going so fast
+02:00 that like, the getting the processor count
+02:03 and actually allocating the threads
+02:05 that really starts to impact our performance, right?
+02:08 And even if you say well, we're going to consider
+02:11 the starting of the threads, right, it's still
+02:13 four hundred times faster than the CPython version.
+02:16 Really, really a big deal.
+02:18 And I don't have my divide up there, do I still, no.
+02:20 Yeah, 416 times faster. 500 that time almost.
+02:25 How hard was it? Well, we took the one function right here
+02:28 that was a little bit slow, and we're doing
+02:30 most of the work, and we converted that to Cython
+02:34 but most of our program, all the stuff
+02:36 that you've learned about, threading
+02:37 the regular methods, while, you know, for loops, everything.
+02:42 It's all the same, it's unchanged.
+02:43 We can use exactly the same program.
+02:46 We just took the one little hotspot
+02:48 and replaced it with a Cython implementation.
+02:51 It's really nice, isn't it?

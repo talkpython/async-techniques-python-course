@@ -1,0 +1,130 @@
+00:00 At the opening of this chapter
+00:01 I told you that threads belonged in
+00:03 the do more at once
+00:04 but not in the do stuff faster
+00:06 by taking advantage of the multiple cores on our system.
+00:09 And recall, on this computer here
+00:15 I have many, many cores, 12 cores up there.
+00:18 So I should be able to take advantage of all of those cores
+00:23 to do computational things way, way faster.
+00:27 In a perfectly parallel universe
+00:29 I should be getting 11 to 12 times improvement.
+00:34 So here I have a computational little program.
+00:38 I have the original
+00:39 and then this one, which starts as original
+00:41 but we're going to evolve it as we have been.
+00:43 And it has this function, do_math
+00:45 which is just going to do some multiplication
+00:49 and square roots and things like that.
+00:51 Didn't really matter what math it's doing.
+00:53 Just that it is doing math is pretty interesting.
+00:56 So let's run this singular serial version.
+00:59 It takes about 7.5 seconds to run.
+01:07 7.47. Excuse me for my inaccuracy.
+01:09 So it's done. It's done its work.
+01:13 If I was able to leverage this in some sort of threading way
+01:18 I would be really golden.
+01:19 I could make it go in half a second
+01:22 or something really great.
+01:23 So let me replace that line with an interesting little thing
+01:28 and the details are not super important
+01:29 so I'm just going to paste it for time sake.
+01:31 So what we're going to do is
+01:32 we're going to create a bunch of threads.
+01:33 We're going to start the threads and join on them.
+01:36 We've already seen that this pattern is super common here.
+01:38 And I'm going to import threads at the top.
+01:42 And instead of just doing math on how many is that?
+01:47 Let's make that number more obvious.
+01:51 On 30 million operations.
+01:57 We're going to partition this across n different processors
+02:02 from 1 up to processor count, alright?
+02:07 And why are we using processor count
+02:08 and not just 5, 10, 100, whatever?
+02:11 It turns out when you're doing computational stuff
+02:13 having more CPU-busy threads fighting for attention
+02:18 on the CPU itself actually slows it down.
+02:21 One thread runs for a little bit
+02:23 works with some variables
+02:24 and the other gets run by the operating system
+02:26 and kicks that thread off that processor.
+02:28 It needs different data which expels stuff out of the cache
+02:31 which means memory access is slower for a second
+02:34 and then it speeds up again. Things like that.
+02:36 So having too much contention for the processors
+02:38 in a CPU world is bad, bad news.
+02:41 Ideally, if nothing else was happening on the computer
+02:43 targeting the number of processors
+02:45 would be the exact right amount.
+02:48 Well, except for that in Python
+02:50 it's not going to help, as we'll see.
+02:51 But how did we get this number?
+02:52 We're going to have to bring in a new
+02:56 module here that we haven't seen yet.
+02:58 So we'll have to import multiprocessing.
+03:02 Now, multiprocessing is process
+03:04 equivalent of threads in Python.
+03:07 We're going to talk about it later.
+03:08 But it does have a cool little function: CPU count.
+03:13 There we go. And let's just do a quick print.
+03:16 Whatever your machine tells you is
+03:18 how many processors it thinks it have.
+03:21 Print that out.
+03:22 And if you want to be really ambitious
+03:24 we could put a comma there for when that goes over 1000.
+03:28 Anyway, let's just run it.
+03:30 Doing math on 12 processors.
+03:32 Should be half a second, or one second, something like that.
+03:36 Go, go, go, faster. Ah, that's a tiny bit faster.
+03:40 That's kind of cool, actually.
+03:41 Don't know how it got to be a tiny bit faster.
+03:43 Maybe because there's more threads.
+03:44 Actually fought against Camtasia
+03:47 which is recording my screen.
+03:48 Get a little more CPU time.
+03:49 Yeah, it does make it a tiny bit faster.
+03:51 But, you know, that ratio of 6.34 over 7.47
+03:57 so that 15% speedup there.
+04:00 That is not super impressive, is it?
+04:03 So given that I have 12 cores
+04:05 we should have been able to do better than 15%.
+04:09 And I honestly think if I were to turn off Camtasia
+04:11 maybe it would actually not make any difference at all.
+04:13 I don't know.
+04:14 But here's an example of where the GIL is raising its head
+04:20 and causing serious, serious problems.
+04:22 So this, all of this work, is being done in Python
+04:26 in the Python interpreter, so every step of the way
+04:28 there's no sort of blocking waiting point
+04:30 it's just trying to do work.
+04:31 And the interpreter, 'cause of the GIL
+04:34 can only operate on one instruction at a time
+04:37 regardless of which threads or how many threads are running.
+04:39 That means this basically is parallel
+04:42 even though I gave it 12 threads to run.
+04:44 What's the fix?
+04:46 The fix is this problem is not solved with threads.
+04:49 This problem is solved some other way.
+04:51 I'll show you two ways in this course
+04:53 to make that number go down.
+04:55 I'll show you how to use multiprocessing
+04:57 to get that number under a second
+04:59 and I'll show you how to use Cython
+05:02 to get that number incredibly small.
+05:05 But the way it is right now
+05:06 it's not going to do a lot for us.
+05:08 We just can't make it go really any faster
+05:11 because the GIL is blocking any of the parallels
+05:14 that we're trying to take advantage of.
+05:16 Alright, so here's a concrete example
+05:17 of where the GIL is inhibiting threading.
+05:21 And of course, asyncio has even a worse problem, right?
+05:24 Remember, asyncio doesn't even have threads.
+05:26 It's all one thread, so there's not even a hope
+05:29 that you could have gotten
+05:30 anything better out of asyncio.
+05:32 But threading, some languages like C or C#
+05:36 this would have gone much faster.
+05:37 But because of the GIL, in this particular case
+05:41 this is where the GIL hurts you
+05:43 and you just don't get any extra parallelism, really.

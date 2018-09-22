@@ -1,0 +1,63 @@
+00:00 Let's review converting from Flask to Quart
+00:03 and going from a synchronous view or controller function
+00:06 into an asynchronous one.
+00:08 So, if you're not entirely familiar with Flask
+00:10 the way it works is we have these apps.
+00:12 This is a Flask app that we allocate
+00:14 and then we apply this decorator to set a route
+00:17 and it's just a URL and the data that gets
+00:20 passed on the URL, things like that.
+00:22 Of course, you can see we have a regular def sun
+00:25 a regular function
+00:26 so there's no asynchronous happening here.
+00:28 We're going to implement our viewer controller method
+00:31 put the logic here, and in this case
+00:33 we're using some other services.
+00:35 We don't want to just cram all that into one place
+00:37 we want to be able to reuse the ability to say
+00:40 convert a ZIP code and country into a lat and long.
+00:42 If we put those into their own services
+00:44 these themselves are also synchronous
+00:48 and what we get back is a dictionary
+00:50 called sun_data, and in order to show that
+00:52 to the API consumer as json
+00:55 we have to call flask.jsonify and boom
+00:59 we've received a web request
+01:01 we've interacted with some external services
+01:03 converted that into a dictionary that is converted to json
+01:06 and that is the heart of an API.
+01:09 And this is how you do it in Flask.
+01:11 With that in mind, how do we do it in Quart?
+01:13 Well, it's very, very similar.
+01:15 Again, we have the app.route, but remember the app
+01:18 here comes from a Quart app being created, not a Flask app.
+01:22 Then we add an async decorator
+01:25 or async keyword, rather, for this method.
+01:27 So we have an async def sun
+01:29 and that allows us to use the await keyword.
+01:32 Then, we take that same logic that we've hopefully
+01:34 upgraded to async capable by making get lat long
+01:38 and for today both async methods themselves.
+01:41 And then we can await those results
+01:43 and this is the key to the performance
+01:46 that Quart is going to unlock.
+01:47 While we're waiting on get_lat_long
+01:50 while we're waiting on for today
+01:53 instead of just going, well, we're busy
+01:56 so just process and request, don't bother us
+01:58 can't do more right now, we're all blocked up.
+02:00 Most of the time, what does this method do but wait
+02:03 on those two services and adapt, you know
+02:05 convert time zones a little bit?
+02:07 Not much, so this is really all our website
+02:09 does is wait on these services.
+02:12 And so why don't we make that waiting productive?
+02:15 Do the await here and allow other async methods to run
+02:18 while we're awaiting these.
+02:20 And that's exactly what we're doing with Quart
+02:22 and finally we call it quart.jsonify
+02:24 and quart.abort so I'm to return
+02:27 our data that we got back.
+02:28 Once the dictionary converted to json, boom
+02:31 now you have a more scalable API with very little effort
+02:35 to make that conversion.

@@ -1,0 +1,85 @@
+00:00 I want to draw a map or an illustration for you of
+00:03 Python's Async landscape. So you'll see that there are many
+00:06 different techniques that we're going to employ
+00:08 throughout this course and different techniques apply
+00:11 in different situations or they will potentially
+00:13 give you different benefits.
+00:15 So we're going to break the world into two halves here.
+00:18 On one, we're going to say "Can we do more at once?"
+00:22 That's exactly the thing we just spoke about with say
+00:24 the web server. While our database request is busy waiting
+00:28 let's go do something else. The part we opened this chapter
+00:31 with about leveraging the CPU cores and actually computing
+00:35 a single thing faster by taking advantage of the mutli-core
+00:39 systems, that's doing things faster.
+00:42 Over in the do more at once, we have this thing called
+00:44 Asyncio. Asyncio was introduced to Python
+00:47 around Python 3.4, but really came into it's
+00:51 own when the language began to work with it, with async and
+00:54 await keywords in Python 3.5.
+00:57 So Asyncio is the easiest, clearest, simplest way to add
+01:01 scalability like we just saw in our concurrent request
+01:05 example. You're waiting on something, go do something else.
+01:08 We also have threads and threads have been around much
+01:11 longer. They're harder to coordinate, they're harder to deal
+01:14 with error handling, but they're also a really great option
+01:18 to do more at once. In some programming languages, threads
+01:22 would also be over in the do things faster. We're going to
+01:26 get to why that is, but you may have heard a thing called
+01:28 the GIL and the GIL means computationally threads are
+01:31 effectively useless to us. They let you do more things
+01:35 at once if there's a waiting period, but if it's purely
+01:37 computational in Python, threads are not going to help us.
+01:41 What will help us?
+01:42 Because the GIL is a process level thing, Python has this
+01:46 capability to spawn sub-processes and a lot infrastructure
+01:50 and APIs to manage that. So instead of using threads, we
+01:54 might kick off five sub-processes that are each given a
+01:57 piece of the data and then compute the answer and return it
+02:00 to the main process.
+02:01 So we'll see multi-processing is a tried and true way
+02:05 to work with adding computational performance improvements
+02:09 and taking advantage of multiple cores and this is usually
+02:13 done for computational reasons. We want to leverage the
+02:16 cores, not we want to talk to the database a bunch of times in
+02:20 parallel. We would probably use threads for that.
+02:23 We're also going to look at C and Cython. C, C++,
+02:26 and Cython. So C obviously can do multiple
+02:29 multi-threaded stuff. It could also do more at once
+02:32 but you know, we're going to leverage it more for the aspect
+02:35 of doing things faster in a couple ways.
+02:39 However, writing C can be a little bit tricky. It can be
+02:42 error prone and so on. As a Python developer, it would be
+02:46 better if more of our code could actually be in Python
+02:50 or very very close to Python.
+02:52 So we're going to talk about this thing called Cython
+02:55 not CPython but Cython.
+02:57 Cython is a static compiler that compiles certain flavors
+03:02 of Python to C and then basically compiles that C
+03:06 and runs it under the restrictions that C has
+03:08 which are very limited rather than the restrictions that
+03:11 Python has which is fairly limited.
+03:14 So we'll be able to use Cython for very powerful
+03:17 multi-threading as well. That's more using the threads
+03:21 in a computational way.
+03:22 So this is the landscape. On one hand
+03:24 we have do more at once. Take advantage of wait periods.
+03:27 On the other, we have do things faster
+03:30 take advantage of more cores.
+03:32 Now these are all fine, Asyncio is really nice, but there is
+03:36 also other libraries and other techniques out there that
+03:39 allow us to do these things more easily.
+03:42 We're going to look at two libraries. These are by no means
+03:46 a complete list of these types of libraries, but we're
+03:49 going to look at something called Trio
+03:51 something called Unsync. Aynsc Unsync - get the play
+03:54 on words right?
+03:55 So these are higher level libraries that do things with
+03:58 the Asyncio capabilities, with threads
+04:01 with multi-processing and so on, but put a new
+04:04 programming API on them, unify them, things like that.
+04:09 This is your Python Async landscape. Do more at once
+04:13 do things faster, do either of those easier.
+04:17 Basically, that's what this course is about. By the end of
+04:20 this course, you'll have all of these in your tool box
+04:22 and you'll know when to use which tool.

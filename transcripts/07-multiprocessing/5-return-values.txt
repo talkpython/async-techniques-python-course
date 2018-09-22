@@ -1,0 +1,57 @@
+00:00 So this multiprocessing
+00:01 is great if we're going to kick off
+00:03 a bunch of work and have it be done.
+00:05 What if we need an answer though?
+00:07 What if we need to get back some
+00:08 kind of result from all of this work?
+00:11 How do we do that?
+00:12 It turns out multiprocessing has a pretty
+00:14 good answer. Let's have a look.
+00:17 I'm going to call this a task here
+00:18 and what we're going to do is we can actually
+00:20 capture the return value of a variable
+00:23 that we can put them all in to.
+00:27 I'm going to pin it like that and then
+00:29 when we're done, we can also print out our results.
+00:36 We can go to these tasks and we say t.get()
+00:39 Notice we can pass a time out.
+00:41 It will let us know whether it's ready.
+00:44 We can wait on it, we can know whether
+00:45 or not the response was actually successful.
+00:48 Like the execution was successful and so on.
+00:50 I'm going to do a get() and we'll print that out.
+00:54 We're going to get, well, right now
+00:55 nothing back because do_math() returns nothing.
+00:57 But let's try and make it do something interesting.
+01:00 So here we're generating a bunch of numbers.
+01:02 Let's go over here and have an average
+01:06 set that to zero and let's say the value
+01:09 is that, so we'll say average going to add
+01:11 the value and we're going to divide by the number.
+01:15 We want it to return, just make this an integer
+01:19 the average right there.
+01:21 This is not really a meaningful number
+01:22 we're computing, but we're going to return
+01:24 that value from each block of the run
+01:27 that we're working with.
+01:28 Let's go ahead and run that, then I'm going
+01:30 to go to something called the get() function.
+01:31 That will return the value, returned
+01:33 on line 40 there. Let's run it and see what happens.
+01:37 Doing all the work like before
+01:38 and boom, look at that. Those are the answers.
+01:41 Here are our results. I got those back from the various
+01:44 functions that ran. Of course we got them back in the order
+01:48 that we started them, not in the order
+01:50 in which they finished.
+01:52 Because we start item one, put it in the list.
+01:56 Start item two, put it in the list and so on.
+01:59 Then we just, when everything's finished
+02:01 we go through all the items first from the list
+02:03 second in the list and get the results.
+02:05 Correlate those back really clearly.
+02:07 This is the first block, the second block
+02:09 and third block of data that we're working with.
+02:12 That's how you get results back or even
+02:14 understand whether or not the operation
+02:16 was successful when using multiprocessing.

@@ -1,0 +1,117 @@
+00:00 Time to write some code about threads isn't it?
+00:01 Alright, here we have our demo code.
+00:04 This is in the GitHub repository under Chapter 5 threads
+00:08 we have basic threads, CPU attempt
+00:11 which we're going to get to these two shortly
+00:13 but right now I just want to focus on sort of
+00:15 the Hello World thread stuff.
+00:17 What are the basics of threads?
+00:18 How do we create them, how do they work?
+00:20 What are some of their little non-obvious nuances
+00:23 that we need to understand?
+00:24 And then we'll go build a real program with them.
+00:26 Here you can see a program called Hello
+00:28 let's go ahead and run that.
+00:29 It's underwhelming isn't it? Didn't do too much.
+00:31 It did run, but then it just passed.
+00:34 So let's go and do some interesting things.
+00:36 Let's have a method here, say def greeter.
+00:41 I want to pass in name, it's going to be a string
+00:43 and the greeter, also let's pass in a times.
+00:48 And that could be an integer.
+00:50 So we're going to pass in a name and a number times
+00:52 to do the greeting. So we'll just print out something like
+00:56 hello there whatever your name is.
+00:59 And then we're going to do this that many times.
+01:02 And we'll go over here and call the greeter
+01:04 and let's say Michael. Let's do it 100 times.
+01:09 Well that's interesting but let's make it go slower.
+01:12 Each time we're going to make it wait
+01:13 so we can say time.sleep().
+01:16 This will actually put the main thread to sleep
+01:18 if it were another thread it would put that thread
+01:20 to sleep as well and we'll release the GIL
+01:22 which is pretty awesome.
+01:24 Let's see if we can do this once per second.
+01:26 So this should take a little over a minute and a half.
+01:28 There it goes. What do you think, shall we just watch it?
+01:31 No of course, that's going to be boring.
+01:33 There's nothing to do with threads here anyway is there?
+01:36 So let's start bringing threads into action here.
+01:39 So the first thing I'm going to do is I'm going to say
+01:42 import threading and keep it nice and explicit
+01:45 like I do even for my production code.
+01:47 I like to use the module name
+01:49 the namespace style of programming here.
+01:51 So what we're going to do is we're going to create a thread
+01:53 call it just t. I'm going to create threading.thread.
+01:56 What we're going to do is set the target.
+01:59 The target is going to be the function, not calling it
+02:03 but just the function name.
+02:05 And then we're going to pass the args which are arguments
+02:08 as a tuple and you know we can sort of just decompose
+02:11 this really easily and just put that there.
+02:15 Now if I run this it's not going to be so super interesting.
+02:18 Let's do a little print done here.
+02:22 What happened to our greeter? Didn't it say anything?
+02:24 No, no no no it did not. Just because we created the thread
+02:28 doesn't mean it's running. We have to say t.start().
+02:32 There, wait a minute.
+02:33 It was done and now it's still working.
+02:36 That's weird. Here's the deal.
+02:38 Our program, our main method, exited
+02:41 but somehow this other thread is still running.
+02:43 It's still, you can see it's still goin' on down here
+02:45 doing it's thing. I'll finally stop it.
+02:48 That's because by default, threads in Python
+02:51 are what you would call foreground threads.
+02:53 If any of those are running
+02:55 even if your main thread that started your program
+02:57 stops or exits, it's going to keep on running.
+03:01 If you want this just to run in the background
+03:03 if your program exits then the threads get canceled
+03:07 then what we got to do is go here and say
+03:08 this is a daemon thread.
+03:10 Now we'll get a slightly different behavior.
+03:12 Hello, nope, we're done.
+03:14 Oh, okay well, interesting, there it goes.
+03:17 That wasn't really what you were hoping for maybe
+03:19 maybe it was.
+03:20 So we started our thread but somehow we need to
+03:23 do some other work.
+03:24 We could say print, this is other work.
+03:28 Like for example I could do math.
+03:30 I could tell you what two times two is.
+03:32 And then maybe after this point we don't have
+03:34 any more work to do but we want to make sure
+03:36 the thread still gets to finish its work
+03:39 and just so we don't go insane let's make that 10 okay?
+03:41 10 Michaels and we'll be good.
+03:44 And we could even do an in here.
+03:49 And print that out so we can keep track of where we are.
+03:53 Okay so then down here if we say we don't want to exit
+03:55 we'll say t.wait, no, join.
+04:01 So remember I spoke about this fork-join pattern
+04:04 the nomenclature here comes from fork-join.
+04:06 I would prefer wait and you'll see in other things
+04:09 in the threading world that we're going to get to
+04:11 wait is sort of the newer style but, anyway.
+04:15 Join it is, let's go. So we got this Hello.
+04:20 This is other work for, so remember
+04:22 computing for was our other work
+04:24 and now we're doing the other things.
+04:26 This is a zero-based loop, a computer loop
+04:29 not a human loop. So we get this out here.
+04:32 So we sort of kicked off some work, this is other work
+04:35 and this is our main thread
+04:36 our background thread is still working
+04:38 and then when it's finally done
+04:40 this line releases.
+04:42 And when it releases after it's done
+04:44 'cause the thread stopped running
+04:46 we print our little final done and exit.
+04:48 So now our main method won't actually exit
+04:51 until the thread is done.
+04:53 If it does because it's a daemon
+04:55 that background thread and background work
+04:56 will be immediately aborted.

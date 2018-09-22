@@ -1,0 +1,40 @@
+00:00 So you've seen that we've taken our little app
+00:02 that goes against these titles from these URLs
+00:05 using threads via the ThreadPoolExecutor
+00:08 to do all the work.
+00:10 So we want to switch from maybe using threads
+00:13 to using processes, using multiprocessing.
+00:16 How much work is that going to be? Watch this.
+00:18 We're going to go over here and say, you know what?
+00:19 We're going to go from process, ProcessPoolExecutor.
+00:26 Now because we imported it as an alias
+00:29 down here, this line on line 19, doesn't have to change.
+00:33 Before we added line five, that meant
+00:35 create a ThreadPoolExecutor.
+00:37 Now we've changed what that means
+00:39 now it means create a ProcessPoolExecutor.
+00:41 I'll go ahead and comment this out
+00:42 even though, technically it'll work the same.
+00:45 Now what happens if we run it?
+00:47 Once again, let's make that bigger.
+00:49 So it's running. You can see the same basic process.
+00:53 We kick off all of the work.
+00:55 We wait for a second to get all of the results.
+00:58 Beautiful, and we do it all in parallel.
+01:00 Notice now though, now the process ID is different.
+01:04 The process ID is different for each one of the these
+01:07 and it says process name is fork process one
+01:10 fork process two, fork process three, and so on.
+01:13 Even though we're calling across these processes
+01:15 we're able to get a return value back
+01:17 by just getting access to the result.
+01:20 So run it one more time. Boom, quite nice, right?
+01:24 So look at that.
+01:25 To create the process pool edition
+01:27 instead of the threaded pool edition
+01:28 we change line four to line five.
+01:31 That's it because we can use this base API
+01:35 that is this executor API, and these futures
+01:38 that come back regardless of what type of work
+01:40 they're doing, it means we can use this same API
+01:43 for multiprocessing and for threading. Pretty awesome.

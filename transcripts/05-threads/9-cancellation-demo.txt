@@ -1,0 +1,131 @@
+00:00 Let's add one nice little trick
+00:02 or nice little feature to our program here.
+00:05 Notice it's doing all this work, but maybe I'm done
+00:10 I've seen enough, we can get out of here.
+00:12 I'd like to somehow cancel.
+00:14 Well, I can somehow, Ctrl + C my way out eventually.
+00:20 Well, not really right? Even that doesn't work.
+00:22 Like, that's not the best.
+00:24 You know, Python consists of this little like skull
+00:27 cross bones thing, til we're actually finished.
+00:29 That was super annoying.
+00:31 Wouldn't it be nice if there was a better way?
+00:33 Well, if we had set these to be daemons
+00:38 at least the keyboard interrupt would've taken it out.
+00:41 But still, maybe we want something a little bit nicer.
+00:44 Instead of saying started
+00:46 let's actually use our Colorama here.
+00:50 We can come out here and say something like
+00:53 press enter to cancel
+00:55 And you might think, well you can just do input.
+00:58 Like this, with nothing.
+01:00 And technically that will block this, but how do we know.
+01:06 We don't have to ask this anymore.
+01:08 You can't just ask have they pressed a key
+01:10 super easily in Python.
+01:11 There are some ways, but it's really sketchy.
+01:13 So let me show you
+01:15 one other way that actually is much easier.
+01:18 Instead of doing this, what I'd like to do is somehow
+01:21 ask this question, hey are any of these threads done?
+01:24 or rather all of the threads done?
+01:27 And if they are then we're just going to exit
+01:29 but if they're not, let's give people a chance to exit.
+01:33 By pressing Enter in the middle
+01:35 in a nice, clean way.
+01:38 Okay, so how are we going to go about that?
+01:40 So, this input, like I said
+01:42 there are ways in Python to read whether there's input
+01:46 but it's quite tricky.
+01:48 We can just add one more thread and ask that question.
+01:50 You know, what is the input over here?
+01:52 So let's do this.
+01:53 We'll create something called the abort_thread.
+01:55 Going to say threading.thread.
+01:58 And it's target, is going to be check_cancel.
+02:05 And its daemon mode is going to be True as well.
+02:09 So we need this function and we'll put it below.
+02:14 It's going to be incredibly simple.
+02:15 Watch this. check_cancel. Input.
+02:19 Actually let's put this down there.
+02:21 So here, we're going to run a thread
+02:23 and that thread is just going to see if you press Enter.
+02:25 If you press Enter, that thread exits.
+02:28 If you don't press Enter, that thread doesn't exit.
+02:30 But when we get to the end, because it's a daemon thread
+02:32 it'll be canceled, alright?
+02:34 Here's what we're going to do.
+02:36 Going to come over here, and we're going to say while any
+02:39 of these, t.is_alive().
+02:42 So we can ask the thread, are you alive?
+02:45 And if any of the threads come back and say
+02:47 yes, we're alive, then we want to wait a little bit.
+02:51 So let's wait, I don't know, five milliseconds.
+02:55 Could even make it shorter, right?
+02:57 Actually waiting this little bit doesn't matter, right?
+02:59 So we've got three threads, we'll wait three milliseconds.
+03:02 Just ask the question again Are these three threads alive?
+03:05 So you decide what number goes here, but it should be
+03:08 probably pretty small. And then after this we want to check
+03:11 is the cancel thread alive?
+03:13 We'll say if not, the abort_thread is alive.
+03:17 That's it. Under Print, canceling on your request.
+03:23 And that's it. We're going to stop joining the threads.
+03:27 If any of them happen to still be alive
+03:29 we're going to print out something
+03:30 and if they are still alive after that, main thread Exits
+03:33 it aborts all of them because they're daemon threads.
+03:35 Okay, phew, let's see if this works.
+03:39 Oh , do you know why it's not alive?
+03:42 We may have missed a little bitty important step
+03:46 Is it alive? No it's not alive. Why is it not alive?
+03:50 It's not alive 'cause we have not started it.
+03:53 Now let's try.
+03:55 Alright, so it's press Enter to cancel and now it's working
+03:57 If I come down here, say follow along. Boom.
+04:03 Cancel entering request, done. Right away.
+04:06 Won't have to hit a weird Ctrl + C, wonder what happened
+04:09 We got to even print out the apps exiting.
+04:11 Here's your final report. We spent 7.8 seconds.
+04:15 Do it again. I hit enter real quick, canceled right away.
+04:19 Of course if I just let it run, well, it'll take a moment
+04:22 41 seconds or so for this to finish.
+04:26 That's enough time for us to go review what we did.
+04:29 It's a little bit of a hack, but if you want to be able to
+04:32 ask the user
+04:33 or give them an option to cancel this fork join work
+04:36 well, we can create another thread
+04:38 whose sole purpose is to look for user input
+04:42 assuming you're not getting it from other places
+04:43 at this point. And if it gets input, then it exits
+04:46 you know, it can even actually capture a value
+04:48 and then give that value back if you really want it to
+04:51 we just don't care at this point.
+04:53 So we're going to use the any operation
+04:55 on any of the threads alive.
+04:58 We're going to use the timeout feature, on join
+05:01 and then just give a really short timeout to say
+05:03 let's just check really quick
+05:05 wait, give them a little time to run
+05:07 and then if our question thread, do you want to exit
+05:10 is still running then we're not going to cancel.
+05:12 But if it is, we'll just cancel and get out.
+05:15 Maybe we want to do this in a different order?
+05:18 I don't know. There's a tiny bit of race condition about
+05:21 potentially saying we canceled it
+05:22 just at the moment that it didn't cancel
+05:25 but, you know, that's threading.
+05:27 It's tricky, and we're just going to leave it at this.
+05:29 But, here's a way in which we can use timeout, and input
+05:34 but it could've been a signal from another service
+05:36 could've been our web service called and told our threads.
+05:38 There's all sorts of operations
+05:39 that we could use to trigger the canceling of these threads.
+05:43 Cool little pattern there
+05:44 to make our threaded example even better.
+05:47 Oh, and let's see what our outcome was.
+05:49 Look at that, it ran all the way to the end.
+05:50 It got to 400 twice, like it should.
+05:53 And then it printed that it was done
+05:55 after about 20 seconds which is exactly what we expected.
+05:58 So here is the case where we did not cancel it.

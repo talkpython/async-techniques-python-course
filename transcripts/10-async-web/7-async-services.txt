@@ -1,0 +1,98 @@
+00:00 Now that we've converted our framework from Flask to Quart
+00:03 everything's working but that's not really
+00:05 any async magic right?
+00:07 These methods are not async def
+00:09 they're just def regular methods.
+00:11 And most importantly the reason they aren't is
+00:13 we can't await this, we can't await that.
+00:16 There's no reason for them to be async
+00:17 because they don't do async stuff.
+00:20 So we got to start at the lowest level to enable this
+00:22 so let's go down to this location_service.
+00:24 And here we're using requests but remember
+00:27 the way that we actually do this for async
+00:30 is we do this with aiohttp client.
+00:33 If you didn't get that check out the very first chapter
+00:35 where we talk about asyncio in case you're skipping around.
+00:39 How does this work? Well first of all
+00:41 we have to have that as a requirement here
+00:44 so we're not going to have requests any more
+00:46 we're going to have aiohttp. Now that's fine on its own
+00:50 but we also want to add things like aiodns and cchar.det
+00:56 for better performance there.
+00:59 PyCharm thinks these are misspelled
+01:00 just tell it it's not.
+01:02 Alright once again let's run our requirements install
+01:06 'cause we now have new requirements.
+01:10 Excellent, everything was installed successfully.
+01:13 So with that out of the way
+01:15 we can now reimplement this using aiohttp client.
+01:18 So we'll say async with.
+01:23 Import that, aiohttp.ClientSession() as session
+01:27 and then async with session.geturl() as response.
+01:34 So we don't do that line and those need to indent
+01:38 and we're almost there. Now notice there's a little hint
+01:41 that something's not quite right.
+01:42 Look at this get here.
+01:44 Coroutine does not have a method called get.
+01:47 Well that's not what we wanted.
+01:49 Previously this was the dictionary
+01:50 and it was a return value that.
+01:51 Just like in the previous section we have to await
+01:55 maybe not that much await.
+01:56 Await that, there we go.
+01:58 Now what we get back is a dictionary and we're good to go.
+02:02 So this almost works and the reason we didn't get
+02:05 a little more help from PyCharm there was
+02:07 we hadn't yet said this an async method itself.
+02:11 Alright so this looks pretty good.
+02:13 Let's just go and do it up here.
+02:14 Actually, that's the only one in this service.
+02:18 Let's go do the next service.
+02:20 The other one we have to work with is our sun_service
+02:23 and again this is going to be aiohttp.
+02:26 We get this stuff happening. We can indent it
+02:31 so that this can come out of the async part.
+02:34 And this we need to make into a little variable
+02:39 that we can await to get it and then we can call get.
+02:43 Perfect so, unless I mess up the indentation somewhere
+02:47 this should work. Oh and async.
+02:53 That's fine, that's just CPU bound.
+02:55 Alright it looks like this might be working.
+02:57 The final step would be to actually test it here.
+03:01 We haven't tested if we try to call this function
+03:03 it's going to get, it's not going to work right?
+03:05 Because this is not two values you can unproject
+03:08 it's a coroutine. So final step to make this all work
+03:14 we come down here we can go to this and just double check.
+03:17 Yes that's an async method even though PyCharm
+03:19 is not helping us we have to await
+03:21 to get the two values back so we can project them into this
+03:24 yeah unpack them similarly here.
+03:27 That's it, we have an end-to-end from top-to-bottom
+03:30 bottom-top, how you like it. Async method, so async view.
+03:35 We await the various operations
+03:36 each of those are async methods that can be awaited
+03:40 using things that we're already familiar with
+03:41 like aiohttp client. Now the big test.
+03:44 After all this craziness, does this still work?
+03:46 Let's find out.
+03:47 So the thing we changed was the sun API.
+03:53 Let's try this one. Boom look at that.
+03:56 Now you probably won't see any performance difference.
+04:00 Remember those big green boxes and the response time?
+04:03 The green boxes didn't get shorter
+04:05 they took exactly the same amount of time.
+04:07 We're still waiting for those two services to do their thing
+04:11 but the key difference is
+04:12 the thread that runs the web server
+04:15 is now free to take any other request
+04:17 and work on it while we're waiting.
+04:19 Previously they were just blocked.
+04:21 But now it's golden
+04:22 it can just let everything go and it's really beautiful.
+04:26 The fact that this is still working means that
+04:28 now if we start testing it for load
+04:31 do some sort of load testing or scalability tests
+04:33 we should see better results.
+04:35 With a few caveats that we're going to get to in just a minute.

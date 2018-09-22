@@ -1,0 +1,45 @@
+00:00 Let's review the basic API
+00:01 of working with threads
+00:03 starting and waiting for it to finish.
+00:05 So of course, we're going to use the threading module.
+00:08 This is built into CPython, you don't have to do anything.
+00:11 There's no external dependencies.
+00:12 It's just part of Python, that's great.
+00:14 So then, we have some function
+00:16 this is regular synchronous code that lives in here.
+00:19 This is the code that's going to run on our other thread.
+00:22 We're going to call this function
+00:23 and then execute it somewhere else
+00:25 and potentially wait on it.
+00:27 So then we're going to create the thread
+00:29 so create the thread object
+00:30 set the target to the method name
+00:32 the args to a tuple of arguments.
+00:35 Notice above it takes a number, which is an integer
+00:38 and an input, which is a list
+00:40 so we're going to pass 20 and just an empty list.
+00:43 And then we want to set the damon mode to be true.
+00:46 That means if our main method exits for some reason
+00:49 our process won't be become this zombie thing
+00:52 that's still running
+00:53 even though it appears to be exited, right?
+00:55 It'll actually abort that, generate_data method
+00:58 and just shut down the whole process
+01:00 if our main thread exits.
+01:02 Then we have to start it, right?
+01:04 Creating the thread isn't enough to make it do anything.
+01:06 You have to start it afterwards.
+01:08 Potentially we can do other work now, theoretically right?
+01:11 It's possible that the threads will be doing other stuff.
+01:15 Again, remember the GIL, so its computational
+01:18 then it doesn't help all that much, right?
+01:21 But there are plenty of reasons where it will work
+01:22 like talking to external systems, using networks
+01:24 files and so on.
+01:26 And then finally, were just going to wait for completion.
+01:29 So instead of letting our program exit and abort the thread
+01:31 we say work.join and we saw
+01:33 that we can give it a time out if we like
+01:35 but we don't have to.
+01:37 Alright, so this is the overall basic API
+01:39 of working with threads in python.

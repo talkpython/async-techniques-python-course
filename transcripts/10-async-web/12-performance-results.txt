@@ -1,0 +1,82 @@
+00:00 Are you ready for the grand finale?
+00:01 Let's compare how our app performs
+00:04 when it was based on Flask
+00:05 and then how it performs now
+00:07 that we've converted it to Quart.
+00:09 So here's the command I'm going to use:
+00:10 wrk -t20 -c20 -d15s.
+00:15 And then I'm going to go hit the sun API.
+00:17 That one's the most complicated
+00:18 it does both location first and then the sun
+00:21 based on the latitude and longitude.
+00:23 So it seems like a good candidate.
+00:25 Now the t means threads I believe
+00:27 so 20 threads, 20 connections for 15 seconds
+00:31 pound away on this thing as hard as it can.
+00:34 Now let's see what kind of results we get.
+00:37 I still got 20 threads, 20 connections it says right below
+00:39 and it gives us some stats.
+00:40 Average latency 1.34 seconds, not great
+00:45 max is a little bit higher.
+00:46 Since we were able to do 71 requests in about 15 seconds
+00:50 it's okay, but notice that red line.
+00:52 That kind of sucks. 65 requests timed out
+00:56 almost 50% of the requests we made timed out.
+01:01 I don't know how you feel about reliability
+01:03 but for me, if my app can only handle
+01:06 half the requests it's receiving
+01:08 and the rest are timing out or failing
+01:11 there's something badly wrong with that web application.
+01:14 What's one way to deal with this?
+01:15 Well besides rearchitecting a cache and things like that
+01:18 we can get more machines, we can get a bigger machine
+01:21 we can scale out, we can get a load balancer
+01:22 all sorts of crazy infrastructure solutions.
+01:26 That's one possibility
+01:27 we'll see another one in a minute.
+01:28 And notice the overall one here is 4.72 requests per second
+01:32 but remember half of them are failing with timeout
+01:36 that is not super amazing. This was our original app.
+01:39 What do we get with Quart? Ooh, a couple of things are better.
+01:43 First notice the red line is gone 0 errors, 0 timeouts.
+01:48 Now the latency for each request is about 944 milliseconds.
+01:54 Remember that green bar, we can't make it faster.
+01:57 This async stuff does not make it faster
+01:58 it just means you can do more stuff while it's happening.
+02:01 So we have 20, effectively 20 independent users
+02:05 hammering as hard as they can.
+02:06 Now that doesn't mean there's 20 real users
+02:09 alright, that's 20 aggressive, mad users
+02:12 requesting as hard as it can.
+02:14 Like a regular user may be, when they're on your site
+02:17 does request every 15 to 30 seconds, something like that.
+02:20 So this is a much, much higher load then say 20 actual users.
+02:24 But nonetheless, that's sort of what we're hitting it with
+02:27 these 20 threads. So notice all the timeouts are gone
+02:29 we can do 311 and look at that
+02:32 20 requests per second, each request takes about one second.
+02:37 That's as fast as it can go
+02:38 with this many threads and connections, right
+02:41 just each thread is getting served as good as it could.
+02:44 So that's a really, really good thing.
+02:46 So you can see we've done much, much better
+02:49 on exactly the same hardware.
+02:51 We've ended up scaling much better.
+02:53 Our requests are not that much faster, right
+02:55 it's not ultra fast or anything like that.
+02:58 We can do so much more of it
+02:59 because most of what we're doing is waiting
+03:01 and while we're waiting
+03:02 we'll just go and start another request
+03:04 and wait on it to get back from the service.
+03:06 Things like that, right? So a final note here
+03:09 if you do this yourself
+03:11 and you just type python app.py or run your app
+03:16 you're going to get something disappointing with Quart.
+03:18 It's going to look more like this.
+03:20 It's not going to look like what you want.
+03:21 Why? Because if you just run it regularly
+03:24 you're going to get a WSGI server
+03:26 a serial, not a synchronized server.
+03:28 You need to run it on Hypercorn
+03:30 so we'll talk about that next.

@@ -1,0 +1,39 @@
+00:00 I'm sure you've heard about
+00:01 thread safety before, and there's things
+00:03 called race conditions and other problems
+00:05 that threads can introduce into your programs.
+00:08 And the fact of the matter is, threads require
+00:11 extra, explicit safety measures.
+00:14 We're going to talk about why that is
+00:16 and I've created a little visual graphic for you
+00:18 hopefully it really drives the point home for you.
+00:21 But before we even get to the graphic
+00:22 I just want to say that the errors
+00:24 that you find in threading are extremely tricky
+00:28 to track down in real programs.
+00:30 They're just super frustrating.
+00:32 The reason is, they depend on timing
+00:34 they depend on the hardware
+00:36 they depend on the load on the system.
+00:38 They often have to do with one part of your system
+00:41 and another part getting either in sync
+00:43 or out of sync in just a certain way
+00:45 based on a certain amount of load.
+00:47 And when you attach a debugger to that
+00:49 or you run an isolation on your machine
+00:52 without all the extra load
+00:54 maybe those conditions don't recreate themself.
+00:56 Because of that, there's this really cute
+00:58 and I think fairly appropriate name for these types of bugs
+01:02 they're often referred to as heisenbugs.
+01:05 Bugs that are there, until you observe them
+01:07 and then that actually changes them
+01:08 and maybe they aren't there anymore
+01:10 this sort of weird, quantum mechanic duality.
+01:12 If you think of quantum mechanics and that duality
+01:14 that's weird and hard to understand
+01:15 think of that in debugging, it makes it super hard.
+01:18 So you want to be really careful about that
+01:19 and we're going to see the various constructs
+01:22 in Python that we have to work with
+01:24 to make sure that the code we write doesn't have heisenbugs.

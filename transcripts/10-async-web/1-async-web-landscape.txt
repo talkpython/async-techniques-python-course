@@ -1,0 +1,32 @@
+00:00 I opened this entire course when we
+00:02 started talking about async as concept of why we
+00:06 really wanted it by talking about web applications.
+00:09 Web applications are either calling a database
+00:12 calling some microservice or external web API
+00:15 or doing just a little bit of work to send
+00:17 that HTML back to the browser.
+00:20 But most of the time, they're waiting.
+00:22 And so web APIs are really one of the key places
+00:26 that asyncio just shines.
+00:29 So what we're going to cover in this chapter
+00:31 is we're going to talk about building websites
+00:34 particular APIs with Flask
+00:36 and we're going to make those async
+00:39 as in async and await.
+00:40 That puts is back in my favorite place
+00:42 the top left, asyncio.
+00:45 Like I said, I really, really like this.
+00:46 Unsync sort of amplifies it across the different areas
+00:49 but asyncio really, really awesome
+00:50 and we're going to apply this technique
+00:52 to find all the places our web app is waiting
+00:55 and just set it free to go do more stuff.
+00:58 Do more stuff at once and be more scalable.
+01:01 This means instead of paying fifty dollars for a server
+01:04 or a set of servers we're scaling up to
+01:06 we might be able to spend ten and get even better
+01:09 response times just because instead of having
+01:11 a whole bunch of systems waiting and queuing up
+01:14 threads and blocking and things like that
+01:15 we'll just interweave all of this asyncio
+01:18 just like we saw in the beginning.

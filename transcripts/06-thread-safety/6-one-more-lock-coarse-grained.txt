@@ -1,0 +1,42 @@
+00:00 Now as I wrapped up that last presentation
+00:02 I realized there's one more thing.
+00:04 We actually have a little, somewhat small
+00:06 but still, little bit of a bug in this program.
+00:10 So remember our safe bank, it works correctly now
+00:13 it's a tiny bit slower, but it actually works correctly
+00:16 which is perfect.
+00:17 And we did this by adding a coarse grain lock
+00:20 everywhere we were doing the transfers.
+00:22 So down here, we use this lock
+00:25 and we block out access to this.
+00:26 Heres' the thing though, we need to make sure that no
+00:29 other thread can interact with these two accounts
+00:31 while this is happening
+00:33 and in this new transfer everything's fine
+00:35 but remember validate_bank()?
+00:37 We're also interacting with the account here.
+00:40 So we need to be super careful
+00:42 that we also take the lock there.
+00:45 So basically the idea is
+00:46 anywhere we're going to interact with the accounts
+00:48 we have to also take these locks
+00:50 assuming that's going to happen concurrently.
+00:52 So we'll say with transfer_lock:.
+00:56 Like this.  Here we go.
+01:00 Run it again, it is a tiny bit slower
+01:03 because we're taking the locks more frequently.
+01:05 We could actually, the reason is, every single transfer
+01:09 we're calculating this is validate here.
+01:11 We don't have to calculate that frequently
+01:13 we could do some kind of other check
+01:14 but I'm just going to leave it like this
+01:16 not make any major changes
+01:18 but we technically have a little bug on line 83 here
+01:21 because we were accessing the accounts
+01:24 specifically the account balance for the accounts that
+01:26 were being transferred potentially between.
+01:29 It just so happened that that wasn't happening very often
+01:32 whereas this takes a little bit of time mostly
+01:36 because of that sleep
+01:37 this was so fast we actually never hit it but it was a bug
+01:40 one more time, see everything's good. Perfect. Works great.

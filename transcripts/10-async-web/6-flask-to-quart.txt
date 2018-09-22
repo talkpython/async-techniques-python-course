@@ -1,0 +1,34 @@
+00:00 Our goal is to convert this working Flask app
+00:03 into a Quart app, and it turns out
+00:06 because of the very high compatibility between the two APIs
+00:09 it's not that much work.
+00:11 So let's go over here and add
+00:13 take out Flask and put Quart.
+00:18 We're going to make sure we pip install those requirements.
+00:23 Alright, great, we've got a bunch of things installed here.
+00:26 So, how do we do this conversion?
+00:28 Well, here's the rough rule of thumb.
+00:30 You see the word Flask, you convert
+00:32 that to the word Quart.
+00:33 If it's lower case, it's lower case quart.
+00:35 If it's upper case, upper case Quart.
+00:37 Alright, so let's try Quart here.
+00:38 And we go over here and we say this .Quart.
+00:41 Yeah, looking good. Okay, this file is converted.
+00:46 That wasn't so painful, was it?
+00:48 With these two views, let's go fix this one.
+00:50 We're going to import Quart and we're going to say
+00:52 Quart blueprint, that's the kind we want.
+00:54 And here we're doing a Flask response
+00:57 so we're going to do a Quart response.
+00:58 Also we have the city API, similarly
+01:01 Flask, Quart, Flask, Quart, Flask abort, Quart abort.
+01:06 Flask jsonify, Quart jsonify. You guys get it.
+01:10 Am I done? Let's try. Ho ho ho, it is working.
+01:14 Seems pretty good, let's try this one.
+01:18 Yeah, still working.
+01:19 That wasn't too hard, what was this?
+01:22 A couple of minutes?
+01:23 We've converted from Flask to Quart.
+01:25 Granted, larger applications, more find and replace
+01:28 but not too bad.

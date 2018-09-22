@@ -1,0 +1,52 @@
+00:00 Alright to make our math go faster we're going to go
+00:03 First let's go to the file we have named over here.
+00:05 Now this is an exact copy of the threaded version.
+00:08 Remember the one that's barely better at all?
+00:10 And it has this math part here
+00:12 but let's take this and put it somewhere else.
+00:19 I'll call it math_core, something silly like that, pyx.
+00:23 And in here we're going to put that
+00:25 and in order to make this work, we have to import math.
+00:28 So let's comment that out and come over here and say...
+00:34 We're going to import math_core
+00:36 and we'll do math a couple times.
+00:42 Let's run this one.
+00:43 Now we've done nothing with Cython.
+00:44 Actually it's not going to find it.
+00:46 It's just going to crash, there's no math_core.
+00:48 It would run the same speed as the threaded one
+00:49 if we hadn't compiled it, right?
+00:51 So this is not anything to do
+00:53 with converting it to Cython yet.
+00:55 This is just restructuring it
+00:57 so it's actually in a Cython file
+01:00 but we're not changing the syntax
+01:01 to really take advantage of it.
+01:03 So let's just rob from what we did before.
+01:05 We need a setup file, we know about that.
+01:07 So when I go over here
+01:09 And now we need a math_core, we know about that.
+01:13 And I've changed directory over here
+01:15 so now we can say, "Python, build and place again."
+01:19 Now, Now if I run it.
+01:21 We're going to run this on Cython, if it runs at all.
+01:25 I told you Cython is awesome
+01:27 cause it breaks free from the GIL.
+01:29 So this may go faster, actually dunno.
+01:31 I have no idea what's going to happen here when I run this.
+01:33 I think it will work. I don't know how much faster it will be.
+01:35 Let's find out. Huh, well it's faster that's cool.
+01:41 Remember we had a 1.07 factor.
+01:44 a 1.07 factor for the Python-threaded version.
+01:48 And now we got this version here that's faster
+01:51 but not that fast, why?
+01:54 Well, the GIL is actually still operating here.
+01:58 The GIL is still in place. So what we need to do is
+02:01 we're going to go and apply a technique
+02:03 that will explicitly factor our code
+02:05 into the part where the GIL is required
+02:07 and a part where there's no GIL required
+02:08 cause it's effectively C.
+02:10 If we indicate that using a Cython syntax
+02:13 well, then we're going to break free from this blockade
+02:16 that we have because of the GIL.

@@ -1,0 +1,25 @@
+00:00 Threads have been around and available
+00:02 in Python for a long time
+00:04 and using threads for parallel programming
+00:06 is certainly one of the main ways in which we can
+00:09 add concurrency to our Python programs.
+00:12 Let's quickly look at our landscape here.
+00:15 So we're over in this green threads box
+00:17 and that generally puts us in the do more at once.
+00:21 So threads are very similar to AsyncIO in that sense.
+00:25 Because of the Python GIL, the Global Interpreter Lock
+00:28 that we spoke about in the Introduction to Async
+00:30 Programming in Python chapter
+00:32 threads don't really let us leverage the multiple cores
+00:35 to do actual concurrent CPU-bound operations.
+00:38 Some languages they do, in Python they don't.
+00:41 That puts thread concept squarely in the
+00:44 do more once category in our little landscape here.
+00:48 So we're going to focus on threads
+00:50 this is, like I said, it's been around for a long time
+00:52 so many different systems are built
+00:54 taking advantage of threads.
+00:56 And there's still many good use cases for them
+00:58 and certainly understanding how they work
+01:00 and how to use them in Python is critical
+01:03 to having a well-rounded, asynchronous programming tool set.

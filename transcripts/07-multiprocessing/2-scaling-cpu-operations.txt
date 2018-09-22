@@ -1,0 +1,47 @@
+00:00 Remember at the beginning when I showed you
+00:02 that CPU graph that had a whole bunch of CPU cores
+00:04 that were all black and just one of them was really busy?
+00:07 What we're going to learn in this chapter
+00:08 will let you max out your computer
+00:10 and put all the CPU cores to work
+00:13 assuming you have a ton of computation to do.
+00:16 So, here's another Python program running
+00:19 and this one happens to be doing way, way more work.
+00:22 And we're going to use the multiprocessing technique
+00:24 which is the same thing I used to generate this picture.
+00:28 So, what's the fundamental idea here? Remember the GIL.
+00:30 The GIL was the thing that actually prevented
+00:33 our Python code from scaling across multiple threads.
+00:36 Sure, if that Python code is calling something down
+00:39 to the network layer or is calling something over
+00:41 to a database it'll release the GIL
+00:44 and while it's waiting we can do other stuff.
+00:46 But computationally, one Python interpreter instruction
+00:50 gets to run at a time, that's it.
+00:52 And the GIL is blocking those.
+00:54 So, here you can one process it's running.
+00:57 It has actually three threads
+00:58 but only one of them is allowed to go
+01:00 'cause the GIL is blocking the other two.
+01:02 And, of course, this cycles around and it switches.
+01:04 How do we get that cool picture worth all the green
+01:07 all the work being done?
+01:08 Well, we don't let the GIL see the work.
+01:09 In fact, we're just going to kick off a bunch of processes.
+01:12 And, yes, these are Python processes
+01:13 and they each have their own GIL
+01:15 but they don't interfere with each other
+01:17 just like one program doesn't interfere with another.
+01:20 And in that regard, we can basically ignore Python's GIL
+01:23 because every single bit of work we're going to spawn off
+01:27 from what would have been a different thread
+01:28 is now going to be in a dedicated process.
+01:30 So, this can all happen in parallel.
+01:32 And you'll see the multiprocessing library is really great
+01:35 at making this fairly transparent
+01:37 and especially exchanging the data so
+01:39 that we can call the process
+01:41 wait on it and get the data back
+01:42 as if we just almost called a function, it's great.
+01:46 This is the picture to keep in mind for this chapter
+01:49 and we're going to go write code that does this next.

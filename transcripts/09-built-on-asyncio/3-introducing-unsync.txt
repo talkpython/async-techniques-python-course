@@ -1,0 +1,55 @@
+00:00 Unsync is the first library that we're going to look at
+00:02 that adds additional behaviors
+00:04 unification, or simplification to async and await in Python.
+00:08 Unsync is created by Alex Sherman
+00:10 and on the project page, it talks about
+00:13 why he created it and what he's tryna do.
+00:16 And I highlighted a lot of those already.
+00:17 So, he talks about how it's inspired by C#'s
+00:20 implementation of async and await
+00:23 using the task parallel library
+00:24 which actually is much nicer than Python's.
+00:27 Lot of stuff about Python is nicer than C#.
+00:29 C#'s async and await is actually better.
+00:32 So, the way that we're going to use Unsync
+00:34 is we're going to just use a decorator
+00:36 on top of a standard async method.
+00:39 Then we can work with it using simplified techniques
+00:41 that Unsync makes available for us.
+00:43 So, for example we can do fire and forget
+00:46 or we can do blocking calls that
+00:48 unify thing between asyncio future and concurrent future.
+00:52 Things like that. So, really, really nice.
+00:55 And they also introduce this concept of
+00:58 a different type of future for that unification
+01:00 called an unfuture.
+01:01 We're going to look at this through demos mostly.
+01:03 I'm not going to go anymore through their page or
+01:06 their documentation stuff
+01:07 but I do want to show you one thing.
+01:08 So, let's go over to their GitHub page.
+01:10 GitHub project. Two take aways here.
+01:13 One, great it's on GitHub so you can work with it
+01:16 and it's also on PyPI so you can pip install it.
+01:19 However, there's not that much traction around it right now.
+01:22 There's only 41 stars at the time in this recording anyway.
+01:25 In general if you have a project that doesn't have
+01:28 that much attention that is not that popular
+01:32 it's probably a warning sign.
+01:33 You'll probably say, mmm, nice but I'm not ready.
+01:36 You know, get back to me when it has 500 or 1000 stars.
+01:39 I sort of have that feeling as well and
+01:40 I'm not sure how much I would depend on Unsync.
+01:43 But, think I would. Depends what I'm building but
+01:46 I'm pretty sure I would and here's why.
+01:47 If you actually did look at what Unsync is.
+01:49 If you go, here's the entire implementation of it.
+01:53 It is only a 126 lines long.
+01:56 It's only doing a tiny bit of work
+01:58 but what you'll see is that slight reframing of the API
+02:03 in this 126 lines of Python makes it much nicer.
+02:07 I mean, it's just delightful.
+02:09 So, to me I would just say maybe
+02:11 make sure you fork this and just so you have it just in case
+02:14 but I think it's worth it. I'll show you the API.
+02:18 You can decide but it really is pretty special.

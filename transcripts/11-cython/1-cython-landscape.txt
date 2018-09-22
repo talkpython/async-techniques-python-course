@@ -1,0 +1,28 @@
+00:00 It's time to take a different perspective
+00:02 on performance and parallelism inside of Python.
+00:06 So far, what we've done is we've stayed entirely
+00:08 focused on our Python code in the constructs within there
+00:13 Asyncio, threading, multiprocessing and so on
+00:16 to add parallelism. And, that's a really good place to be.
+00:20 I would recommend you spend most of your energy and time there.
+00:24 It turns out we can also integrate with extra libraries
+00:27 especially in C, and as you probably know C can do anything.
+00:32 Our operating systems are generally written in C
+00:35 so C is super low-level these days
+00:38 and is very very good at performance and parallelism.
+00:42 So there might be reasons to think about writing C code
+00:46 and integrating that with our program.
+00:50 So, here we are and do things faster.
+00:52 This has two factors that multiply your performance
+00:55 in really interesting ways.
+00:56 One, even if we don't do any parallelism
+01:00 you'll see that converting certain parts
+01:03 of our program to C will make it go way, way faster.
+01:08 You'll also see that we can escape the Gil in C
+01:11 which means that we can go even faster.
+01:13 So we can do basically what we do with multiprocessing
+01:16 but in a single process and do that faster as well.
+01:19 So there's this double multiplying effect of our performance.
+01:22 It's not that I would say jump at first
+01:25 but if you have any really performance critical system
+01:28 you might think about some of the techniques in this chapter.

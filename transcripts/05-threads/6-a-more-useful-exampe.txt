@@ -1,0 +1,72 @@
+00:00 Let's return to an old friend
+00:01 the producer consumer that we learned about
+00:03 in the asyncio chapter.
+00:06 So here we have the single threaded
+00:10 non-concurrent producer consumer thing
+00:13 that we've been playing with in the previous chapter.
+00:15 So we're going to generate a bunch of data
+00:16 and we're going to generate some more data
+00:18 then we're going to process it.
+00:19 Now if we run it, remember it generates
+00:21 some data the first time through
+00:23 and then it does it again, and so on.
+00:25 However, we saw that using asyncio let us really
+00:29 speed this up.
+00:30 Let's assume for some reason that we don't have asyncio
+00:33 available to us. Now what we're actually doing when we do
+00:36 and we've already implemented it and you've seen that
+00:38 but assuming that we don't, how would we model
+00:40 this with threads?
+00:42 A lot of the reasons I gave you before
+00:45 that might be the case here.
+00:46 Maybe we're interacting with some system here
+00:48 that we're waiting on, but it doesn't actually
+00:50 have an asyncio option for us.
+00:53 So we're going to do what we just talked about
+00:54 and we're going to have the threads
+00:56 that we're going to work with.
+00:57 I'm going to go in here and I'm going to create some threads
+00:59 need to import threading, set the target
+01:06 to generate_data, and set the args to be
+01:10 what they're going to be, so 20 and data
+01:13 and I guess if you want to use data
+01:14 you should probably define it above.
+01:17 That all looks good, and are doing that again
+01:19 and then the other one, we're using process_data
+01:24 and we're using 40.
+01:26 So that's going to get rid of those.
+01:28 Now again, this doesn't start them.
+01:30 So if we ran this now, it would be super fast
+01:34 zero milliseconds, zero seconds at least.
+01:36 However, it didn't do any work.
+01:39 So what we want to do is use our little trick
+01:40 t.start() for t in threads, and then we want
+01:47 to print started, somethin' like that
+01:51 and then we'll do join.
+01:54 Alright, so this, that should really be
+01:56 all there was to it, and let's try.
+01:59 Now this assumes of course that process_data
+02:04 will go through and it has this sort of
+02:06 continue step to know how much it's supposed to process.
+02:10 There's a little bit of work to make sure this works
+02:12 but it was already in place, and so we should
+02:13 be able to just run this now.
+02:16 There they go, see them producing
+02:18 and consuming in parallel. Perfect, right?
+02:21 Looks just like the asyncio version
+02:23 that we were working with, except for
+02:26 apparently we can't pop from an empty list
+02:30 let's see what we did there.
+02:31 Ah yes, alright, let's fix this.
+02:39 Alright, so that should work
+02:40 sorry about that, try again.
+02:42 See, threading will pull out interesting errors
+02:44 you did not think were there.
+02:48 Here you can see it's done, the latency's
+02:50 a little bit higher than we were looking at previously.
+02:54 The overall execution time is about the same
+02:56 as our asyncio version. Pretty straightforward right?
+02:59 We just use our technique, create a whole bunch of threads
+03:03 start them, maybe do other work
+03:05 maybe just chill, and then wait for them
+03:07 to finish by joining on all of them.

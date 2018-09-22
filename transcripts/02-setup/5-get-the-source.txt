@@ -1,0 +1,29 @@
+00:00 Every single thing you see me type in this course
+00:02 will be available to you in GitHub.
+00:04 Before you go farther, pause the video and go over to
+00:07 GitHub.com/talkPython/async-techniques-python-course
+00:12 You can also just click the link to this GitHub
+00:15 repo in your course details page.
+00:18 You want to make sure you get access to this
+00:20 and go over there and star
+00:21 and consider forking it as well.
+00:23 That way you have a copy of exactly
+00:25 we're working with during this course.
+00:26 I encourage you to play around and write some code
+00:29 and try out the ideas from each chapter
+00:31 as we get to them.
+00:33 Most of the chapters have a starting and
+00:35 final version of code.
+00:37 So if you wanted to take, say, a serial
+00:40 single threaded computational little app
+00:42 that we build, and convert it to
+00:44 threads and convert it to
+00:45 multiprocessing, and things like that
+00:47 you'll have a copy over here on GitHub.
+00:49 So just be sure to star this, and
+00:51 consider forking it. Definitely check it out so
+00:53 you have access to it. If you don't do Git
+00:56 and that's fine, just click where it says
+00:58 clone or download, and
+00:59 download a zip, and then you'll have the
+01:00 source, as well.

@@ -1,0 +1,86 @@
+00:00 We're over here in our Cython file
+00:02 and we can see that it didn't speed things up that much.
+00:05 And I said that's because of the GIL.
+00:07 If we could just run this part in parallel
+00:09 like, that's where almost all the work is.
+00:11 Things would be golden. So let's try that.
+00:13 So we can come over here and there's a cool syntax
+00:14 in a context manager. We can say with no_gil:.
+00:18 Is that all it took? Like, are we free of the GIL?
+00:20 We just got to say no_gil? Not so much.
+00:22 Let's save this and then recompile it down here.
+00:27 Darn it, thought it was going to be so easy.
+00:29 Operation not allowed without the GIL
+00:32 on line 9, column 42. Line 9, column 42.
+00:34 So what are the rules with this no_gil?
+00:38 Well, the rules are you cannot interact with Python objects.
+00:42 You can convert them down and then use them in Cython
+00:46 but once you get to the no_gil section
+00:48 it's got to be all C.
+00:49 And right now that's a Python number type.
+00:53 So what we need to do is say, no, no, no
+00:55 this is a cython.int.
+01:00 We can import Cython up there.
+01:02 Now in pyterm it gives you this little warning
+01:04 but just ignore it.
+01:05 I believe we can get away with ignoring it.
+01:07 Got that, and again, up here, we got to do that
+01:09 for all of these values. We're good.
+01:12 Nope, we're not good.
+01:13 Cause I have that backwards for my default.
+01:19 There we go, now we're good.
+01:21 So we still have these little warnings
+01:22 but let's see what happens now.
+01:27 Error. Converting to Python object without a GIL.
+01:34 And where is this happening?
+01:36 1235. Oh, I made a mistake in the import.
+01:42 That's what's not working.
+01:43 So, a couple things.
+01:44 This is not regular import, this is cimport 
+01:47 a Cython thing, and we're going to say .math.
+01:50 OK. Now, that should make it work.
+01:54 Look at that, it compiled, and now we have a math_core
+01:58 a new one, and all of this work
+02:01 which is where almost all the work is
+02:03 is now going to operate without the GIL.
+02:06 Let's try it one more time.
+02:08 Remember the speed-up we got, maybe it's still here.
+02:11 It is, perfect, 2.5 times speed-up.
+02:13 Can we do better? Give it a shot.
+02:16 Look at that. Oh my gosh.
+02:22 5,596 times faster. Not percent, times.
+02:32 Now, I want to caution you about one thing
+02:34 really quickly here.
+02:36 You might think, "Alright, what we can do is
+02:39 I can just treat this like Python."
+02:41 And in Python you don't think about numbers, very much.
+02:44 If we go over to our do_math, right
+02:46 you can keep making integers bigger
+02:48 and bigger, and bigger, and they can basically be as large
+02:51 as you have memory and patience.
+02:52 But, in Cython, these are C integers.
+02:56 Remember C integers are just 32 bit things.
+03:00 They overflow really easily.
+03:02 So if you tweak these number around too much
+03:04 let's actually take this number down a little bit
+03:07 just to make sure we're not overflowing
+03:09 the available numbers here.
+03:10 And I'll compare it against the serial one
+03:13 with the same amount, what do we say, 30,000?
+03:17 300,000. So let's run it one more time here.
+03:21 .09. There we go, that's more like it.
+03:28 So 56 times faster.
+03:31 I think we might have actually been overflowing
+03:33 that integer, which is not great
+03:36 and then when you do this is less than that
+03:38 all the sudden you increment it enough to overflow it
+03:41 and then it swaps around, right?
+03:42 If you're not familiar, if you overflow an integer
+03:44 it basically becomes negative, right?
+03:47 The next time you add a number to it
+03:49 add a one to it, instead of just getting bigger
+03:51 it flips to its smallest possible value
+03:53 which is like negative, I don't know, 65,365
+03:56 or who knows what this turns out to be.
+03:59 OK, so this should be a little more accurate here.
+04:02 What you see, it's still a massive, massive speed-up.

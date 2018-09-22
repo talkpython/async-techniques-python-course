@@ -1,0 +1,24 @@
+00:00 So far we been primarily focused on using parallelism
+00:03 and while we're waiting on external services or
+00:06 doing other things like that.
+00:08 We're not trying to take advantage of the processors
+00:10 that have all these cores.
+00:11 We're just trying to make our computers do more
+00:14 typically talking to external systems.
+00:16 And that's great, that's a really, really common
+00:18 probably the most common reason people use parallelism.
+00:21 But with these modern CPUs, you probably do want to take
+00:25 full advantage of their computational power.
+00:27 So that's what we're going to focus on in this chapter.
+00:30 That means we've jumped our divider line.
+00:32 We're no longer in the do more at once section.
+00:34 We're now trying to do things faster.
+00:36 As in, run a particular algorithm faster
+00:39 on a given piece of hardware
+00:40 especially multicore, multiCPU type of machines.
+00:45 So we're going to focus on multiprocessing
+00:47 a particular module which saw just a little bit of a cameo
+00:50 in the previous chapter. Multiprocessing is very similar
+00:54 to the threading programming model
+00:55 except we'll see that with multiprocessing
+00:58 each operation runs in an entirely separate Python process.

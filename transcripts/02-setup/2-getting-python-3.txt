@@ -1,0 +1,18 @@
+00:00 If you don't have Python
+00:01 or you have an older version of Python
+00:03 or you would just like to get a newer version of Python
+00:05 yes, you can go to python.org and download it
+00:08 but I recommend that you check out Real Python's article
+00:11 on installing and managing and upgrading Python.
+00:14 So just visit realpython.com/installing-python
+00:18 and check it out.
+00:19 The guys over there are putting lots of effort
+00:20 into keeping this up to date.
+00:22 For example, one of the ways you might want
+00:23 to install it on Mac OS would be to use Homebrew
+00:27 and that's different than what you get off of python.org.
+00:29 It let's you upgrade it a little more easily.
+00:31 That's the way I'm doing it these days
+00:32 and really liking it so far.
+00:34 So this article will help you find the best way
+00:36 to install it on your OS.

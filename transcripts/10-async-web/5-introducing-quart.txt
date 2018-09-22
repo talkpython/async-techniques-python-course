@@ -1,0 +1,25 @@
+00:00 You saw the design decision
+00:01 Flask is not intended to support async
+00:04 and currently it doesn't maybe it will at some point.
+00:08 So what do you do? Give up?
+00:10 No, you can go use this thing called Quart.
+00:13 Flask, Quart, Bottle, things like that.
+00:15 So Quart is a Python web microframework just like Flask
+00:19 it's based on asyncio and it has very good
+00:22 compatibility with Flask.
+00:24 What does that mean? It means has the same API as Flask
+00:27 it means even the extensions you can install
+00:29 into Flask are compatible with Quart.
+00:32 So if you have a Flask app, chances are
+00:34 you can tweak it a tiny bit, make it a Quart app
+00:37 and then it becomes asyncio enabled.
+00:41 That is our goal, our goal is to take our work in Flask app
+00:43 that we saw previously and convert it to Quart
+00:47 and that conversion will mean a little bit
+00:49 of stuff to change the framework.
+00:51 And then, more work to actually reimplement
+00:54 our services that call external services
+00:57 in asyncio capable ways.
+01:00 We already have done that once or twice
+01:01 so it's not a big deal but we do have to go through
+01:03 those steps to do the conversion.

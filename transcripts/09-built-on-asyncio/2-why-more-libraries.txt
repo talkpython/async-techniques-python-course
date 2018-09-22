@@ -1,0 +1,101 @@
+00:00 Before we get to the programming details
+00:01 of these additional libraries
+00:03 let's talk about why we might need them at all.
+00:05 We have async and await. We have threads.
+00:08 Isn't that good enough?
+00:09 Well, it depends on what you are trying to do.
+00:12 Yes, it's good enough, but it can be better
+00:14 as we all see. So what are some of the shortcomings
+00:16 of the various aspects that we've worked with so far?
+00:19 Mostly around asyncio, but also around threads and processes.
+00:23 One of the things that's annoying about asyncio is
+00:25 you have to have an event loop in order to execute
+00:29 an async function. Remember what we did is we created
+00:32 a loop, and then we queued up a bunch of work in it
+00:34 and where we created some coroutines
+00:37 and we said run to completion or something to this effect.
+00:40 And we waited on that loop. And it's not that hard
+00:44 honestly, but if you have a deep architecture:
+00:47 some function, calls another function, calls a library
+00:50 which called another function, how do you take the loop
+00:52 you have to create at the outside and pass it deep down
+00:54 to the inside so async functions down there can run?
+00:57 If you need to coordinate across those things
+00:59 this can be really not so easy.
+01:01 Alright, you end up passing stuff around or having
+01:03 weird global variables that, depending on how things
+01:06 are working, may actually not even work.
+01:08 This is a shortcoming, and we'll see if one of the libraries
+01:11 we talk about fixes it.
+01:13 So this is the shortcoming, and each of the libraries
+01:15 we're going to talk about has a certain way to address this.
+01:18 Asyncio.future is not thread-safe.
+01:20 Now, that may sound weird to you, but remember
+01:22 asyncio doesn't actually use other threads.
+01:25 It's like an event loop on a single thread
+01:27 so it's not thread-safe.
+01:28 But if you want to mix it with threads, that would be better
+01:32 if it were, right?
+01:33 On the converse side, we have concurrent.future.
+01:36 Remember this comes back from the ThreadPoolExecutor
+01:38 or ProcessPoolExecutor?
+01:40 When we queue up work, that thing cannot be used with
+01:43 async and await. It cannot be directly awaited
+01:46 which is annoying. Wouldn't it be great if I could
+01:48 get one of those back and mix it in and await on it?
+01:52 Well, you can't. Future.result is a blocking operation.
+01:57 It's generally good. If it's not done
+01:58 you want to get the work back.
+02:00 However, if you're doing this in an event loop
+02:02 you could actually clog up the event loop
+02:05 and if somehow there's a loop
+02:07 you somehow create the future
+02:09 which is running the event loop
+02:10 and then you call a block on it on another slice of
+02:13 those tasks running there
+02:15 you will deadlock your event loop.
+02:16 Not great. On the other hand
+02:18 where future.result is a blocking operation
+02:21 asyncio.future.result will actually throw an exception
+02:25 if you haven't completely waited for it to be done.
+02:28 So, depending on which type future you have
+02:31 it doesn't behave the same, that's also hard
+02:33 so we'll see of unifying stuff happening here.
+02:36 Async functions, as in async def - that's a function name
+02:39 always execute in asyncio loop. They don't run in threads.
+02:44 They won't run in multiprocessing mode.
+02:47 None of those types of things.
+02:49 However, may we have some work, and some of it is based on
+02:52 asyncio, but other parts of that work that we're trying
+02:55 to do altogether might be computational.
+02:58 Or maybe it's working with something that talks to a
+03:00 database or network, but that library doesn't support
+03:03 asyncio directly.
+03:05 It would be nice if we didn't have to completely
+03:07 have different API's and ways of working with them
+03:10 if we could unify that. Well, cancellation and timeout
+03:14 are tricky things than threads and processes.
+03:17 Thread local storage, which we have not talked about
+03:19 does not work for asyncio concurrency.
+03:22 So thread local storage is kind of like a global variable
+03:25 but each thread has its own copy of that data.
+03:30 Each thread has its own values for that global data.
+03:34 Imagine something like Flask.
+03:37 Flask has a global request object, and each time a
+03:40 request comes in, you can just access it out of thin air
+03:44 in your view method. And it has the value of that particular
+03:47 request. And that's fine if it's single threaded.
+03:50 You can just set that value, do the function call
+03:53 and then unset it.
+03:55 But remember, asyncio has only one thread for all these
+03:59 interwoven operations. So thread local storage no longer
+04:02 means what it used to mean.
+04:04 Well see, none of the libraries here directly address this
+04:07 but further down the line when we get to the async web stuff
+04:11 that's one of the problems that's going to have to be addressed.
+04:14 Testing concurrent code can also be tricky.
+04:17 These are some of the shortcomings that the libraries
+04:20 we were talking about will help us address
+04:22 and they also bring their own cleaner programming API
+04:25 for certain things that they're built for:
+04:27 coordination, parent/child tasks, things like that.

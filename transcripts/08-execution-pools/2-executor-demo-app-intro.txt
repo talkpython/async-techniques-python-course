@@ -1,0 +1,58 @@
+00:00 Let's look at a new program.
+00:01 Here we are in our execution pool
+00:03 section of our GitHub repo and I have
+00:05 created a new program and I have it all set up.
+00:07 It requires two particular packages
+00:10 requests and Beautiful Soup. What we want to do
+00:13 is we're going to use either threading
+00:16 or multiprocessing to implement this.
+00:18 And, what we'd like to do is make this
+00:20 as simple as possible to switch between those.
+00:23 So we're not tied deeply, deeply to the API.
+00:26 It's more of a decision of we're using the API
+00:29 and now which mode do we want it to work in.
+00:31 So, we're going to look at the synchronous version
+00:33 and then convert it to one we can toggle this mode.
+00:37 Alright, so we've got a set of URLs here
+00:40 and the goal is we're going to go to those
+00:41 URLs and get the title that comes in.
+00:44 Actually, we're going to get the H1.
+00:45 So, whatever the visible title is
+00:48 not the head part of the HTML.
+00:51 So we've got this function called get_title()
+00:53 And see we're just straightforward
+00:55 looping over those and we come down here.
+00:57 It's using requests, now we could use
+00:59 asyncio but the point is we're going to get to that later.
+01:03 There's actually a second step farther down in this course
+01:06 where we unify that as well but right now
+01:09 what we're talking about only applies to the older
+01:12 parallel techniques, so threading and multiprocessing.
+01:15 Alright, so because of that we're using
+01:17 requests and not aiohttp. We're going to
+01:19 suck down this HTML, feed it to Beautiful Soup
+01:22 and tell Beautiful Soup to go through the DOM
+01:24 and find the thing that's called H1.
+01:26 There's a little bit of weirdness around
+01:28 where the title is set for some of the pages
+01:30 and then it just gives back the text of that
+01:32 H1 and we call that the title.
+01:34 Let's run it and see it in action.
+01:37 It's getting the title from python.fm
+01:39 which is Talk Python to Me, and pythonbytes.fm
+01:42 which is The Python Bytes Podcast.
+01:44 Google has none, I think it's just an
+01:46 image or something funky like that.
+01:48 Real Python is Real Python Tutorials
+01:50 and training.talkpython.fm is Talk Python Training.
+01:54 Okay, so that you can see is sort of running
+01:57 kind of quick but this is the perfect example of
+01:59 where something might be really nice to apply parallelism.
+02:02 Like we saw in the asyncio chapter
+02:05 we're really just waiting on these web requests.
+02:08 We're not actually doing tons of work.
+02:10 So this is a good candidate for threading
+02:12 but it also may be a good candidate for multiprocessing.
+02:15 This is the app that we're going
+02:16 to work with and we're going to convert it
+02:18 to use one or the other of those two parallel techniques.

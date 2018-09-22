@@ -1,0 +1,43 @@
+00:00 Next up, let's focus on how we can use
+00:02 asynchronous or concurrent programming for scalability.
+00:06 I want to take just a moment
+00:07 to address this word, scalability.
+00:10 Often, people sort of think of scalability as performance
+00:14 and performance equaling speed and things being faster.
+00:17 And that's not exactly what it means.
+00:19 Let's think in terms of websites here.
+00:21 That's not the only time
+00:23 we might think of this scalability concept.
+00:24 But let's think in terms of websites.
+00:26 If your website can process
+00:28 individual requests 10 times faster, it will be more scalable
+00:32 because it won't back up as much, right?
+00:35 Scalability doesn't refer to how fast
+00:37 an individual request can be
+00:39 it refers to how many requests can your website handle
+00:43 or your system handle, until its performance degrades.
+00:47 And that degrade might be just really long request times
+00:50 before you get back to someone or the browser.
+00:54 It might mean it's so bad that requests start timing out.
+00:58 It might mean that your system actually crashes.
+01:00 There's some point where your system
+01:02 degrades in performance.
+01:05 And when you talk about how scalable is a system
+01:07 it's how much concurrent processing?
+01:09 How many requests at one time can it handle
+01:13 until it starts to degrade?
+01:15 As we add scalability to the system
+01:16 we might even make it a tiny bit slower
+01:18 for an individual request.
+01:20 There's probably a little bit more work we're doing
+01:22 to add this capability to scale better, maybe.
+01:26 It's not exactly talking about individual request speed
+01:29 because that actually might get worse.
+01:31 However, it means maybe we could handle
+01:34 10 times as many concurrent users
+01:35 or 100 times as many concurrent users
+01:38 on exactly the same hardware.
+01:40 That's what we're focused on with scalability.
+01:43 How do we get more out of the same hardware?
+01:46 And we'll see that Python has a couple
+01:47 of really interesting ways to do that.

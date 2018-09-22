@@ -1,0 +1,24 @@
+00:00 In this course like most of our courses
+00:02 I'm going to be using PyCharm.
+00:04 Now you don't have to use exactly the same editor.
+00:06 You can use Visual Studio Code with a Python plug-in.
+00:09 You can use Emacs. You can use Vim.
+00:11 Whatever makes you happy.
+00:12 But if you want to follow along exactly.
+00:15 Then I recommend you use Pycharm.
+00:16 Now almost all of this course can be done
+00:18 in the Community Edition, the free edition of PyCharm.
+00:22 There is one chapter on web development.
+00:24 Maybe it's a little bit easier with PyCharm Pro
+00:27 but because we're not really working with CSS, JavaScript
+00:30 the template, anything like that
+00:32 I think you could actually use PyCharm Community Edition
+00:34 for the entire course. So if you want to use that
+00:38 just visit jetbrains.com/pycharm.
+00:41 Get it installed and I'll show you
+00:42 how to use it along the way.
+00:43 If you want to use something else, like I said, no problem
+00:45 use what makes you happy.
+00:47 Just be aware this is the one we're using
+00:48 so you have to adapt your editor and waverunning code
+00:51 to what we have over here.

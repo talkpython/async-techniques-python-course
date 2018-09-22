@@ -1,0 +1,45 @@
+00:00 So we've seen the threading API
+00:01 and the multiprocessing API are not the same.
+00:04 They're basically isomorphic.
+00:07 You could map from one to the other pretty easily
+00:09 but they're not the same.
+00:11 It would be nice if they were actually exactly the same
+00:14 then we could switch between one or the other.
+00:16 And that's what we've just seen. Enter the executor.
+00:19 Over here we are using the ThreadPoolExecutor
+00:22 which allows us to create a with statement.
+00:25 And inside that with statement
+00:26 we can execute a whole bunch of asynchronous work.
+00:30 When you leave the with statement, the work is done.
+00:33 Basically the with statement
+00:34 blocks while this is happening.
+00:36 Notice this is not like the pool in multiprocessing
+00:38 which you had to make sure you closed it
+00:40 and you joined on it
+00:41 and you had to do those in the right order.
+00:42 This is a little bit simpler.
+00:44 So we've got this pool here
+00:46 and we're creating an instance of the executor
+00:49 and that's where it's going to run.
+00:50 And then we just go to the executor and we submit work
+00:53 passing the function to run
+00:54 and the arguments that we're going to pass to it.
+00:57 This comes back as a Future
+00:58 which we're keeping track of in a list
+01:00 and then we can look at all the results
+01:02 when we're done with all the work.
+01:04 You could look at them along the way and things like that
+01:05 but that's more complicated
+01:06 and we're just not interested in it right now.
+01:09 A really simple API cleans up everything
+01:11 and I think it's one of the better APIs
+01:14 we have around threading in Python.
+01:16 And the big benefit which we've been hitting on here
+01:19 is that we can choose our implementation.
+01:21 This one uses threads.
+01:23 If you don't like threads, change that one line from
+01:26 concurrent.futures.thread import ThreadPoolExecutor
+01:29 concurrent.futures.process import ProcessPoolExecutor
+01:34 And because we used an alias
+01:36 it makes it even simpler for our code to not change
+01:39 except for on that one import line. Beautiful.

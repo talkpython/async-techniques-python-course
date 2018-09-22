@@ -1,0 +1,84 @@
+00:00 So here you see, we have our various print statements
+00:03 and we found that we go taking first lock
+00:05 taking first lock, done.
+00:06 This is deadlocking. How do we fix it?
+00:08 Well, the fundamental problem here is
+00:10 that different threads could say
+00:13 take first a lock on account A then B
+00:15 or maybe they go B then A
+00:17 and it's that order that is the problem.
+00:19 If we could guarantee all threads first took a lock on A
+00:22 and then they took a lock on account B
+00:24 regardless of whether that was the from or to account
+00:27 well then we could actually be great.
+00:29 We could just take those locks
+00:30 and we wouldn't have this deadlock problem.
+00:33 So, how do we fix that?
+00:35 Well, we can just decide some order for the accounts.
+00:38 If accounts had ID's we could figure out
+00:40 which one is lower and use that one first.
+00:43 Our account just has a balance and a lock
+00:45 but we can just ask for the memory address basically
+00:48 the Python ID of the pointer and that'll be good enough.
+00:52 So we can just say lock1, lock2.
+00:56 This is going to be a little clumsy
+00:57 and I can't think of a great way
+00:58 in Python to write it better, so let's just do this.
+01:01 We'll say from_account.lock
+01:05 to_account.lock, and we're going to do a test.
+01:09 If the id can get the id basically gives you back a number
+01:12 based on the pointer from_account
+01:14 is less than id of to_account.
+01:17 We'll say else, and return these in a different order.
+01:25 Then we just take this and say, you know what?
+01:26 We're using lock1 and we're going to use lock2.
+01:31 Now let's try it and see if it deadlocks.
+01:35 The deadlocked one is still running again.
+01:37 Kill it off there.
+01:41 It's slow because it has all these print statements.
+01:44 But it's not deadlocked, is it?
+01:46 Boom, it finished. Let's get rid of these.
+01:51 Alright, now we can run it without
+01:52 any of those print statements, just let it run pure.
+01:57 Whoo! So, do you see the huge performance benefit
+02:00 we got from this?
+02:01 We went and we said, look, we have six threads
+02:03 I have 12 cores, we have a bunch of different accounts.
+02:06 Let's actually let all of this happen in parallel
+02:09 and we're going to do way better.
+02:11 Our program is going to be so much faster
+02:13 because now, as long as it's not
+02:16 involving any of the two same accounts
+02:18 we can actually do concurrent transfers.
+02:21 Right, now we don't have that many here.
+02:24 If we added more accounts, you might think this gets better.
+02:27 But it turns out, this part gets faster
+02:31 but this part down here, those parts
+02:35 actually get equally slower.
+02:38 So, adding more accounts, which would
+02:40 add more concurrency actually just still
+02:42 kind of makes it more computational.
+02:44 And it turns out that it's just worse to remember
+02:47 what did we get before.
+02:50 Let me pin that, run that safe bank.
+02:53 This is the global one. We got 1.1 seconds.
+02:58 This new fancy high-performance version
+03:00 gave us 1.3 seconds and a bunch of deadlocks.
+03:03 So, I'm not saying you should never
+03:04 use fine-grained locks, I'm just saying
+03:06 you should think about whether it makes sense
+03:09 to use fine-grained locks or coarse-grained locks.
+03:12 And really the most important takeaway from this
+03:15 whole section has to do with this.
+03:19 If you're taking two locks from two different things
+03:22 you have to make sure you're always taking them
+03:24 in the same order, or there's a good chance
+03:25 you're going to deadlock your application.
+03:28 You don't want to do that, trust me.
+03:29 That is a really, really bad place to be.
+03:31 It's no fun to figure out what happened
+03:33 or why this is happening.
+03:35 Taking two locks, always take them the same order
+03:37 you don't have to use my little ordering technique
+03:40 figure out some way to order it
+03:41 but this works for this particular situation.

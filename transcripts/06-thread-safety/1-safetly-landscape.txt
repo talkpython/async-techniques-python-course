@@ -1,0 +1,22 @@
+00:00 No conversation about threads would be complete
+00:02 without discussing the very, very important topic
+00:06 of thread safety.
+00:08 Once we start working with threads
+00:10 we take on a whole new level of responsibility
+00:13 and we're going to talk about why that is
+00:14 and how we solve those problems
+00:16 and how we take responsibility
+00:18 for managing our data structures
+00:20 and making sure everything is safe
+00:21 there's no race conditions
+00:22 or otherwise corrupt data in our program.
+00:25 But before we get to that
+00:26 let's just talk about where we are on our landscape
+00:28 in our big Python parallelism and map.
+00:31 So again, we're over in this thread section
+00:33 and we already talked about why it's in the do one side
+00:35 and not the do things faster.
+00:36 We saw that previously as an actual demo even.
+00:39 When we're working with threads
+00:41 we have to be super, super careful about thread safety
+00:44 and we're going to talk about that throughout this chapter.

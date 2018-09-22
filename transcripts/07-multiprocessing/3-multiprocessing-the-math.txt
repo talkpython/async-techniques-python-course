@@ -1,0 +1,112 @@
+00:00 Here we are in our multiprocessing demo chapter.
+00:03 It might look familiar, actually.
+00:05 Remember this? Computed and computed_threaded?
+00:07 Where we did this math, especially the computed_threaded.
+00:11 We figured out how many processors we had
+00:13 and we said we're going to take this math function
+00:15 and we were going to run it across all of these
+00:17 operations, but we're in fact going to break
+00:19 it into a bunch of segments and have it work
+00:22 on each independent section.
+00:24 We saw that with the threads, that was super underwhelming.
+00:28 Let's just really quickly review that.
+00:29 I'm going to call this function called do_math()
+00:32 and it's just going to do a bunch of wasted computational stuff
+00:35 for a certain period of time.
+00:38 So the details aren't super important
+00:40 but our goal in this section is to stop using
+00:44 threads and start using multiprocessing.
+00:47 Okay, so let's just take this threaded example
+00:50 carry forward with it, so we're going to say
+00:52 compute multiprocessing, set that one to run.
+00:58 And it'll do threaded stuff for a moment
+01:01 doesn't matter, we'll come back to it.
+01:03 So our goal is to replace this thread stuff
+01:06 so right now what we're doing to our threads
+01:07 is we're creating the threads, and then we're starting
+01:09 them and then we're waiting on them.
+01:11 So what we're going to do is stop using threads
+01:14 and we're going to just focus on multiprocessing.
+01:17 Now we're not actually going to need this
+01:20 instead, what we're going to do to make this
+01:21 a little bit simpler is we're going to create
+01:23 this thing called a pool, so I'll call.
+01:25 Pool is going to be a multiprocessing.pool
+01:28 we can set a couple things in here.
+01:30 For example, we could set how many processes
+01:33 we'd like to use, now if we don't see any
+01:36 if we say nothing is going to use processor count actually.
+01:40 So we can just leave it like this
+01:41 that's probably what we want.
+01:43 You may want to constrain it to have fewer processes
+01:45 than it has processors, and similarly
+01:47 you might have even more.
+01:49 So what we're going to do is we're going to go to the pool
+01:51 I'm going to called a function called apply_async.
+01:53 Here we go, and what does it take?
+01:55 We have to pass the function, so it's a little
+01:58 bit annoying that the signatures different.
+02:01 Do not know why, but we don't have a target
+02:03 we just have the function that's not named.
+02:05 So we say do_math, and we'll call it
+02:07 and then we have the arguments.
+02:09 Which is, again, going to be that.
+02:12 And that's it, so this is going to actually
+02:14 start to work, we don't need to call stark.
+02:17 And how do we wait, well, we're going to say
+02:19 pool.close to tell it that no more work
+02:22 is coming, so when its processed all its work it can quit.
+02:24 And then we're going to, just like we did on all of
+02:27 the individual threads, we're going to join on this.
+02:32 Clean up on the formatting there
+02:34 okay, I think that that actually might do it.
+02:37 Not sure we could do anything different.
+02:39 What did we do? We didn't put our threads in the list
+02:41 and then managed the list, we're just calling
+02:44 pool.apply_async, we're using the number of processors
+02:47 on this machine by not specifying
+02:49 any particular number here.
+02:51 Let's go, let me run the threaded one one more time
+02:55 so just to, let's run the single threaded one.
+02:58 Just see how it goes, remember it was around 7.5 seconds.
+03:05 7, 7, 7, how is our multiprocessing
+03:08 going to do compared to this? Let's give it a shot.
+03:11 It's running, it's done. Yes, that is what we wanted.
+03:15 Is it as fast as if we had multiplied it or divided
+03:18 it by 12, a factor of 12 x increase.
+03:21 I don't think so, let's find out.
+03:24 No it's about five times faster.
+03:26 We are starting separate processes and all of that.
+03:30 Still we've seen a dramatic, dramatic increase
+03:33 in performance, we went from 7.8 seconds
+03:36 to 1.4 seconds, and you saw how much code
+03:41 that actually took.
+03:42 It's a lot of talking and explaining and so on
+03:44 we're actually turns of rewriting this loop
+03:46 it's ridiculous right?
+03:48 We created a pool, did a calling thread
+03:50 and then start, we just called pool.apply_async.
+03:54 Pretty much the same arguments and off to the races we go.
+03:58 Let's just look at this really quick.
+03:59 In my little glances program.
+04:02 Okay, here you can see not a whole lot's going on.
+04:04 CPU is around 6%, this is not going to run long enough
+04:08 for interesting things to happen.
+04:10 So I'm going to make it a little bit longer
+04:12 ten times longer, so we can run it for 10 seconds
+04:14 and see what happens.
+04:17 Now if we watch, what's the CPU usage?
+04:19 Woo, it's 96% of the entire machine, 99.
+04:24 Remember I'm doing screen recording
+04:25 that probably knocks out one of the CPU's right there.
+04:27 And look at all of these python processes.
+04:30 Heres the multiprocessing happening.
+04:32 So they're all running and they're cranking along
+04:35 and then boom, they're done.
+04:37 They're all finished and now we're just down to my one
+04:39 little python app that's sitting here
+04:41 or something to that effect.
+04:43 So there we go, it took 14 seconds
+04:46 because we made it 10 times as much so it's pretty much
+04:48 a linear scale right there. Awesome, awesome, awesome.
+04:52 So a multiprocessing really quite easy to use.

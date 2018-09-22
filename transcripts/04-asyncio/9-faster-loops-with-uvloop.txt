@@ -1,0 +1,96 @@
+00:00 I want to highlight a project
+00:01 that can almost effortlessly make
+00:04 your asynchronous code faster
+00:06 and the project is called uvloop.
+00:09 So, uvloop is a reimplementation of the asyncio event loop.
+00:16 And it turns out that the way Python was built
+00:19 that asyncio event loop can be replaced with others.
+00:22 And so the async and await keyword can run
+00:24 on different implementations of that IO loop.
+00:28 And this happens to be one of them
+00:29 so it's a quick drop-in replacement
+00:31 for the built-in asyncio event loop.
+00:34 It's implemented in Cython, and uses libuv.
+00:37 So Cython is basically Python compiled
+00:40 to native optimized C code
+00:43 and libuv is a lower level library
+00:47 that is an event loop for different languages built in C.
+00:50 And if you look here, a quick claim here is uvloop
+00:54 makes asyncio 2 to 4 times faster.
+00:58 So here you can see built-in socket behavior versus
+01:02 over here, that socket one, that's quite a bit faster.
+01:05 Or protocol versus this protocol
+01:07 it's actually a little hard to figure out what goes where
+01:09 but these are all the native standard behavior speeds
+01:14 and these are if you just do this quick drop in.
+01:17 So how do we do that? Well, it's not too hard.
+01:20 So let me show you a simple little program
+01:23 that I built. It's a little bit fake, but that's OK.
+01:25 So it's going to come on here and it has a limit
+01:28 of 250,000 items. I guess we could make it more obvious like this.
+01:33 And it's going to use the async event loop
+01:35 and it's going to run, and run, generate
+01:38 generate, and process. And now what we're doing is
+01:41 we're not doing hardly any sleep.
+01:42 We are sleeping a tiny, tiny bit but we're just saying
+01:46 "give up our time slice and let something else run
+01:49 but then immediately pick us up, and keep going."
+01:51 And we're doing this 250,000 times.
+01:54 So what we're doing is, instead of having a few
+01:57 big blocks that we're slicing our work up into
+02:00 like previously I think we had 20 things we produced
+02:04 and 20 things we consumed, and each one had two
+02:08 sort of waiting points, so at most we broke it
+02:10 into 80 slices. And those little slices were executed
+02:13 over a period of 21 seconds.
+02:16 Here, we're going to take a quarter million slices
+02:21 executions, twice, actually we're doing this here
+02:25 so maybe 4 times that actually.
+02:27 So, what is that, a million times 2
+02:29 so that's a couple million slices running
+02:31 as fast as we can.
+02:32 And when we have things that fine-grained
+02:34 very, very quick and fine-grained
+02:36 then we start to see the behavior
+02:39 the actual performance of the underlying asyncio event loop
+02:43 itself come into play.
+02:46 So if you just have a few coarse-grained slices
+02:48 this is like, not required, right?
+02:50 But if you're breaking things into vere fine-grained bits
+02:52 that run for very short periods of time
+02:54 maybe this technique is going to be helpful for you.
+02:57 So let's run this real quick.
+02:59 We have a standard version and a uvloop version
+03:01 and we'll do the uvloop from scratch.
+03:04 So here you can run it
+03:05 with two times the quarter million actions.
+03:08 Now we wait, and it takes 8.7 seconds, OK.
+03:13 So that's how long this one took.
+03:15 Let's go and do the work to implement our uvloop version.
+03:21 Now, we're going to have uvloop as a dependency.
+03:25 And we're going to need to install that here.
+03:27 I don't think it's installed.
+03:28 Let's go to our terminal and say pip install uvloop.
+03:32 Spelling is hard. OK, that worked.
+03:36 Now all we have to do is we have to import uvloop
+03:41 and we have to say asyncio.set_event_loop_policy().
+03:47 Event loop policy.
+03:48 So basically this is telling asyncio
+03:52 when you create your event loop
+03:53 use UV's event loop implementation. That's it.
+03:58 We haven't had to touch our code or anything.
+04:00 We just have to run that at startup
+04:01 and let's see how things work now.
+04:08 4.7 seconds. 8.7, 4.7, and all we did
+04:13 is change the underlying implementation.
+04:15 If this kind of stuff is going
+04:17 to give you a big improvement
+04:18 go ahead and take the dependency on uvloop.
+04:20 You're probably depending on other packages anyway.
+04:22 It's really awesome.
+04:24 Like I said, if you're breaking it up
+04:26 into very coarse-grained things
+04:27 you know, it probably is not worthwhile.
+04:31 But it's such a easy performance win
+04:34 that if it helps you, you should definitely think
+04:36 about using uvloop.

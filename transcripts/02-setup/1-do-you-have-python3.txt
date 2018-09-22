@@ -1,0 +1,42 @@
+00:00 In this short chapter, we're going to talk about
+00:01 setting up your computer so that you can follow along.
+00:04 Do you have the right version of Python?
+00:06 What editors are you going to use?
+00:08 Can you get the source code
+00:09 to get started on some of the examples?
+00:11 Things like that.
+00:12 Obviously this is a Python course
+00:14 so you're going to need Python.
+00:16 But, in particular, you need Python 3.5 or higher.
+00:21 Now I would recommend the latest, Python 3.7.
+00:24 Maybe you're on a Linux machine, and it
+00:25 auto-updates as part of the OS, and that's probably 3.6.
+00:29 But you absolutely must have Python 3.5
+00:32 because that's when some of the primary
+00:34 async language features were introduced
+00:37 namely, the async and await keywords.
+00:41 Do you have Python, and if you do, what version?
+00:44 Well, the way you answer that question varies by OS.
+00:47 If you are on Mac or you're on Linux
+00:49 you just type 'python3 -V'
+00:52 and it will show you the Python version.
+00:54 In this screenshot, I had Python 3.6.5
+00:56 but in fact, 3.7 is out now
+00:57 so you might as well go ahead and use that one.
+01:00 But if you type this and you get
+01:01 an answer like 3.5 or above, you're good.
+01:04 If it errors out, you probably don't have Python.
+01:07 I'll talk about how to get it in a sec.
+01:09 Windows, it's a little less straightforward.
+01:12 You can type 'where python'
+01:14 and the reason you want to do that is
+01:16 there's not a way to target Python 3 in particular
+01:18 it just happens to be the first python.exe
+01:21 that lands in your path.
+01:23 So by typing 'where' you can see all the places
+01:25 and down here you can see I typed 'python -V' again
+01:27 same command but without the '3'
+01:29 and I got Python 3.6.5, the Anaconda version.
+01:32 That would be fine for this course
+01:34 Anaconda's distribution should be totally fine.
+01:37 But, again, has to be 3.5 or above.

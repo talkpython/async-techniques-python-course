@@ -1,0 +1,41 @@
+00:00 It may have been awhile since you're seen
+00:01 the opening async chapter where we talked about
+00:04 synchronous execution and response time
+00:06 and why that is versus asynchronous execution.
+00:09 As I've said before this is how we opened the course
+00:12 but just to remind you
+00:13 we'll go through this super, super quick
+00:15 we have three requests that come in.
+00:17 They each take the time that the green box
+00:18 with their name on them takes
+00:20 so request one and request two take awhile
+00:23 request three not so long.
+00:25 We want to know how long does it take from the outside
+00:28 how long does it appear for this processing take
+00:31 to the client. If we have a single threaded synchronous set of
+00:34 executions in our web app.
+00:36 Well, response one looks pretty good
+00:38 about the same time we, I guess, expect it to take.
+00:41 Response two however, is pretty shabby.
+00:43 And if you look how short request three is
+00:45 it turned out to be like five times as long
+00:48 as it should have taken
+00:49 because it didn't get a run for so long
+00:50 it's all queued up. If we can take the places
+00:53 where our web app is mostly waiting on a database
+00:56 waiting on a web service waiting on a file system
+00:59 all those things and wrap it up in asyncio
+01:01 we can take this graphic and make it way better.
+01:04 Looks more like this. We can start processing request one
+01:08 as soon as it starts waiting and
+01:10 request two comes in we immediately can pick it up.
+01:12 Similarly, when we get to three
+01:14 the first two are waiting again
+01:15 on something like a database
+01:17 we just hand out that response right away.
+01:18 So it looks more like this.
+01:20 Yeah, you can't actually make them go faster
+01:22 but in terms of latency
+01:24 well, things look a whole lot better.
+01:26 This is the type of system we're going to build
+01:28 right in this chapter using a Flask.

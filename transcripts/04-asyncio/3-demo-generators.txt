@@ -1,0 +1,215 @@
+00:00 It's high time to write some code
+00:02 and much of what we are going to do going forward
+00:04 is to write demos and then think about how they worked
+00:07 how we can change them, what were the key elements there.
+00:10 Let's begin by actually building a little of foundation.
+00:13 So, what we're going to do
+00:14 is we're going to talk about using asyncio.
+00:17 Now, asyncio is quite magical in how it works
+00:20 but actually pretty easy in the programming model
+00:23 that you're going to use.
+00:25 So, what I want to do is give you a conceptual foundation
+00:27 that's a little easier to understand
+00:29 that doesn't actually have to do with concurrency.
+00:32 So, we're going to look at this idea of generator functions.
+00:35 If you're familiar with the yield keyword
+00:37 you'll know what exactly I'm talking about.
+00:39 So, let's go over to our github repository.
+00:41 We have 04 section and we have generators
+00:44 and we're going to move on to this producer and consumer thing.
+00:46 But, let's start with generators.
+00:48 Now, the first thing I want to do is open this
+00:50 in PyCharm and configure this to have it's own
+00:53 virtual environment.
+00:54 The generator example won't have external packages
+00:56 but, the other stuff will. So, let's get that all set up.
+01:01 We'll come over here
+01:02 and we're going to create a virtual environment.
+01:04 Now, I have a little command that will run
+01:05 python3 -m venv and then activate it
+01:08 and then upgrade pip and setuptools.
+01:11 That all happened. Okay, so, now we can pip list see are
+01:16 Python has this virtual environment we just created here.
+01:20 And in Windows, you would type where python.
+01:23 Okay, so, we're going to hope this in PyCharm.
+01:26 So, here's our new virtual environment
+01:28 and we can see that it actually is active.
+01:30 So, we have our python that is active here.
+01:33 So, this is great. Now what we want to do
+01:35 is we want to write a very simple generator.
+01:41 Why are we messing with generators?
+01:42 Why do we care about this at all?
+01:44 Like, this is not asynchronous stuff.
+01:45 Generators don't have much to do with
+01:48 asynch programming or threading, or things like that.
+01:51 Well, this idea of a coroutine
+01:54 or what you might think of as a restartable function
+01:57 is critical to how asyncio works.
+01:59 And, I think it's a little easier to understand
+02:01 with generators.
+02:02 So, what we want to do is write a quick function
+02:03 called fib.
+02:06 And, at first we're going to pass in an integer
+02:08 and it's going to return a list of integers.
+02:12 We can import that from typing.
+02:15 So, we're going to take this and we're going to generate
+02:17 that many Fibonacci numbers. Totally simple.
+02:21 We're going to write it as a
+02:22 straightforward, non-generator function.
+02:26 So, I'm going to return a list.
+02:27 We have to have some numbers.
+02:29 Put those here.
+02:31 Those would be our Fibonacci numbers.
+02:33 And, then we're going to have current and next.
+02:38 These are going to be 0 and 1.
+02:40 The algorithm is super simple.
+02:41 While, a line of numbers.
+02:45 Say next. Say it like this, current, next
+02:48 = next and then current + next
+02:52 then numbers.append(current).
+02:57 We'll return a lot of numbers.
+02:59 Let's see if I wrote that right.
+03:03 So, let's print fib of the first ten Fibonacci numbers.
+03:07 Go over here, I'm going to run this.
+03:09 And, let's just actually set
+03:10 each one of these are going to be separate code examples
+03:13 so I will mark this directory as a source root.
+03:16 Doesn't look up above this for other files
+03:18 and we'll go and run this.
+03:21 1, 1, 2, 3, 5, 8, 13, 21, 32, 55
+03:25 Perfect, it looks like I managed to implement
+03:27 the Fibonacci numbers, once again.
+03:29 However, there's some problems here.
+03:31 Not very realistic.
+03:33 The Fibonacci sequence is infinite, right?
+03:36 By passing in this number, we are working with a finite set.
+03:39 What if we want to work through these numbers
+03:41 and go, I'm looking for the condition
+03:43 where the previous and current Fibonacci numbers
+03:47 excluding 1 and 2, are actually both prime numbers
+03:51 may be greater than 1000.
+03:52 Who knows. Something like that.
+03:54 If you're looking for that situation
+03:56 you don't know how many to ask for.
+03:58 What if you ask for 10,000.
+03:59 Well, that didn't work. Ask for 100,000.
+04:01 Uh, did that work? I don't know.
+04:03 Ask for 1,000,000. What will be better is
+04:06 the consumer of this truly infinite sequence
+04:09 could actually decide when they've had enough.
+04:11 And, what we can do that with
+04:13 is what's called a generator.
+04:14 So, I'm going to comment that one out.
+04:16 Actually, let's duplicate it first.
+04:21 I'm going to change this.
+04:22 First we're going to leave it like this here
+04:25 except for we're going to say, no longer returns that.
+04:29 So, what we're going to do, is we're actually going to go through
+04:32 instead of creating this list, right
+04:37 and, I can just make this true.
+04:41 Let's actually just make the whole sequence
+04:43 all at once. It's a little easier.
+04:45 So, what we're going to do, is this.
+04:48 Now, we're never going to return numbers.
+04:50 Instead, what we're going to do is generate a sequence.
+04:52 And, in Python, there's this really cool concept
+04:54 with this yield keyword of these coroutines.
+04:58 These generator methods.
+04:59 The idea is, there are effectively restartable functions.
+05:02 So, what yield does, it lets you say
+05:06 I want to execute up to some point in a series
+05:10 until I get to one
+05:11 and then I can give it back to whoever asked for it.
+05:12 They can look at it, work with it
+05:14 and then decide whether this function should keep running.
+05:18 It's a totally wild idea, but it's entirely easy to write.
+05:20 So check this out.
+05:21 We do this, we don't want to print all of them.
+05:24 So, now, we want to be a little more careful
+05:25 cuz that's an infinite sequence
+05:27 for n in fib(): print(n)
+05:32 And say, this is going to be comma separated there.
+05:34 Then we'll say, if n > 10,000, break.
+05:40 Then break and done.
+05:43 So, now, we have an infinite sequence
+05:46 that we're deciding when we want to stop
+05:48 pulling on it.
+05:49 Well, let's just run it and see what happens.
+05:52 Hmm. If we want one more print in there.
+05:57 Here we go. 1, 1, 2, 3, 5.
+06:00 And, incredible, it just went until we decided
+06:02 to stop asking for it. How does that work?
+06:04 So, understanding what is happening here
+06:06 is key to understanding how asyncio works.
+06:08 So, let's set a breakpoint.
+06:10 Actually, let's set it up here.
+06:18 Set it right here.
+06:21 I'm also going to set a breakpoint right there.
+06:24 On a normal function, what would happen
+06:26 is we would hit this breakpoint.
+06:28 This line would run and it would
+06:30 of course, go in here and execute all of this
+06:33 and then this code would run.
+06:35 But, these are restartable functions, these generators.
+06:37 Just like the async coroutines.
+06:39 So, let's step through it and see what happens.
+06:43 Here we are, we first ran to this
+06:45 and that makes perfect sense.
+06:46 Nothing surprising there.
+06:48 But, watch this breakpoint on line 14.
+06:50 If we step over it didn't run.
+06:55 What we got back is not a sequence
+06:56 but is a generator that we can then iterate.
+06:59 So, it's not until we start pulling on this generator
+07:02 that it even starts to run.
+07:03 So, I'm going to step a little bit.
+07:06 I'm going to be over here in current notice.
+07:08 0 and 1. This function is starting up.
+07:10 It's totally normal.
+07:12 Now, we're going to yield, which means
+07:13 go back here.
+07:17 Oh, I need to use the step into.
+07:19 We're going to step in down here
+07:21 now n is a 1, the second 1 actually.
+07:24 We go down here and we print it out.
+07:26 Now, we're going to go back into the function
+07:28 but look where we started.
+07:29 We started on line 16, not line 13
+07:32 and the values have kept what they were doing before.
+07:34 So, I'm just going to run this a few times.
+07:39 Now if we step in again, again it's back here
+07:41 and it's 3 and 5.
+07:43 These generator functions are restartable.
+07:46 They can run to a point and then stop
+07:48 and then resume. There's no parallelism going here
+07:52 but you could build this cooperative
+07:55 parallelism or concurrency pretty straightforward
+07:58 with just generator functions, actually.
+08:01 You just need to know how and when to say stop.
+08:04 So, let's go through just a little bit more
+08:05 until we get to here.
+08:12 So, now we have n at this point
+08:13 and if we don't no longer loop over
+08:16 we break out of the loop
+08:18 we start pulling on the generator
+08:19 and that basically abandons this continued execution of it.
+08:23 So, if we step, we're done, that's it.
+08:27 So, the last time we saw these run
+08:29 they were, you know
+08:30 whatever the last two Fibonacci numbers were.
+08:32 And then, we just stop pulling on it
+08:33 it stopped doing it's work.
+08:34 We didn't restart it again and this example is over.
+08:39 So, of course I'm going to put this in your code.
+08:41 You can play with it.
+08:42 There's nothing that hard about the actual written code
+08:45 it's the order and flow of the execution
+08:48 that is really special that you
+08:50 kind of, get a little bit used to.
+08:53 So, I encourage you to take moment
+08:54 and open this up in PyCharm or something like that
+08:56 that has a decent debugger
+08:58 and just go through the steps a few times
+09:00 and see what's happening.
+09:01 Once you get comfortable with that
+09:02 we're ready to talk about asyncio.

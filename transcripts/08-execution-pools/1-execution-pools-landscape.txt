@@ -1,0 +1,49 @@
+00:00 We're going to touch on a theme
+00:01 that we're going to actually hit
+00:02 several times throughout this course
+00:04 unifying these different APIs.
+00:07 We've worked with threading
+00:08 and we've worked with multiprocessing
+00:10 but we saw that each API is different.
+00:12 It would be better if they were not different.
+00:14 If there was some way to just flip a switch
+00:16 and have automatically the same API do one or the other
+00:21 even better if it could figure out which to do.
+00:23 We'll get to that later.
+00:25 For now, we're going to come back to this place
+00:27 and straddle this middle line here.
+00:29 We're going to say, maybe we want to use threads
+00:32 they are more lightweight, typically
+00:34 and they have quicker, easier access
+00:37 to the entire memory space of any particular program.
+00:41 It is the same process and so pointers and memory
+00:44 and variables, all that kind of stuff are perfectly shared.
+00:47 Maybe though, we want to somehow
+00:49 take advantage of multiprocessing
+00:52 use separate processes, get around the GIL
+00:55 things like that.
+00:56 It would be nice if this decision was a decision we made
+00:59 and not an entire API that we worked with.
+01:02 That's what we're going to talk about in this chapter.
+01:05 Here's what we've done so far.
+01:07 For our multithreaded example
+01:08 we created a list of threads
+01:10 we called created thread objects.
+01:12 We set the target pass the arguments
+01:14 and said they were daemons.
+01:15 And then we started those threads
+01:18 and we waited on those threads.
+01:19 It was fine, nothing too hard about that.
+01:21 For multiprocessing we used a Pool.
+01:23 We called apply_async() and then we closed the pool
+01:25 and we joined on it to block
+01:27 like we are in the last line there.
+01:30 These are doing effectively the same thing.
+01:33 Granted, one is running threads
+01:34 one is running multiprocessing
+01:36 but that decision shouldn't be massively different, right?
+01:39 We could see the function parameters and what not
+01:41 are similar but they're definitely not the same.
+01:44 So what we're going to do is actually
+01:46 talk about something that will unify this.
+01:48 So let's go see that in the demo.

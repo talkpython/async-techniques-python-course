@@ -1,0 +1,129 @@
+00:00 Are you ready to use unsync? Let's go import it.
+00:07 From the module we're going to import a decorator
+00:09 that we need to use. Now, let's just see a couple of things
+00:13 that are, let's say, annoying here.
+00:17 So first of all we have to create the loop
+00:19 and like I said, it's fine when it's all right here
+00:21 but if you have a tiered application
+00:23 and different layers of your app need access to this loop
+00:26 all the sudden that's annoying that this exists.
+00:28 Why can't there just be an ambient asyncio loop
+00:32 that is the event loop for this thread, for this program?
+00:35 Boom, there is now.
+00:37 Second, why do we have to call create task on this?
+00:41 Can't we just call this function?
+00:43 Like, why can't we call these functions
+00:45 like we can regular functions?
+00:48 We can, that's what we're going to do.
+00:50 So now we're capturing our tasks
+00:52 and if we didn't actually care about the return value
+00:55 or waiting til everything was done we don't need to do that.
+00:57 But we do want to wait til they're done.
+00:58 So we don't need to create the loop
+01:02 call, you know basically add this work into the loop
+01:05 and then wait on it there.
+01:07 But we do want to, actually, wait before it
+01:10 so it's done, right. We saw how we did this with threads.
+01:13 We said t.join() for t in threads.
+01:17 So we're going to do something similar.
+01:19 We'll get our value.
+01:23 And this we're just going to call the results.
+01:26 Remember in unsync when we talked of like
+01:28 the beginning, this a blocking call until it's done
+01:32 rather that some kind of exception that it's not done.
+01:34 So this line will basically make everything wait
+01:37 and then we can print it out. So this is step one.
+01:40 Basically we're removing all the junk
+01:42 that we had to add for doing asyncio, right?
+01:45 Remove the loop, remove the adding the work
+01:47 and so on, and we're just going to wait
+01:48 kind of as if they were threads, I guess.
+01:51 Now this is where it gets interesting.
+01:53 So we're going to go and we're going to add this unsync decorator.
+01:59 Here, here. Any of these functions we want to treat this way
+02:03 we're going to add unsync to them.
+02:05 Now, this is how the rules work.
+02:07 If the unsync decorator is applied to an asynchronous method
+02:12 it is going to run an ambient
+02:15 you don't have to create it but it will be there
+02:16 asyncio event loop. This is all good.
+02:21 We don't have to do anything to make this work.
+02:22 This will make it run in an asyncio loop.
+02:26 This one, however, it's not really an async method is it?
+02:30 It has the word async here, so we could mix it in
+02:33 into our API, but there's no await.
+02:36 So let's take away that, cause it's not really meaningful
+02:38 to have it be that.
+02:40 We can still apply the unsync decorator to it
+02:42 and what that means is
+02:43 when unsyc is applied to a regular method
+02:46 it will run it in the background as well
+02:48 but on a thread, not on a asyncio loop.
+02:52 Async method, asyncio loop. Regular method on a thread.
+02:57 Similarly, this one async. No other comments
+03:01 no other values passed. Run this on asyncio
+03:05 exactly as it should be.
+03:07 Now finally, here we have another sort of fake
+03:11 not useful async method, so turn it back to this.
+03:14 Running it on a thread, does that help?
+03:16 No, we've already seen no, that does not do anything.
+03:19 It just makes it more work.
+03:21 So unsync has a great way to deal with this.
+03:23 You say, this one, this operation is CPU-bound.
+03:28 When you say that, it's going to say
+03:31 "Ah, here's a regular method.
+03:32 I would have run it on a thread
+03:33 but it's CPU-bound, so we're going to run
+03:35 that on multiprocessing." That's it.
+03:39 Multiprocessing, best option for that one.
+03:42 This one, can't remember which it is, sorry.
+03:46 That one's async, so that's going to run asyncio.
+03:49 That one does not have an async interface
+03:53 so we're going to run that on threads
+03:56 but cause it uses network it'll still release the GIL.
+03:58 And that, again, asyncio.
+04:02 Let see if it works, let's run it and see
+04:04 if it does any better. Damn, look at that.
+04:10 Sweet, let me make it bigger and we'll run it again.
+04:13 So, run it one more time.
+04:16 All that's going at once, all of it.
+04:19 All the computing all the downloading
+04:21 some of the downloading on threads
+04:22 some of the downloading on asyncio
+04:24 and all the waiting on asyncio
+04:27 all at once. And then we just had to wait
+04:30 for the computation to be done
+04:31 and for the downloading bits to be done.
+04:34 So let's look at the output.
+04:35 Started out with 9.6 seconds cause there was no parallelism.
+04:39 That was bad.
+04:40 We added what we knew, what we chose what we thought
+04:44 might be the best option for this particular situation.
+04:47 Said, "OK, so let's try asyncio."
+04:49 We have a lot of that in play
+04:50 and that's really the most efficient
+04:52 if we can use it.
+04:53 So let's try that, we got just under 5 seconds.
+04:56 We threw unsync where each method
+04:58 knew about its internal implementation
+05:00 the best way it could be run
+05:03 and we got this beautiful 1.3 seconds.
+05:07 Really, really nice.
+05:08 That's unsync in a nutshell.
+05:10 There's not a whole lot more to it.
+05:12 We basically import the decorator
+05:15 and we just call the functions.
+05:16 We don't care if they're async
+05:17 not async, whatever, we just call them.
+05:20 They all return these unfutures
+05:23 which we talked about at the beginning
+05:24 and then you can get the results
+05:26 and wait on them and so on.
+05:27 And then we just indicate here's a CPU-bound up
+05:29 regular function, here's a not CPU-bound async function.
+05:35 So, asyncio. Here's a regular non-async function
+05:40 so threads, again, async, regular function, asyncio.
+05:45 And that's it.
+05:46 I think this is a beautiful simplification
+05:49 of this whole API and it brings it all together
+05:52 in a really, really great way.

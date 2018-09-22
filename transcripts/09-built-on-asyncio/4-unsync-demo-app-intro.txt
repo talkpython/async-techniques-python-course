@@ -1,0 +1,110 @@
+00:00 Time to write some code with Unsync
+00:02 and see how this simple, 126-line package
+00:05 is going to add some incredible power
+00:07 and a really wonderful API
+00:09 right on top of everything we've learned.
+00:11 And it's actually going to bring a lot
+00:12 of what we've worked on already together so it's great.
+00:16 Now let's begin by looking at the application
+00:18 we're going to write code for.
+00:20 Nothing we're going to do in this video
+00:21 has anything to do with unsync yet.
+00:23 We're going to do that in the next video.
+00:25 Here we have three files
+00:26 one called nosync, and that means
+00:28 it has no parallelism whatsoever one called presync
+00:32 and that one is going to use pure asyncio
+00:35 and then there's this thesync.
+00:37 It starts out using the same as presync
+00:39 but we're going to convert it to the unsync API.
+00:43 What we're going to do in this one
+00:44 is we're just going to call these functions
+00:46 and we have three, sorry four
+00:48 categories of functions here.
+00:49 We have one called compute_some.
+00:51 If we go to compute_some you can see it's doing math
+00:54 and it prints computing at the beginning, that's cool.
+00:57 So this would be a CPU-bound operation.
+00:59 Quick quiz, what is the best type of parallelism
+01:03 to apply to this one?
+01:04 asyncio, threading, or multiprocessing?
+01:07 Multiprocessing, right, to do anything CPU-based.
+01:10 Now we're going to download_some
+01:12 we're going to download_some_more. Let's go look at those two.
+01:14 In download_some, we're using requests
+01:17 and in download_some_more, we're using this.
+01:19 Now what we're going to imagine here
+01:20 is that when we convert it over to the presync one
+01:23 we'll see that for one of these
+01:26 we're going to imagine that we don't have an API
+01:29 that is async-enabled
+01:30 but it does HTTP requests under the hood
+01:33 and it's internally using requests.
+01:35 We won't actually be able to await it
+01:37 and it won't really take advantage of its powers
+01:39 when we use it with asyncio.
+01:41 The other one will have, actually
+01:43 aiohttp as its client and will be properly awaitable.
+01:47 So one of these would be better done with threads
+01:49 and the other would be better done with asyncio.
+01:52 Alright, now finally, we're just going to wait
+01:55 and this just puts our thread a sleep for a while
+01:57 one millisecond a thousand times, roughly one second.
+02:00 And again, we could easily do this with asyncio
+02:03 we've seen asyncio.sleep
+02:05 and we can await that, that one would be perfect.
+02:08 So this first one we're going to run has no parallelism
+02:11 and let's just see how that goes.
+02:15 It's computing, computing, computing
+02:18 alright, it's downloading, and downloading more
+02:20 then downloading and downloading more
+02:22 it does that a bunch of times.
+02:23 Now it's waiting, now it's done.
+02:25 How long did it take?
+02:26 9.62 seconds, alright, we'll freeze that
+02:29 so we can come back to it.
+02:31 Let's look at the presync one now.
+02:33 All we've done is basically taken
+02:34 as much advantage of asyncio as possible
+02:37 so if you look at the functions down here
+02:39 we have an async method computing
+02:41 but because it's computing
+02:42 we can't really do anything but wait
+02:45 there's no awaitability here.
+02:47 Async is not quite the proper API, as we'll see.
+02:50 Now this one, this download_some
+02:53 actually is, you know, is internally
+02:55 like, you got to use your imagination right
+02:56 internally this part actually uses aiohttp client
+03:00 and we can then, you know, surface its async abilities
+03:03 and this is a proper async option
+03:06 so downloadings have happened great.
+03:08 But this one is the one we're imagining
+03:11 does not have an async API so threading would help it
+03:14 but asyncio noticed there's no await keyword here
+03:17 actually there's no help, alright?
+03:18 This is just as if we called it in serial.
+03:20 Finally, waiting, that one we used asyncio.sleep
+03:23 this one's good. So let's run this one
+03:25 and we'll see some things get better
+03:28 like download_some, and wait_some
+03:29 but compute_some and download_some_more
+03:32 those, no good. Alright, that'd be a no benefit.
+03:37 So we got computing, see, just as slow.
+03:39 Downloading a little bit better
+03:41 waiting, way better, so it's an improvement.
+03:46 Notice it's about twice as fast
+03:48 from 9.62 to 4.93 seconds.
+03:52 Alright, so that's what we're going to start with.
+03:55 We have this program
+03:56 we're going to start with this presync mode
+03:58 which, alright, okay we're going to pick
+03:59 one of the three APIs to use. Let's pick asyncio.
+04:04 And that is probably the best one
+04:05 for the parts it took advantage of
+04:07 but it is not the best one for, say
+04:09 the compute one, or the requests based one.
+04:12 So we're going to see that with the unsync API
+04:15 we're going to simplify how this works
+04:17 and we're going to apply the right type of parallelism
+04:19 at the right place each right time.

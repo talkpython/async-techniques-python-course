@@ -1,0 +1,96 @@
+00:00 If you haven't worked with AsyncIO before
+00:02 it's going to be a little bit of a mind shift.
+00:04 But it turns out the programming model
+00:06 is actually the easiest of all the
+00:09 concurrent programming models
+00:10 that we're going to work with.
+00:11 So don't worry, it's actually
+00:12 the easiest, newest, and one of the best ways
+00:16 to write concurrent programs in Python.
+00:20 So let's step back a minute and think about
+00:22 how do we typically conceptualize or visualize concurrency?
+00:26 Well, it usually looks something like this.
+00:28 We have some kind of code running
+00:30 and then we want to do multiple things at a time
+00:32 so we might kick off some other threads
+00:34 or some other processes.
+00:36 And then our main thread, and all the other threads
+00:39 are going to run up to some point, and we're going to
+00:41 just wait for that secondary extra work to be done.
+00:45 And then we're going to continue executing along this way.
+00:48 Like I said, this is typically done
+00:49 with threads or multiprocessing, okay?
+00:53 Many languages it's only threads
+00:54 in Python, because the GIL
+00:56 multiprocessing is often involved.
+00:58 Now, this model of concurrent programming
+01:00 one thread kicking off others
+01:03 waiting for them to complete, this fork-join pattern
+01:05 this makes a lot of sense.
+01:07 But in this AsyncIO world, this is typically
+01:11 not how it works.
+01:12 Typically, something entirely different happens.
+01:15 So in this world, we're depending upon the operating system
+01:20 to schedule the threads or schedule the processes
+01:22 and manage the concurrency.
+01:24 It's called preemptive multithreading.
+01:26 Your code doesn't get to decide when it runs
+01:28 relative to other parts of your code.
+01:30 You just say I want to do all these things in parallel
+01:32 it's the operating system's job
+01:34 to make them happen concurrently.
+01:36 Now, contrast that with I/O driven concurrency.
+01:40 So in I/O driven concurrency
+01:41 we don't have multiple threads.
+01:43 We just have one thread of execution running along.
+01:46 This may be your main app, it actually could be
+01:48 a background thread as well
+01:49 but there's just one thread managing this parallelism.
+01:53 Typically, when we have concurrency
+01:55 if we have multiple cores, we're actually doing
+01:58 more than one thing at a time
+02:00 assuming the GIL's not in play.
+02:02 We're doing more than one thing at a time.
+02:04 If we could take those multiple things
+02:06 we're trying to do and slice them into
+02:08 little tiny pieces that each take
+02:09 a fraction of a second or fractions of milliseconds
+02:13 and then we just interweave them, one after another
+02:16 switching between them, well
+02:18 it would feel just the same, especially if there's
+02:21 waiting periods, this I/O bit.
+02:23 So what if we take our various tasks
+02:26 green task, pink task, blue task, and so on
+02:29 and we break them up into little tiny slices
+02:32 and we run them a little bit here, a little bit there.
+02:35 So here's a task. Here's another task.
+02:39 And we find ways to break them up.
+02:41 And these places where they break up
+02:43 are where we're often waiting on a database
+02:45 calling a web service, talking to the file system
+02:47 doing anything that's an external device or system
+02:51 and we keep going like this.
+02:53 This type of parallelism uses no threads
+02:55 adds no overhead really, and it still gives
+02:59 a feeling of concurrency, especially if we
+03:02 break these things into little tiny pieces
+03:04 and we would've spent a lot of time waiting anyway.
+03:07 This is the conceptual view you should have of AsyncIO.
+03:11 How do we take what would be big, somewhat slow operations
+03:14 and break them into a bunch of little ones
+03:16 and denote these places where we're
+03:18 waiting on something else.
+03:20 In fact, Python has a keyword to say
+03:21 we're waiting here, we're waiting there
+03:24 we're waiting there, and the keyword is await.
+03:27 So we're going to be programming two new keywords
+03:28 async and await, and they're going to be based
+03:30 on this I/O driven concurrency model
+03:32 and this you might call cooperative multithreading.
+03:35 It's up to our code to say, I'm waiting here
+03:38 so you can do, so you can go do something else
+03:40 when I get my callback from the web service
+03:43 please pick up here and keep going.
+03:45 It's really awesome how it works
+03:46 and it's actually the easiest style of parallelism
+03:49 that you're going to work with.

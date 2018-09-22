@@ -1,0 +1,35 @@
+00:00 Close out our chapter on Cython.
+00:01 By looking at this concept of the no_gil operation.
+00:05 So in Cython, you can go and say
+00:08 I want to create a block of code
+00:10 and in this block of the code, I'm telling Python
+00:13 I don't need the GIL.
+00:14 You can release it, during this section.
+00:16 Now, if we can just say that everywhere
+00:18 well maybe the GIL would just go away.
+00:20 But as we saw, that is not allowed.
+00:23 There are rules when use the no_gill.
+00:25 And one of them is, you cannot interact
+00:27 with CPython objects.
+00:29 So these numbers we work with
+00:31 they have to be pure integers or floats.
+00:35 In the C world, they can't be pointers
+00:37 back to the actual CPython version for example.
+00:41 And the place where that became a problem was
+00:44 we were using math.sqrt.
+00:46 It accepted a CPython number
+00:48 in which case we had to do a conversion
+00:50 from our integer or float into CPython.
+00:52 Well, that wasn't working, right?
+00:55 That wouldn't compile.
+00:57 You cannot do a conversion into a Python object
+01:00 in a no_gill block.
+01:02 So we had to do things like, use the libc.math
+01:06 and do a cimport for square root, and things like that
+01:08 to make sure we're staying in C land while we're there.
+01:12 But if you can do that
+01:13 you really can break free of the GIL.
+01:14 And we saw that made our code much, much faster
+01:17 and take advantage of the processors
+01:19 using pure threads in Python
+01:22 which is really quite awesome, isn't it?

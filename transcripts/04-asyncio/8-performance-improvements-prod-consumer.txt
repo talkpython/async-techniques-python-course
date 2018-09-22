@@ -1,0 +1,47 @@
+00:00 Let's take a moment and just appreciate
+00:01 the performance improvements that we got.
+00:04 And there's two metrics on which I want to measure this.
+00:06 One is overall time taken
+00:08 for some amount of work to be done
+00:10 and the other is
+00:11 what is the average latency?
+00:14 How long does it take for the consumer
+00:15 to get the data that the producer produced?
+00:18 So, here's the synchronous version
+00:19 a subset of it, we generate all the data
+00:23 and then we process all the data.
+00:25 And you can see the overall time
+00:26 it took was about 30 seconds
+00:28 and the average latency is about 15.
+00:31 The best we ever got was 10 seconds
+00:34 that was for the very last one that we processed.
+00:37 And if we did the example where we had
+00:38 two of them, it would be even worse.
+00:41 So, this is okay, but it's not great.
+00:44 And we saw that with asyncio
+00:45 we can dramatically improve things.
+00:48 So over here, we don't have
+00:50 all the work being done in terms
+00:51 of producing and then all the consumption
+00:53 we have them interleaved because
+00:55 there's all these points where
+00:56 the producer's waiting on certain things
+00:58 the consumer's waiting.
+01:00 So that time can be more productively spent
+01:02 letting the other parts run.
+01:04 So we're generating some data
+01:05 we're processing it, generating a few more
+01:06 processing a few more, things like that.
+01:09 Now, this one took a total of 21 seconds
+01:12 that's about 9-10 seconds better.
+01:16 Good, not rock your world better
+01:18 but certainly an improvement.
+01:19 But, the latency.
+01:21 The latency is so much better.
+01:23 Look at those numbers.
+01:24 So, it's 8.5 seconds faster and 60 times less latency.
+01:31 I think that's amazing. I think this is really, really great
+01:33 and it was, as you saw, super easy to accomplish.
+01:37 So, anytime you're waiting on I/O
+01:39 files, database, webservice calls
+01:42 things like that, this is really, really a great technique.

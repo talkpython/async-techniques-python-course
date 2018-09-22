@@ -1,0 +1,42 @@
+00:00 I made a statement that Flask does not operate
+00:02 in the async world. It does not support asyncio
+00:05 and there's no capabilities or way to turn that on.
+00:09 We cannot have async def view method. It just doesn't work.
+00:14 So I want to highlight a piece of the documentation
+00:17 in Flask 1.0 and then actually give you some news.
+00:22 If you go to docs1.0/design
+00:25 you'll see this block in there somewhere.
+00:27 Design decisions in Flask it says ...
+00:30 However Flask is just not designed for large applications
+00:33 or Asychronous servers.
+00:35 Flask wants to make it quick and easy to write a
+00:37 traditional web application, period.
+00:40 Flask will not support async, that's what it says right
+00:44 in the design decisions.
+00:45 It's not intended for asynchronous servers.
+00:48 So what the heck is Flask doing in this course?
+00:51 Well, two things, first of all, we're going to have
+00:54 something that's very, very much like Flask.
+00:57 It's compatible with Flask but does support asychronous
+00:59 servers perfectly.
+01:00 Second I actually recently spoke with David Lord
+01:04 who is in charge of Flask these days.
+01:06 I interviewed him on Talk Python, the podcast
+01:09 and I asked him about this.
+01:10 I said, it says this right in the docs.
+01:12 He said, yes, but.
+01:14 He says that but we're intending to support asynchronous
+01:17 at some point.
+01:19 Maybe it's going to take a year, maybe even two years
+01:21 but they're going to support it.
+01:22 So there may be a point where you're watching this video
+01:25 and you can just put async def on those Flask methods
+01:27 and magic is going to happen
+01:29 but at the time of the recording, like I said, 2018
+01:32 fall, this is not an option.
+01:34 It does not support it and it's still a couple years out.
+01:37 Actually the guy that's working on the framework
+01:39 that does may be collaborating with the Flask folks
+01:41 to make this happen natively in Flask.
+01:44 Okay so no async for Flask, maybe just not yet.
+01:48 Anyway that's the news.

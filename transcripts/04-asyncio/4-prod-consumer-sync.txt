@@ -1,0 +1,73 @@
+00:00 Let's begin our exploration of asyncio
+00:02 by looking at this common pattern
+00:03 called a producer, consumer pattern.
+00:06 The idea is, there's some part of the system
+00:08 that typically runs independently
+00:10 asynchronously, that generates items.
+00:14 Maybe it receives a request to fulfill a job
+00:17 charge to this credit card, send these emails
+00:20 import this data file, things like that.
+00:22 There's another part of the system
+00:24 that is also running asynchronously
+00:26 that looks for work to be done, and as the consumer
+00:30 it's going to pick up these jobs that are created
+00:31 by the producer, and start working on them.
+00:34 I have an extremely simple version of that here.
+00:38 It doesn't really do anything useful.
+00:40 So, we have generate data, and we have process data.
+00:43 And we're just using this list to share
+00:44 to exchange data between these two.
+00:47 So, let's look at generate data.
+00:49 It's going to go, and just create the square
+00:51 of whatever number we give it
+00:54 and it's going to store in our list, a tuple.
+00:56 So that's one thing going in the list that is a tuple
+00:58 the item that was generated, and the time at which
+01:02 that generation happened.
+01:03 And then it prints out in yellow.
+01:04 We're using this cool library, called Colorama
+01:06 to do different colored output.
+01:08 And color, in threading concurrences
+01:10 is super helpful to understand what part is happening where
+01:13 and what order it's all happening in.
+01:16 We're also flushing everything
+01:17 to make sure there's no delay in the buffer
+01:20 when we print stuff.
+01:21 As soon as we say print, you see it.
+01:22 So, to simulate it taking some time to generate some data
+01:26 or do the producer side, we call time.sleep()
+01:29 for between 0.5 and 1.5 seconds.
+01:32 On the process data side we're going to look for some data
+01:36 if it's not there, this structure doesn't really
+01:37 have a concept of get it, and wait
+01:40 we'll talk more about that later.
+01:42 But once an item comes in, we just grab it.
+01:44 In cyan we say we found it, and we also print out
+01:47 and we determine how long, from when it was created
+01:51 till we were able to get to it, and process it.
+01:53 Because the lower that number, the more concurrency
+01:56 the better we have.
+01:57 A soon as something is deposited for us to use, and pick up
+02:00 we should immediately get to it. But this code is synchronous.
+02:04 We do all the generation, then all the processing.
+02:07 So the first item is not going to be processed
+02:09 until all the generation is done, in this 20, and 20.
+02:12 Let's just run it and see what this means.
+02:14 The app is running, you can see we're generating in yellow.
+02:18 It's kind of a subdued color in the pycharm terminal
+02:20 but yellowish it's going to come out
+02:21 and cyan for the consumer. We're waiting for all 20.
+02:32 There we are. Now we're starting to process them.
+02:35 Notice, we were not able to get to the first one
+02:36 until 20 seconds after it was created.
+02:39 Now, the consumption of these is faster than the production
+02:42 so we were able to catch up somewhat
+02:44 and we got it down to 10 seconds, 10.48 seconds
+02:48 for the best case scenario.
+02:50 You can see these numbers that we picked up out of there
+02:53 were the ones generated previously.
+02:55 In the overall time it took to run that
+02:57 was 30, 31-ish seconds.
+03:00 None of this is great, and we can actually
+03:02 dramatically improve this with asyncio.
+03:05 Not a little bit, a whole lot.

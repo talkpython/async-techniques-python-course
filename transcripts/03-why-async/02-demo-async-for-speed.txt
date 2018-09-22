@@ -1,0 +1,81 @@
+00:00 Let's look at a real world example
+00:01 of a Python programming that is doing a very poor job
+00:05 taking advantage of the CPU it's running on.
+00:08 I'm running on my MacBook that I discussed
+00:10 in the opening, has 12 cores.
+00:13 This is the Intel i9 12 core maxed out
+00:18 you know, all nobs to 11 type of CPU
+00:20 for my MacBook Pro, here, so you can see
+00:22 it has a lot of processors. It has a lot of cores.
+00:27 In particular, has 12 hyper-threaded cores
+00:29 so six real cores, each one of which is hyper-threaded.
+00:34 Here we have a program running in the background
+00:35 working as hard as it can.
+00:37 How much CPU is the entire computer using? Well, 9.5%.
+00:43 If this were 10 years ago, on single core systems
+00:46 the CPU usage would be 100% but you can see
+00:49 most of those cores are dark, they're doing nothing
+00:53 they're just sitting there.
+00:54 That's because our code is written
+00:56 in a single-threaded way.
+00:58 It can't go any faster.
+00:59 Let's just look at that in action real quick.
+01:01 Now, this graph, this cool graph
+01:03 showing the 12 CPUs and stuff
+01:05 this comes from a program called Process Explorer
+01:09 which is a free program for Windows.
+01:10 I'm on my Mac, so I'll show you something
+01:12 not nearly as good but I really wanted to show you
+01:14 this graph because I think it brings home
+01:16 just how underutilized this system is.
+01:19 So let's go over here and we're going to run
+01:22 a performance or system monitoring tool
+01:25 actually built in Python
+01:26 which is pretty cool in and of itself, called Glances.
+01:29 So we're sorting by CPU usage, we're showing what's going on.
+01:33 We had a little Python running there, actually
+01:35 for a second, running probably in PyCharm
+01:37 which is just hanging out, but you can see the system
+01:39 is not really doing a whole lot, it is recording.
+01:41 Camtasia's doing a lot of work to record the screen
+01:43 so you have to sort of factor that out.
+01:46 Now, let's go over here and create another screen
+01:50 notice right here we have 12 cores.
+01:52 Okay, so if we run PtPython, which is a nicer REPL
+01:57 but just Python, and we write an incredibly simple program
+02:00 that's going to just hammer the CPU.
+02:03 Say x = 1, and then while true: x += 1.
+02:09 So we're just going to increment this, over and over and over.
+02:12 I'm going to hit go, you should see Python jump up here
+02:16 and just consume 100% of one core.
+02:19 This column here is actually measuring in
+02:24 single core consumption whereas this
+02:27 is the overall 12 core bit.
+02:31 Here it's working as hard as it can.
+02:33 You'll see Python'll jump up there in a second.
+02:37 Okay, so Python is working as hard as it can, 99.8%
+02:41 running out of my brew installed Python, there.
+02:44 But the overall CP usage, including screen recording
+02:48 on this whole system?
+02:50 11%, and of course as we discussed, that's because our code
+02:53 we wrote in the REPL, it only uses
+02:55 one thread, only one thread of concurrent execution
+02:59 that means the best we could ever possibly get is 1/12%.
+03:04 8.3% is the best we could ever do
+03:07 in terms of taking advantage of this computer
+03:10 unless we leverage the async capabilities
+03:12 that we're going to discuss in this course.
+03:14 So if you want to take advantage of modern hardware
+03:17 with multiple cores, the more cores the more demanding
+03:21 or more pressing this desire is
+03:24 you have to write concurrent multi-threaded code.
+03:27 Of course, we're going to see a variety of ways to do this
+03:29 both for I/O bound and, like this, CPU bound work
+03:33 and you handle those differently in Python
+03:35 which is not always true for other languages
+03:37 but it is true for Python.
+03:38 And by the end of this course, you'll know
+03:41 several ways to make, maybe not this simple, simple program
+03:45 but to make your Python program doing real computation
+03:48 push that up to nearly 100% so it's fully taking advantage
+03:52 of the CPU capabilities available to it.

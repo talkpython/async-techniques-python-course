@@ -1,0 +1,74 @@
+00:00 Let's begin our exploration of async by taking
+00:02 a really high-level view, we're going to look
+00:05 at the overall async landscape, some of the particulars
+00:09 about working with async in concurrent programming
+00:11 in Python, and the two main reasons that you care
+00:14 about asynchronous programming.
+00:16 In this first video we're going to focus on async for speed or
+00:20 for performance, the other main reason you might care
+00:23 about asynchronous programming or concurrent code would be
+00:26 for scalability, doing more at once.
+00:29 Right now we're going to focus on doing things faster
+00:32 for an individual series of computations.
+00:35 Later we're going to talk about scalability
+00:37 say for web apps and things like that.
+00:39 Let's look at some really interesting trends that have
+00:43 happened across CPUs in the last 10 years or so, 15 years.
+00:47 So here's a really great presentation by Jeffrey Funk
+00:50 over on SlideShare and I put the URL at the bottom
+00:52 you can look through the whole thing, you can see there's
+00:54 172 slides, but here I am pulling up one graphic that
+00:57 he highlights, because it's really, really interesting.
+01:01 See that very top line, that red line, that says
+01:03 transistors in the thousands, that is Moore's Law.
+01:07 Moore's Law said the number of transistors in a CPU
+01:11 will double every 18 months and that is surprisingly
+01:15 still accurate; look at that, from 1975 to 2015
+01:19 extrapolate a little bit, but still basically doubling
+01:23 just as they said.
+01:25 However people have often, at least in the early days
+01:28 thought of Moore's Law more as a performance thing
+01:31 as the transistors doubled, here you can see
+01:33 the green line "clock speed" and the blue line "single threaded
+01:37 performance" very much follow along with Moore's Law.
+01:40 So we've thought about Moore's Law means computers get
+01:44 twice as fast every 18 months and that was true more or less
+01:48 for a while, but notice right around 2008, around 2005
+01:53 it starts to slow and around 2008 that flattens off and
+01:57 maybe even goes down for some of these CPUs and
+02:00 the reason is we're getting smaller and smaller and smaller
+02:03 circuits on chips down to where they're basically
+02:05 at the point of you can't make them any smaller, you can't
+02:08 get them much closer both for thermal reasons and
+02:12 for pure interference reasons.
+02:14 You can notice around 2005 onward, CPUs are not getting
+02:19 faster, not really at all. I mean, you think back
+02:22 quite a bit and the speed of the CPU I have now is
+02:24 I have a really high-end one, it's a little bit faster but
+02:28 nothing like what Moore's Law would have predicted.
+02:30 So what is the take away?
+02:31 What is the important thing about this graphic?
+02:34 Why is Moore's Law still effective?
+02:37 Why are computers still getting faster, but the CPU and
+02:40 clock speed, really performance speed, single-threaded
+02:43 performance speed, is not getting faster, if anything
+02:45 it might be slowing down a little.
+02:47 Well that brings up to the interesting black graph
+02:50 at the bottom, for so long this was one core and
+02:53 then when we started getting dual-core systems and
+02:56 more and more CPUs, so instead of making the individual
+03:00 CPU core faster and faster by adding more transistors
+03:03 what we're doing is just adding more cores.
+03:05 If we want to continue to follow Moore's Law
+03:08 if we want to continue to take full advantage of the
+03:11 processors that are being created these days
+03:14 we have to write multi-threaded code.
+03:17 If we write single-threaded code, you can see it's either
+03:19 flat, stagnant, or maybe even going down over time.
+03:23 So we don't want our code to get slower, we want our code to
+03:26 keep up and take full advantage of the CPU it's running on
+03:29 and that requires us to write multi-threaded code.
+03:32 Turns out Python has some extra challenges, but
+03:35 in this course we will learn how to absolutely take
+03:38 full advantage of the multi-core systems that
+03:40 you're probably running on right now.

@@ -1,0 +1,106 @@
+00:00 We've seen safe bank is massively not safe
+00:03 and our job is to come in here and make it safe.
+00:07 So, how are we going to do that?
+00:09 Well, I'm going to use a different
+00:10 construct from the threading library.
+00:12 So we're going to import what you might think is Lock.
+00:17 Alright, Lock that's an obvious thing I would like to get
+00:20 however we do not want to use Lock.
+00:23 There's actually two different types of Locks in Python.
+00:26 Lock, which is a very low-level thing
+00:29 and RLock, or Reentrant Lock.
+00:32 The problem with Lock is if you call it from a function
+00:36 and that function somehow through
+00:38 some series of function calls
+00:40 ends up calling into that Lock again
+00:43 which is more likely than you would actually think
+00:46 it's going to deadlock.
+00:47 Right, so the lock cannot even be entered by a thread
+00:51 that owns that lock, and that's pretty limiting
+00:53 and it's hard to reason about.
+00:54 RLock means the thread itself can enter the lock
+00:58 many times as long as it exits as many times as it does
+01:01 but no other threads can get there
+01:02 and that's really the behavior we want
+01:04 so we're going to get RLock here.
+01:06 Now, what we're going to do is we're going to start out by doing
+01:10 a very coarse grain thing that just says
+01:12 let's fix this one problem down here and do transfer.
+01:16 It's this little bit that puts our program
+01:19 into a temporarily invalid state
+01:21 and then puts it back, so our goal with our Lock
+01:24 is to tell the other threads
+01:26 stay out, I'm about to put things into a temporarily
+01:29 invalid state, and in this coarse grain way
+01:31 what we're going to do is we're going to create one
+01:33 lock to say no other thread can do a transfer
+01:37 while any given thread is doing the transfer.
+01:39 So, first of all, let's run it just
+01:41 to see how long this takes.
+01:42 It's takes .71 seconds. Okay, great.
+01:46 That's the unsafe version.
+01:48 Now, let's go and create our lock.
+01:52 Let's call it transfer_lock.
+01:57 Okay, we we've created the lock, that's pretty awesome.
+01:59 Now, we want to go down here and I'll show you
+02:02 the not so good way and I'll show you the best way.
+02:05 So first of all, we're going to come down here
+02:07 and do it, I'll show you not good.
+02:10 Go to the lower lock and we're going to say acquire().
+02:12 You can see we can set a time out and things like that.
+02:15 we're just going to say we're going to block this thread
+02:17 until we get a chance to get in here
+02:19 and then we're going to go down here and say release().
+02:22 This will actually fix the problem.
+02:24 This will make everything good.
+02:27 But I said this behavior
+02:28 this pattern I'm using is not so good.
+02:31 It's going to work fine for what we have
+02:32 because I know there's no possibility of any of these
+02:34 operations failing, there's no chance of returning
+02:38 early or anything like that, but in reality
+02:40 we probably need to do this.
+02:44 Try and then finally, just in case there's some
+02:48 kind of exception in here we want to make
+02:51 sure that we release the lock.
+02:53 What happens if there's an exception and we catch
+02:54 it higher up but we don't do this?
+02:56 Program deadlock, we never, ever get
+02:58 into this function again ever.
+03:01 That's a pretty high consequence 
+03:03 so you probably want to write this code
+03:05 instead of the prior code, I'll leave that one like that.
+03:10 So we could do the not so good kind
+03:12 but let's do something a little better.
+03:13 We can just say now with transfer_lock:
+03:16 and do the things we want to do.
+03:19 Like this, and of course this should be committed out
+03:22 cause we don't actually want to do it twice.
+03:23 So that, try, do this thing, finally release it
+03:27 well that's exactly what this with block does
+03:29 and you don't have to think about it
+03:30 you don't have to be really cautious about it.
+03:32 So, you want to do this with block.
+03:34 Now, our goal is to run this program and have it run
+03:37 the very first time when it says everything was great
+03:40 there were no errors, let's go.
+03:44 Man, that is so fantastic.
+03:46 Maybe it was just luck, alright, could be one of these
+03:48 weird heisenbugs, granted we did see a lot of errors
+03:52 so I'm pretty confident we fixed it.
+03:54 Well, let's just run it again, just to be sure.
+03:59 Nope, it definitely seems to be working
+04:01 so we fixed it, we made sure that any time our program
+04:04 is going to move into one of these invalid states
+04:06 we're going to tell all the other threads
+04:08 hold on, I'm about to mess up some stuff
+04:10 you shouldn't look at this, I'm going to do that
+04:11 and then I'll put it back
+04:13 let you all run as soon as it's done.
+04:15 Notice it did take .15 seconds, .15 seconds longer
+04:19 than it did here, 1.14.
+04:22 However, would you rather be slightly faster and wrong
+04:25 or slightly slower and right?
+04:27 We did take away some of the parallelism
+04:30 some of the concurrency that our threads had to work with
+04:32 but it was worth it, it was totally, totally worth it.

@@ -1,0 +1,39 @@
+00:00 Let's close out this chapter
+00:01 by just talking about basic thread safety.
+00:04 We begin by importing threading, of course
+00:07 and we saw that there's actually several types of locks
+00:10 you can create.
+00:11 In fact, there's a bunch of locks we haven't even spoken
+00:13 about, like mutexes and semaphores and barriers and so on.
+00:16 There's all sorts of fairly-complicated stuff we can
+00:19 get into. But, this works for basic thread safety and
+00:22 most of what you're doing.
+00:24 So we're going to create a lock and we're going to make sure
+00:26 we use the reentrant lock, not the one you cannot reenter
+00:31 maybe you want that, you probably don't though.
+00:33 And then we're going to do our potentially-unsafe operations
+00:37 using a context manager, so with that lock and then
+00:41 in that block we're going to do things that
+00:43 we don't want other threads to see
+00:44 it's like a little privacy window for your data.
+00:46 Remember, at the beginning we talked about that
+00:48 temporarily invalid state and that's effectively unavoidable
+00:51 in our programs, that's just how programming works
+00:54 for languages like Python.
+00:55 So make sure you do them here, so other threads
+00:58 can't come and see them, and also remember everywhere you're
+01:01 interacting with any of those data structures you have to
+01:04 take that same lock, otherwise you might get into trouble.
+01:08 We saw we mostly fixed our application by taking the lock
+01:11 in the do_transfer() part, but we overlooked putting
+01:14 the lock in the verify accounts.
+01:16 We got away with it, but not really, it would have
+01:19 gotten us eventually, probably, at night on a weekend
+01:23 when we're going to get woken up or have to leave a party
+01:26 to go fix some bug that happened on the server or
+01:28 something weird like that, right?
+01:30 So, you don't want that, you want to make sure you actually
+01:32 write it all correctly first, so just make sure any
+01:35 data structures you work with in there, if they're used
+01:37 elsewhere also take a lock in those locations.
+01:40 That's basic thread safety in Python.

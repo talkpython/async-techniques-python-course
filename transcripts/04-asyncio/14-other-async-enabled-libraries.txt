@@ -1,0 +1,87 @@
+00:00 It's critical that the libraries we're using
+00:03 to talk to the various external systems support asyncio
+00:07 if we want to take advantage of them at all
+00:10 in some sort of asyncio system.
+00:13 We might be able to use them in threading
+00:14 or other situations if they don't
+00:16 but to use them with asyncio, they need
+00:19 to have asynchronous methods that we can call.
+00:21 So to give you a sense of how this works
+00:23 and how you find these libraries and so on
+00:25 we're going to go through four libraries
+00:26 that talk to common, mainstream, external systems
+00:29 MongoDB, Postgres, file systems, and Redis.
+00:33 Of course, you may want to talk to something else
+00:35 and that's totally fine.
+00:36 This is more to inspire you to say
+00:38 there's probably some kind of asyncio-enabled library
+00:41 for the thing that you're working with.
+00:44 Now, if there's not, we'll talk later about
+00:46 how to mix and match these things
+00:48 when we get to unsync and other stuff
+00:50 much further in the course.
+00:51 But, for now, we're going to just talk
+00:53 about these libraries that enable asyncio
+00:55 for these four systems.
+00:58 Now, we're not going to do any demos here
+00:59 so I'm just going to show you the github repos.
+01:01 So the first one, file IO.
+01:04 If I say with open, that's the standard way
+01:07 to open a text file or a binary file in Python.
+01:10 I might also do like a JSON read when I give it
+01:13 like the filestream that came with open.
+01:16 None of that stuff supports asyncio.
+01:18 It's ironic, right? We're doing file IO in Python
+01:21 that does not support asynchronous IO.
+01:24 Anyway, that's a whole side discussion.
+01:26 So here is one project that you could use aiofiles.
+01:30 So it basically just has the ability to open files
+01:34 and read and write from them asynchronously.
+01:36 And these are async methods you call
+01:38 and you can await them and use them properly
+01:41 within your async methods.
+01:42 This is probably not the only one for Python
+01:45 but it's an example. If you need it, go have a look.
+01:48 MongoDB, very popular NoSQL database.
+01:52 Its primary way to talk to it from MongoDB
+01:54 doesn't support asyncio, meaning the popular ODMs
+01:58 Object Document Mappers don't support asyncio.
+02:01 However, here's a pretty cool one called umongo.
+02:05 umongo, it's supposed to be a mu, a Greek mu
+02:08 at the beginning, even though it's a u.
+02:11 So umongo has both synchronous
+02:13 and asynchronous support for MongoDB.
+02:16 It's really cool, it actually has a bunch
+02:18 of different subsystems you can swap in and out
+02:20 like Twisted versus asyncio, but not getting into that
+02:23 here is cool library that you can use
+02:26 if you want to talk to MongoDB
+02:28 map classes to and from it, and you want
+02:30 to do that using async and await. Don't like MongoDB?
+02:34 Postgres is probably the other most popular database choice
+02:37 for Python developers, and if you want to talk
+02:40 to it asynchronously you need asyncpg
+02:43 not the standard one that doesn't support asyncio.
+02:46 You can check out asyncpg.
+02:48 It's very popular, and of course, lets you use Postgres
+02:51 in async and await.
+02:53 Finally, our final example here is going to be Redis.
+02:56 If you want to talk to Redis, this is primarily used
+02:59 as an in-memory cache, but also can be used
+03:01 for, like, queuing systems and things like that.
+03:03 Redis is quite popular in the Python space.
+03:06 If you want to read and write objects from it
+03:08 connect to it asynchronously, well, asyncio-redis
+03:12 is one of the ways you can do that.
+03:14 So like I said, this is not an exhaustive list
+03:16 by any means.
+03:17 It's just an example, a tour to inspire you that
+03:21 hey, if there's a thing I'm working with
+03:23 there's a good chance that somewhere out there
+03:24 there's an asyncio library for it.
+03:27 And if there is, that's awesome, because
+03:29 then you can go and plug that into your code
+03:31 and you've seen how much scalability
+03:33 and parallelism you can get by doing stuff
+03:35 while you're waiting on external systems
+03:37 like Redis, or MongoDB, or even the file system.

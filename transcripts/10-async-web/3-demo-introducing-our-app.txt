@@ -1,0 +1,121 @@
+00:00 Let's talk about the web app we're going to build.
+00:02 It's already created as a Flask app.
+00:05 It takes a while to build
+00:06 and I don't want to to spend all the time doing that
+00:08 just diggin' into Flask. It's not a course about Flask per se.
+00:12 But we're going to take a Flask app and we're going to
+00:15 make it asynchronous and we're going to implement
+00:17 all of the things you have to do to go
+00:18 from the traditional synchronous style to asynchronous
+00:21 which is going to be pretty awesome.
+00:23 So I want to introduce you to it and then
+00:26 we'll start programming the async transformation
+00:28 it's going to go through.
+00:29 So there's actually two web apps here
+00:32 Cityscape API and ACityscape API.
+00:35 Right now these are both the original serial version.
+00:39 This one we're going to transform
+00:42 into the asynchronous version.
+00:44 So I'm going to leave that there for you to have as a record.
+00:47 This is the one we're going to work on.
+00:49 So let's just go through really quick.
+00:50 Now I don't assume that you know Flask like I said but
+00:54 we're not going to go into too much of the details.
+00:56 You'll see enough that you'll be able to take it away
+00:58 and if you learn a little bit about Flask
+01:00 then you'll be able to adapt this, no problem.
+01:02 Maybe the best way to introduce you to it
+01:04 is to actually see it running
+01:05 so let's start it real quick, open it up.
+01:08 And it says we can use this API, sun/zipcode/country
+01:12 is one of the APIs so let's put that in here.
+01:16 So zip code, might be 97227 if you could type the 9.
+01:22 And the country code would be something like US
+01:25 or your country and you can put your postal code in there.
+01:27 And you hit this, and what we get
+01:30 see it took a second 'cause it really went out
+01:32 to the Internet to another service
+01:33 a couple services actually
+01:35 and it figured out what sunrise and sunset
+01:38 in and around Oregon is.
+01:40 I don't know exactly where that is, but which
+01:42 where this zipcode is but it's pretty close to me
+01:44 and this looks about right.
+01:46 So sunrise at 6:48 a.m., sunset 7:30 p.m.
+01:50 We can also ask for the weather.
+01:52 It'll give us all sorts of details back about the weather
+01:55 how much cloudiness there is.
+01:58 What's the humidity and pressure.
+02:00 The moderate rain apparently is something happening
+02:02 right there so, pretty cool.
+02:05 So we can basically ask for sunrise, sunset
+02:08 and we can ask for weather. That's what this API does.
+02:12 Now let's see how it goes about doing it.
+02:15 So this app.py, this runs when everything starts up.
+02:19 This creates our Flask app so here's our Flask app.
+02:22 And we've used this concept called a blueprint
+02:25 a Flask blueprint, to take the sort of HTML view stuff
+02:30 and put it in one file
+02:31 and the API bits and put it to another file.
+02:34 So it let's you separate our apps.
+02:36 I really like that pattern.
+02:37 And then it just goes and it sets some values
+02:39 out of config files that live over here.
+02:43 Then it calls run.
+02:44 So that's pretty straightforward.
+02:45 Let's just look at the API bit over here.
+02:48 So for example let's look at the sun
+02:50 it's more complicated.
+02:51 So you give in a zipcode and the country as strings
+02:55 and we have to call this function
+02:56 to actually get the latitude and longitude.
+02:59 That is actually what's required
+03:01 for the sun_service that we use say
+03:02 given any spot on the globe
+03:04 what is the sunrise, sunset information?
+03:07 So these services right here this one, and this one
+03:13 those are implemented over in the service section
+03:16 so we have the location_service for example.
+03:18 Sun_service for example.
+03:22 So I'm going to hide away this cached data
+03:24 'cause we're not using it right now.
+03:25 This is only if you want to do performance testing
+03:27 we'll talk about that later.
+03:29 So we're going to go in and we're going to use requests
+03:31 we're going to go and just get a call
+03:33 and we're just going to do some json parsing here.
+03:35 And then we have to convert from UTC to local time
+03:38 just so things make sense to you
+03:40 in that location when you look at it okay?
+03:45 So this is it.
+03:47 How are we going to add asynchronous into this?
+03:49 Well this function right here
+03:53 could be async theoretically, except for
+03:56 well see, Flask does not support any async capabilities
+04:00 whatsoever, at all.
+04:03 We'll talk more about that in a moment.
+04:05 There's actually an interesting piece of the documentation
+04:07 and some interesting news around that as well
+04:09 and depending when you watch this
+04:11 that may or may not be still true
+04:13 but Fall 2018 Flask definitely does not support
+04:16 any form of async. So we're going to somehow find a way
+04:19 to make this function async
+04:21 and then we'll be able to implement that
+04:23 in aiohttp client style
+04:25 as we did before, same for this.
+04:27 And then we can await those and instead of having
+04:29 this method just block while we're talkin' to that service
+04:31 block while we're talkin' to that service
+04:33 both of those times, when they're blocked
+04:36 will let other requests come in
+04:38 and maybe process the weather request.
+04:39 Or a different send request, things like that.
+04:42 This is our app that we're going to start working with
+04:44 and this is the app we're going to use for our demo.
+04:46 Like I said this one is hangin' around for you
+04:49 to just have as a record.
+04:51 This one right now is synchronous
+04:53 but it's going to be converted to
+04:55 an async enabled, Flask-like, Flask-based API
+04:59 but it won't actually be a Flask.

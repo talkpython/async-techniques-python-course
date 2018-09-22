@@ -1,0 +1,113 @@
+00:00 Where else would you start with Cython
+00:01 other than Hello World?
+00:03 And for our Hello World I want to decouple things
+00:05 just in a little bit.
+00:07 Over here we have our Hello World folder
+00:09 in the Cython part of our GitHub repository.
+00:11 And what I want to do is create some extra library
+00:15 this library we're going to Cythonize
+00:17 going to convert it to native code through Cython.
+00:20 So we'll call this the greeter.
+00:23 Going to have a method called greet.
+00:28 And what do you think it's going to do?
+00:31 Somethin' to this effect.
+00:33 And that's pretty straightforward right?
+00:34 And we're going to import that over here and call it.
+00:38 Now right now, if I do this
+00:41 import greeter, and we'll say somethin' like this.
+00:50 The greeter we can greet with their name.
+00:52 So far there's nothing to do with Cython at all.
+00:55 Let's run the program and see what happens.
+00:58 What is your name? My name is Michael.
+01:00 Hello Michael, and then I printed out the response
+01:03 which actually is None.
+01:08 There we go, that looks correct.
+01:10 So what I want to do is convert from using Python to Cython.
+01:14 Convert from using interpreted code to native code for this.
+01:18 So there's two steps to do that.
+01:20 First thing, we're going to call out a pyx file.
+01:24 Notice it's got like a big C with a Python icon
+01:28 right there in the middle
+01:29 rather than a standard file with a Python icon on it.
+01:33 So let's see, does it still run?
+01:36 No there's no greeter, not yet.
+01:38 So how do we make the greeter?
+01:39 There's two steps.
+01:40 First we have to compile it and then we just use it.
+01:47 In order to do the compilation we have to install Cython
+01:51 so pip install cython and have a setup file.
+01:54 So let's go and make sure we have a requirement file.
+01:59 And it's going to be cython.
+02:07 Great, Cython is installed and we have to tell PyCharm
+02:11 it's not misspelled.
+02:12 That's a little annoying but, no big deal.
+02:14 So in here we're going to write a simple little bit of code.
+02:17 We're going to import setup and we're going to import
+02:20 from Cython some build tools so we'll say
+02:22 from distutils.core import setup.
+02:29 It's kind of like we're creating a package
+02:31 like a Python package but this is just a tiny bit different.
+02:34 Then we say from Cython.build import cythonize.
+02:40 It's all we have to do then we write or we call setup
+02:44 like so and we say ext_modules=cythonize()
+02:50 and then we give it the file name, so greeter.pyx.
+02:55 Okay everything's good
+02:56 now we have to run this so let's go over
+02:59 I've already opened a terminal here
+03:01 with the right virtual environment activated.
+03:04 So now what we have to do is, let's actually
+03:09 make sure our Python cache is empty as well.
+03:12 So what we need to do is we need to run Python setup
+03:15 and then we have to give it a special command
+03:17 build_ext --inplace.
+03:22 Again this assumes you've installed into
+03:24 the active virtual environment, Cython.
+03:27 This is a good sign, we have greeter
+03:28 and now if we look here we have
+03:30 greeter.cpython 37 on Darwin.
+03:34 Darwin is the platform name of Mac OS.
+03:36 Alright let's just try this again.
+03:39 What is your name?
+03:40 Oh wait a minute, that didn't crash this time
+03:41 my name is Michael.
+03:43 Hello Michael, how cool is that?
+03:45 So we're using Cython. How do I know?
+03:47 Well let's go over to our greeter
+03:50 and print somethin' like this, running from
+03:54 and we'll put out the file name there.
+03:57 So most modules you can just say __file__ like this.
+04:00 Now we need to recompile.
+04:03 That did not compile but that may, here we go.
+04:06 Now if we run it again, there's Michael.
+04:09 Michael and we're running from
+04:12 big long thing here but notice this
+04:15 we're running from that compiled output right there.
+04:18 That is native code.
+04:20 How do I know? Well let's look at the intermediate here.
+04:24 Notice the scroll bar. That is a lot of C
+04:27 a lot of C right there, wooo!
+04:31 Let's go and look for Hello.
+04:34 Like here you can see some of the string literals
+04:37 that we are using that got pulled out
+04:39 as static constants in C.
+04:41 That's pretty awesome right?
+04:43 So that's it. We have our temporary C output and we have this .so file
+04:47 in this build directory
+04:48 all of that stuff is just produced output
+04:51 from this to run it.
+04:52 Source files include just our program that's going to use
+04:56 the model and notice this Python code did nothing to say
+04:59 hold on we're doing weird Cython stuff
+05:02 so go import a Cython thing so just know
+05:04 there's a module called greeter.
+05:05 We're going to import it
+05:07 and if we go here it has a greeter.
+05:09 then the auto-complete it's gone but
+05:12 it has a greeter.greet okay?
+05:14 And we also have a setup that simply calls setup
+05:17 sets the ext module to cythonize
+05:19 the particular Cython modules that we're going to use
+05:22 and that gets compiled with this command line right there.
+05:26 And notice if there's no changes
+05:29 it sort of caches the output so it only builds what's changed.
+05:33 Alright well, hello Cython.

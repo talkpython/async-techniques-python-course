@@ -1,0 +1,42 @@
+00:00 When you talk about Python in performance
+00:03 it's really interesting because
+00:04 Python code itself is kind of slow compared to languages like
+00:09 C#, Java, definitely C++, things like that.
+00:13 So, you say well this code is slow.
+00:15 But you can actually write a whole bunch more functionality
+00:18 with way fewer bugs really quickly.
+00:21 And then you can try to make it faster.
+00:22 A lot of the stuff we talked about with parallelism
+00:24 it lets us do many things faster
+00:26 and if you're waiting on other systems, perfect.
+00:28 Maybe though, you're working with something computational.
+00:31 You might bring in some library like NumPy
+00:33 for data science or numerical computations.
+00:36 And that really mixes up the performance
+00:38 because the internals in NumPy are written in C.
+00:42 And it's highly optimized.
+00:43 So, maybe you're version written in C
+00:45 would actually be slower than Python's version using NumPy.
+00:48 I don't know. This is a hypothetical, right?
+00:50 Another way to think about this is
+00:52 certain parts of your Python code are really critical
+00:55 and most of them aren't.
+00:57 So, if you think about SQLAlchemy
+01:00 there's a little tiny internal bit
+01:02 that is written in C that goes really, really fast
+01:05 and then the rest of it you'd do in Python.
+01:08 But that's not the slow part.
+01:09 The slow part is actually not in Python, its in C.
+01:12 So, this Python, C integration
+01:14 is really interesting and really important.
+01:17 Now, you may be thinking, Micheal.
+01:19 I either don't know C or C++ or I
+01:22 hate working in C and C++ that's why I'm a Python developer.
+01:25 Fine, I'm with you. It's been a long time since I been
+01:27 a professional C++ developer. A really long time.
+01:30 What we're going to talk about here
+01:32 is actually how we can take advantage of this
+01:35 performance and integration that we get with
+01:37 Python's great compatibility with C
+01:39 without actually writing any C code at all.
+01:42 Sounds perfect doesn't it?

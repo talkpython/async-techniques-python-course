@@ -1,0 +1,70 @@
+00:00 I mentioned earlier that threads in Python
+00:02 don't really perform well.
+00:04 They're fine if you're waiting
+00:06 but if you're doing computational stuff
+00:08 they really don't help.
+00:09 Remember that example I showed you
+00:11 how we had our Python program doing a tight while loop
+00:14 that was just pounding the CPU
+00:16 and it's only getting 8.3% CPU usage.
+00:19 Well if we had added 12 threads to do that
+00:22 how much of a benefit would it have gotten?
+00:24 Zero, it would still only be using 8%
+00:28 of the CPU, even though I have 12 cores.
+00:30 And the reason is this thing called the GIL
+00:33 or the Global Interpreter Lock.
+00:35 Now the GIL is often referred to as one of the reasons
+00:39 that Python isn't super fast or scalable.
+00:41 I think that's being a little bit harsh.
+00:44 You'll see there's a lot of places
+00:45 where Python can run concurrently
+00:47 and can do interesting parallel work.
+00:50 And it has a lot of things that have been added
+00:52 like AsyncIO and the await, the async and await keywords
+00:56 which are super, super powerful.
+00:58 The GIL is not the great terrible thing
+01:00 that people have made it out to be
+01:02 but it does mean that there's certain situations
+01:05 where Python cannot run concurrently.
+01:08 And that's a bummer.
+01:09 So this is the reason that the Python threads
+01:12 don't perform well. The Global Interpreter Lock means
+01:14 only one thread or only one step of execution
+01:19 in Python can ever run at the same time
+01:21 regardless of whether that's in the same thread
+01:24 or multiple threads, right?
+01:26 The Python interpreter only processes instructions
+01:29 one at a time, no matter where they come from.
+01:31 You might think of this as a threading thing
+01:33 and in some sense it's a thread safety thing
+01:36 but the GIL is actually a memory management feature.
+01:39 The reason it's there, is it allows the reference counting
+01:42 which is how Python primarily handles its memory
+01:46 management, to be simpler and faster.
+01:49 With the Global Interpreter Lock
+01:51 that means we don't have to take many fine-grained locks
+01:53 around allocation and memory management.
+01:55 And it means single-threaded Python is faster
+01:58 than it would otherwise be
+01:59 although it obviously hurts parallel computation.
+02:03 But the thinking is most Python code is serial
+02:07 in its execution, so let's make that the best
+02:10 and the GIL is what it is.
+02:12 It's going to make our parallelism less good.
+02:15 As you'll see throughout this course
+02:17 Python has a lot of options to get around the GIL
+02:20 to do true concurrent processing in Python
+02:23 and we're going to talk about those
+02:24 but the GIL cannot be avoided
+02:26 and your should really understand
+02:28 that it exists, what it is, and primarily
+02:30 that it's a thread safety feature for memory management.
+02:34 You can learn about it more if you want
+02:35 at realpython.com/python-gil, G-I-L
+02:40 and there's a great article there
+02:41 it goes into all the depth and the history
+02:43 and so on, so go check that out
+02:44 if you're interested in digging into it.
+02:47 Keep in mind, this GIL is omnipresent
+02:49 and we always have to think about
+02:50 how it affects our parallelism.

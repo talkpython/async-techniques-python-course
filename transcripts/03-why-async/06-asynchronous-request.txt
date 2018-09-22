@@ -1,0 +1,57 @@
+00:00 Let's look at this same series of requests
+00:03 but with our web server having the ability
+00:05 to execute them concurrently
+00:07 at least while it's waiting.
+00:09 So now we have request 1 come in
+00:10 and it's... we can't make that green bar get any shorter
+00:13 that's how long it takes.
+00:14 But, we saw that we were waiting before
+00:17 and if we could somehow run request 2 while we're waiting
+00:20 and then request 3 while both of those are waiting
+00:22 we could get much better response times.
+00:24 So if we look at our response time again
+00:26 we have... 1 takes exactly as long as it did before
+00:30 cause it was the first one, it was lucky.
+00:32 But it takes as long as it takes.
+00:34 However, request 2 is quite a bit shorter.
+00:38 Didn't have to wait for that other processing
+00:40 we're able to execute it concurrently.
+00:41 request 3 is the real winner here.
+00:44 Actually, it returned much, much sooner.
+00:47 It takes as long as it takes to process it
+00:50 instead of five times.
+00:52 Now we can't possibly get perfect concurrency, right?
+00:55 If we could do every single one of them concurrently
+00:58 then there'd be no need to have anything
+00:59 other than a five dollar server to run YouTube or something.
+01:02 There is some overhead.
+01:04 There are bits of R Code and framework code
+01:06 that don't run concurrently.
+01:07 But, because what our site was doing is mostly waiting
+01:11 we just found ways to be more productive
+01:13 about that wait time.
+01:15 Zooming in again, now we have exactly the same operation.
+01:19 Exactly the same thing happening
+01:21 but then we've changed this code.
+01:24 We've changed ever so slightly
+01:25 how we're calling the database
+01:27 and we've freed up our Python thread of execution
+01:31 or just the execution of our code.
+01:34 Let's not tie to threads just yet.
+01:36 So that we can do other stuff.
+01:39 So request 2 came in, right
+01:40 during that first database operation
+01:42 we're able to get right to it.
+01:44 By the time we got to our code section
+01:45 request 2 had begun waiting
+01:48 so then we just ran our code, we went back to waiting
+01:50 request 3 came in, and we just processed that
+01:52 because both of the others were waiting and so on.
+01:54 So we can leverage this wait time
+01:57 to really ramp up the scalability. How do we do it?
+02:00 Well, it's probably using something called AsyncIO
+02:03 which we're going to talk about right away.
+02:05 It may even be using Python threads
+02:08 but it's probably AsyncIO.
+02:10 If you don't know what either of those are
+02:12 that's fine, we're going to talk about them soon.
