@@ -1,0 +1,22 @@
+00:00 The next extra library that we're going to
+00:03 look at that builds on asyncio and makes it better
+00:06 and easier and simpler is Trio.
+00:08 Trio's goal is to produce a production quality, permissively
+00:11 licensed async and await native io library for Python.
+00:15 So it has a bunch of things for work with networks
+00:20 and so on, but it also has really great support for just
+00:21 coordinating anything built on top of asyncio itself.
+00:25 So where Trio really shines is it tries to focus
+00:28 on making coordination around asyncio simpler.
+00:32 They want to make it easy to do the best right thing
+00:35 with asyncio, so what's interesting is this is a framework
+00:38 built entirely from the ground up that integrates
+00:40 with async and await, but does not directly use asyncio.
+00:45 So like asyncio.get_event_loop, that is not part of this whole
+00:51 framework, it's something similar and in parallel to that
+00:54 and you actually have to use a bridging library.
+00:57 Something called trio-asyncio in order to actually
+01:00 use things built on the asyncio event loop.
+01:04 I think you'll find Trio an interesting
+01:06 library that could work for certain circumstances
+01:09 and types of apps you're building.

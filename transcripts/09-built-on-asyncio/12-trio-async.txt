@@ -1,0 +1,21 @@
+00:00 Before we move on from Trio, I just want to point out
+00:02 Trio-async, and I did throw this out at the beginning
+00:05 when we talked about Trio, but I want to make it super clear
+00:08 if for example, you want to write in Trio
+00:10 but somewhere you want to use, say, aiohttp client
+00:14 we've seen how awesome that is
+00:16 and that's a totally reasonable thing to integrate.
+00:18 Or maybe I want to use the async library
+00:20 that talks to Postgres.
+00:21 Well, for sure, the aiohttp client will not work
+00:25 inside of Trio's async methods.
+00:28 You'll get some kind of error that it's not
+00:30 the right kind of event loop.
+00:31 It's not an asyncio event loop, it's a Trio event loop
+00:33 and they can't deal with each other.
+00:35 If you want to use those libraries in code
+00:38 that you write based on Trio, you have to use this library
+00:42 to create adapting a layer of asyncio event loop
+00:46 over the Trio's event loop.
+00:48 Just be aware that you're going to this if you want to use
+00:51 any external libraries that are built on top of asyncio.

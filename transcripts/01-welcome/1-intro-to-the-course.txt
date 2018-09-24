@@ -1,0 +1,34 @@
+00:00 Hello and welcome to Asynchronus
+00:02 Techniques and Examples in Python.
+00:04 In this course, we're going to explore the entire
+00:06 spectrum of asynchronous programming in Python.
+00:09 This means threads, this means subprocesses
+00:13 the fancy new asyncio and the async and await keywords.
+00:17 All of that and much, much more.
+00:19 I hope you're excited about digging into it
+00:21 because I'm super excited to share it with you.
+00:24 Now before we get into the details of what we're going to
+00:25 cover, let's talk really briefly about
+00:27 what asynchronous programming is.
+00:31 If we go and look at Wikipedia it'll say
+00:33 asynchrony and computer programming refers the
+00:35 occurrence of events independent of the main
+00:37 program flow and way of dealing with such events.
+00:41 These may be outside events such as the arrival
+00:44 of signals or actions started by the program
+00:46 without blocking or waiting for results.
+00:49 Now what's really important about this statement
+00:51 is it doesn't say asynchronous programming is
+00:54 you create threads and then you join on them
+00:57 or you create other processes and wait for
+00:59 them to finish or get back to you.
+01:01 It just says stuff happening at the same time.
+01:05 So we're going to look at many different ways
+01:07 in fact we're going to explore three very
+01:09 different approaches that Python can
+01:11 take to this: threads, processes, and asyncio.
+01:16 We're going to explore more than that of course.
+01:18 But there's actually a lot of ways in which
+01:19 asynchrony can be achieved in Python and knowing
+01:23 when to choose one over the other is super important.
+01:25 We're going to talk all about that.

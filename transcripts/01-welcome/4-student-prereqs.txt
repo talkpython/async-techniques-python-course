@@ -1,0 +1,19 @@
+00:00 Let's take a moment and just talk really quickly
+00:02 about the prerequisites for this course.
+00:05 What do we assume you know?
+00:06 Well, we basically assume that you know Python.
+00:09 This course is kind of intermediate to advanced course
+00:13 I would say, it's definitely not a beginner course.
+00:15 We run through all sorts of Python constructs
+00:17 classes, functions, keyword arguments, things like that
+00:21 without really explaining them at all.
+00:23 So if you don't know the Python language
+00:25 you're going to find this course a little bit tough.
+00:27 I recommend you take my Python Jumpstart
+00:29 by Building 10 Apps, and then come back
+00:32 and pick this course up.
+00:33 You don't have to be an absolute expert in Python
+00:36 but like I said, if you're brand new to the language
+00:39 take a foundational course first
+00:40 and then come back and dig in
+00:41 to the Asynchronous Programming after that.

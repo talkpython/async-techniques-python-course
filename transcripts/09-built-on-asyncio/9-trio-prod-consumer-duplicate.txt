@@ -1,0 +1,113 @@
+00:00 So we'll begin this Trio exploration
+00:02 by just duplicating this.
+00:03 So we'll copy and then paste it back here
+00:06 and I'll call it prod_trio.
+00:09 So let's go over here and again I told you
+00:11 this is not built on asyncio and actually
+00:12 it's not even compatible with it without
+00:14 that bridging library so we're not going to do this.
+00:18 We're not going to do that stuff so let me comment out
+00:21 and we'll delete it in a minute.
+00:23 So, instead of having a asyncio queue, we'll have Trio.
+00:27 And notice there's a pycharm warning saying this initializer
+00:30 this constructor takes a parameter that we're not passing it
+00:33 and that is the capacity has to be set.
+00:36 The capacity's job is to say
+00:38 remember when you tried to put stuff into the queue?
+00:40 Down here, we were seeing
+00:42 await putting items into the queue.
+00:44 Well, how do you know when it's just going to put something
+00:47 in a queue versus we want this to stop filling up
+00:49 the buffer and stop producing items?
+00:52 Well, that's what this capacity is.
+00:54 This is how many items can be put into the queue
+00:56 before it blocks when you call put. Let's say 10. Okay?
+01:01 And then all of this stuff, we're going to take all of this
+01:04 and we're going to simplify that dramatically.
+01:07 So the primary construct that you'll see in Trio
+01:11 is this thing called a nursery.
+01:13 The nursery spawns children tasks
+01:14 and you know, that's the idea there.
+01:17 So what we're going to do is we're going to convert
+01:18 main into an async method.
+01:21 It's going to take one more adjustment
+01:22 for this to actually work, below but we're going to convert
+01:24 that to an async method and we're going to say
+01:25 async with trio.open_nursery() as nursery:
+01:33 And then recall we want to run that twice
+01:36 and then produce so what do we do?
+01:38 We say, first, we spell nursery correctly
+01:41 and then we say nursery.start_soon().
+01:44 Now it doesn't give you auto-complete
+01:46 which is kind of annoying.
+01:48 So we could do, just do this real quick.
+01:51 Complete. We could import this and then start_soon
+01:56 start, start_soon, cancellation scopes, all sorts of stuff.
+02:00 So, we'll go in there and what goes in here
+02:01 and we pass a function and then a *args 
+02:04 and a name as a keyword argument if we want.
+02:07 So and that's pretty cool.
+02:08 We're going to pass this and just the name.
+02:11 There's the function.
+02:12 And then we pass argument one, argument two
+02:14 and then if we want we can have the name
+02:16 for debugging purposes, Producer 1.
+02:19 We're going to have another one, do it again.
+02:22 And then we're going to have this processor
+02:24 this consumer, and this is 40. There we go!
+02:31 Well, now what else do we have to do? That's it!
+02:34 We're actually done. So here's how it works, and let me get rid of this
+02:36 'cause this is just so you could
+02:37 sort of see the auto-complete list.
+02:39 What we do is we open a nursery within
+02:42 an async with block, so this awaits here.
+02:45 And then we kick off all of these tasks.
+02:48 So start_soon queues them up
+02:50 and internally these could themselves write code
+02:54 like this that would open child nurseries
+02:57 and they would also basically become child tasks
+03:00 or we could pass the nursery and those could also spawn
+03:03 more that are sort of independent of these and so on.
+03:06 So we're going to kick all of this work off
+03:09 and then this with block will not be exited.
+03:11 We won't get past line 18 here
+03:14 until either it all completes successfully
+03:17 which will be probably the best case
+03:19 or one of them gets an error
+03:21 in which case any still running ones
+03:23 get canceled and then we exit the nursery.
+03:26 Or we can do timeouts which we'll talk about later.
+03:29 All right so, this looks a lot simpler, right?
+03:31 Don't have to do this, all these weird hoops
+03:34 we're jumping through, we don't have to do that.
+03:35 Now, again, we converted from a asyncio queue
+03:38 to a Trio queue, so we got to do that down here.
+03:42 And we don't asyncio.sleep, we trio.sleep.
+03:47 But other than that, pretty much all the same.
+03:51 Don't need that, okay. Let's run it and see what happens.
+03:53 Oh, yeah, did I tell you there's one more thing to do?
+03:55 RuntimeError. What does it say?
+03:58 Main was never awaited and we exited right away.
+04:00 So down here in order to run this coroutine
+04:04 which is now it is a coroutine
+04:06 we just need it to say trio.run
+04:07 in a synchronous context like this.
+04:09 Now our app can run.
+04:11 So it should operate pretty much the same as it was before.
+04:14 Well, in fact, basically exactly the same
+04:16 as the asyncio edition. And there it is!
+04:21 Pretty much exactly the way the asyncio edition ran.
+04:24 There's a few things that are simpler.
+04:26 Up here we're not really taking full advantage
+04:29 of Trio because of all of the networking capabilities
+04:31 that it has for like writing
+04:33 our own server and stuff like that.
+04:34 But, you could check out the docs.
+04:36 They have a cool, like, network TCP echo server
+04:39 if you want to see how that's done.
+04:41 This is pretty simple.
+04:42 I'm not sure it's simple enough
+04:44 to justify switching from asyncio to Trio.
+04:47 But, I'll show you some more features of Trio
+04:49 that make it really powerful.
+04:51 Maybe do make that switch worthwhile.

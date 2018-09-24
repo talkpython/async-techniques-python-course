@@ -1,0 +1,33 @@
+00:00 Our goal with Trio here is
+00:01 to take something we've already done
+00:04 and make it simpler
+00:05 and actually make it do even more
+00:07 without any complications at all.
+00:10 You guys remember the producer-consumer,
+00:12 here we are again.
+00:13 It's a simple application
+00:14 and there's a really nice example
+00:16 I can show you here with Trio.
+00:18 So, here's the synchronous version, we've seen that.
+00:21 We've taken the synchronous version
+00:22 and we've upgraded it to use asynch I/O.
+00:25 So, we get the event loop.
+00:27 We create all the tasks.
+00:29 We turn them into a single task.
+00:30 We wait for them to run.
+00:31 This is okay.
+00:32 One of the things we didn't really talk about
+00:34 is cancellation.
+00:35 What if we're going to say,
+00:36 run this and if the user chooses to cancel,
+00:39 or we're willing to wait,
+00:40 say up to five seconds but not longer,
+00:42 then we're going to bail
+00:44 and cancel all the tasks and things like that.
+00:45 So, we'll see that with Trio
+00:47 this more advanced scenario becomes super easy.
+00:49 But our first job is we're going to take this app
+00:52 and we're going to convert it to use Trio,
+00:54 and a little bit like unsync,
+00:55 you're going to see that some of the challenges
+00:58 and ugly hoops you have to jump through just go away.

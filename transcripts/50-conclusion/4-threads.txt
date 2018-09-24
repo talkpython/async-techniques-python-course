@@ -1,0 +1,31 @@
+00:00 In contrast to the cooperative nature
+00:02 of asyncio type of concurrency on a single thread
+00:06 thread based parallelism lets the operating system
+00:09 decide when our code gets to run.
+00:10 We have a single process and that process
+00:12 has a main thread which may kick off additional threads
+00:15 spawn a couple additional pieces of work and then
+00:18 wait for them to complete and keep on running.
+00:20 And the important thing is it's up to the OS to figure out
+00:24 when a thread runs, not up to our particular process.
+00:27 Although the GIL does have something to say about
+00:29 it doesn't it, so here's the mental picture for threads.
+00:32 Here's the programming model, so we're going to start
+00:34 with the built in threading library.
+00:36 There's no external things to install here.
+00:39 We're going to have some function we want to run asynchronously
+00:41 but this is just normal Python code.
+00:44 It doesn't do any sort of async await or stuff like
+00:46 that, it's just code and instead of running on the main
+00:49 thread, we're going to run somewhere else.
+00:51 So given this, we'd like to create a bit of work
+00:54 that's going to run it so we set up the targets
+00:56 the arguments and if we want it not keep the
+00:59 process alive or be canceled more easily
+01:01 we can say it's a daemon thread.
+01:04 And then we just start it, potentially do some
+01:07 other work while it's running, or start other
+01:09 threads, things like that and then we're
+01:10 going to just wait for it to complete so we say work.join.
+01:13 Of course we can give it a timeout.
+01:16 We were just saying wait forever until it finishes.

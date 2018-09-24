@@ -1,0 +1,47 @@
+00:00 We saw that the API for multithreading
+00:02 and the API for the multiprocessing
+00:05 although the words sound similar
+00:06 and the actual behavior's somewhat similar
+00:09 the API is really not very similar.
+00:12 They're close, they're maybe isomorphic.
+00:16 I could convert from one to the other pretty easily.
+00:19 They seem to have most of the functionality
+00:20 that you might need on both
+00:22 but they're not exactly the same.
+00:24 That means in your code, you have to commit
+00:26 to I'm writing against the thread API
+00:29 or I'm writing against the multiprocessing API
+00:31 but it's not easy to switch.
+00:33 So enter the executor.
+00:35 Because it's not easy to switch when you use that API
+00:38 but there is a new, better way
+00:40 called the pool executor.
+00:42 So here we're going to the concurrent.futures module
+00:46 which is part of standard Python.
+00:48 It's nothing special you go get
+00:50 and we're importing the ThreadPoolExecutor
+00:53 and I'm giving it a name here, which is nice.
+00:55 Because that lets us choose our implementation.
+00:58 So if we write it like this
+01:00 we run our code below
+01:01 we're going to run a bunch of work
+01:03 and getting the titles by downloading
+01:05 from the URLs, we're going to do that on threads.
+01:08 But with a simple import change
+01:11 to the ProcessPoolExecutor
+01:12 we're now doing that same work
+01:14 on process pools.
+01:16 So this is really nice.
+01:17 It lets us use the same API and switch
+01:20 between multiprocessing and multithreading.
+01:23 Down here we're going to create a with block
+01:25 and extenuate one of these executors.
+01:27 We're going to submit a bunch of work
+01:29 and then when you leave the with block
+01:31 you don't leave it until the work is all done
+01:33 and so when you leave, you can go
+01:34 and get the data back from all
+01:36 the actions you've submitted.
+01:38 It's really nice, I definitely recommend
+01:39 something along these lines if you're doing
+01:42 threading or multiprocessing.

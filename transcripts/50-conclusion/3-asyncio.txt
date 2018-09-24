@@ -1,0 +1,26 @@
+00:00 Open this course with a quote about what is concurrency
+00:03 and what is asynchrony in computer programming
+00:05 from Wikipedia, specifically to highlight
+00:08 that it's not just about threads.
+00:10 It's also about multiprocessing
+00:12 but it's also about things like asyncio
+00:15 that's cooperative concurrency.
+00:17 So remember, we have one main thread of execution
+00:20 we have a bunch of different tasks
+00:21 and we're going to break those tasks into little tiny slices.
+00:25 Here they look kind of coarse grained
+00:26 but imagine we're just way zoomed in.
+00:28 And we break the task into different pieces
+00:31 and we'll do a little bit of one, a little bit of other
+00:33 a little bit of another, and we interleave these while
+00:37 say the green task maybe is going to go talk to a database
+00:39 so while it's talking to the database
+00:41 we can run the first part of the pink task.
+00:43 We get a response from the database to want to call
+00:45 a webservice on the green.
+00:46 Well let's go try a little blue, things like that.
+00:48 So we're able to come along and just run all of these tasks
+00:51 by interweaving them, because mostly what they're doing
+00:54 is waiting on some external system, waiting on io.
+00:58 So this is the heart of asyncio
+01:00 and the async and await keywords in Python.

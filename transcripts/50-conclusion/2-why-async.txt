@@ -1,0 +1,50 @@
+00:00 We begin the course by talking about
+00:01 why you care about asynchronous programming.
+00:04 We focus on two core areas.
+00:06 One, taking advantage of modern CPUs
+00:09 and the other is doing more productive things
+00:12 while we're waiting. On the CPU side
+00:15 I showed you this graph from Geoffrey Funk's presentation.
+00:18 It shows Moore's Law at the top
+00:20 but the part that we care about
+00:22 if we are not writing in current programs is that blue line.
+00:25 In around 2005, that's just flattening off
+00:28 and maybe even turning downwards
+00:30 for say energy conservation reasons.
+00:32 So, the only way to stay with the red line
+00:35 and not get sucked down on the blue line
+00:38 is to take advantage of concurrency.
+00:40 So, you want to follow that black line
+00:42 by leveraging the multiple cores.
+00:44 We saw that this machine I'm recording on now
+00:46 has 12 cores, so, if I write single threaded Python
+00:50 I'm getting 8.33% of the capability out.
+00:53 So, obviously that's important.
+00:54 Now what are the two ways
+00:56 that we can actually leverage this?
+00:57 Remember, the GIL means threads don't help or work.
+01:00 asyncio is single threaded anyway
+01:02 so it doesn't help at all
+01:04 so it's really down to multiprocessing
+01:05 or Cython's C-based solution of no GIL
+01:10 to break the Python threads free.
+01:14 If you want to take advantage of modern hardware
+01:15 you need to write concurrent code
+01:17 and it's the two main ways that I just talked about
+01:19 that will help you do that in Python.
+01:21 Maybe even more common than trying to make a single
+01:24 computation go faster is to just do more at the same time.
+01:28 This could be your web server
+01:29 or you're doing some sort of interaction
+01:32 with external systems like your web scraping
+01:34 or something to that effect.
+01:35 So we saw that with asynchronous programming
+01:37 we can take what is a long request
+01:39 but mostly a request that is waiting on a database
+01:42 waiting on a web service call or combinations thereof
+01:45 and turn those into times where we can
+01:48 stop working on that request while it's waiting
+01:50 and go handle the next one almost instantly
+01:52 so we saw that if we're able to leverage asyncio
+01:54 in our web frameworks we can do much, much more
+01:57 with the same hardware and the same web servers.

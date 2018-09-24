@@ -1,0 +1,117 @@
+00:00 Let's talk about the actual topics
+00:02 that we're going to cover chapter by chapter
+00:04 and how it all fits together.
+00:06 We're going to start digging further into why do we care
+00:09 about async, when should we use it, what are its benefits.
+00:12 So we're going to go way into it so you understand
+00:14 all the ways in which we might use asynchronous programming
+00:16 in Python, and when you might want to do that.
+00:19 Then it's time to start writing some code
+00:21 and making things concrete.
+00:23 We're going to focus first on the new key words introduced
+00:26 in Python 3.5 async and await.
+00:29 Now some courses leave this to the end
+00:31 as the great build-up, but I think you start here.
+00:34 This is the new, powerful way to do threading
+00:37 for anything that is waiting.
+00:39 Are you calling it database?
+00:41 Are you talking to a web service?
+00:42 Are you talking to the file system, things like that?
+00:45 We do these kinds of things all the time in Python
+00:47 and it' really not productive to just block our program
+00:50 while it's happening. We could be doing many other things.
+00:52 And the async and await key words in the asyncio foundation
+00:57 make this super straightforward.
+00:59 It's almost exactly the same programming model
+01:01 as the serial version
+01:03 but it's way more scalable and productive.
+01:06 Next we're going to focus on threads, sticking
+01:08 to making a single process more concurrent
+01:11 doing more at once.
+01:12 We're going to talk about a more traditional way
+01:15 of writing asynchronous code in Python with threads.
+01:18 We'll see sometimes this is super-productive.
+01:21 other times it's not as productive as you might hope
+01:24 especially because of things like the GIL raise its head.
+01:27 And we'll see when and how to deal with that.
+01:29 Some things are well-addressed with threads
+01:31 others not so much.
+01:33 When we start writing multithreaded code
+01:35 or asynchronous code, in general
+01:37 we have to think very carefully
+01:38 about the data structures that we use
+01:41 and making sure that we don't encourage a race conditions
+01:43 or deadlocks.
+01:44 So in this chapter we're going to talk about both of those.
+01:48 How do we prevent race conditions that might allow code
+01:51 to see invalid data or corrupt our data structures?
+01:53 And how do we prevent deadlocks
+01:55 from completely freezing up our program
+01:57 by the improper use of the tools trying
+01:59 to prevent the first?
+02:01 So we're going to talk a lot about thread safety
+02:02 make sure you get that just right.
+02:04 Now Python has two traditional types of parallelism
+02:07 threaded parallelism and process-based parallelism.
+02:10 And the primary reason we have this is because of the GIL.
+02:14 We'll see that threaded-based parallelism
+02:16 is great when you're waiting on things like databases
+02:18 or web calls, things like that.
+02:20 But it's basically useless for computational work.
+02:24 So if you wanta do something computational
+02:27 we're going to have to employ process-based parallelism.
+02:30 We're going to talk about Python's native, multiprocessing
+02:33 process-based parallelism, with tools all around
+02:37 that meant to take a bunch of work
+02:38 and spread it across processes.
+02:40 You'll see that the API for working with threads and the API
+02:43 for working with processes are not the same.
+02:46 But the execution pools are ways to unify these things
+02:50 so that our actual algorithms or actual code depend
+02:53 as little as possible on the APIs
+02:55 for either threads or processes, meaning we can switch
+02:58 between threads or processes depending on what we're doing.
+03:01 So we wanta talk about execution pools
+03:03 and how to unify those two APIs.
+03:07 Then we're going to see two really interesting libraries
+03:11 that take async and await and asyncio and make it better
+03:15 make it easier to fall into the pit of success.
+03:18 You just do the right thing, and it just happens.
+03:21 The way it guides you, things work better.
+03:23 So things like cancellation, parent/child tasks
+03:26 or any mix mode of, say, some IO-boundwork
+03:30 and some CPU boundwork.
+03:32 That can be really tricky, and we'll see some libraries
+03:34 that make it absolutely straightforward and obvious.
+03:37 One of the great places we would like
+03:39 to ply asyncio is on the web.
+03:42 That's a place where we're waiting on databases
+03:44 and other web services all the time.
+03:46 We'll see the traditional, popular frameworks
+03:49 like Django, Flask, Pyramid do not support any form
+03:53 of asynchrony on the web.
+03:55 So we'll take something that is a Flask-like API
+03:58 and adapt it to use asyncio
+04:00 and it's going to be really, really great.
+04:01 We'll see massive performance improvements
+04:03 around our web app there.
+04:05 Finally, we'll see that we can integrate C with Python
+04:09 and, as you know, C can do just about anything.
+04:12 Your operating system is written in C.
+04:14 It can do whatever it wants.
+04:16 So we'll see that C is actually a gateway
+04:18 to a different aspect, different type
+04:21 of parallelism and performance in Python.
+04:23 But we don't wanta write C.
+04:25 Maybe you do, but most people don't want to write C
+04:27 if they're already writing Python.
+04:28 So we'll see that we can use something called Cython
+04:31 to bridge the gap between C and Python
+04:33 and Cython has special key words to unlock C's parallelism
+04:38 in the Python interpreter.
+04:40 It's going to be great.
+04:41 So this is what we're covering during this course
+04:43 and I think it covers the gamut
+04:45 of what Python has to offer for asynchronous programming.
+04:49 There's so much here; I can't wait
+04:51 to get started sharin' it with you.

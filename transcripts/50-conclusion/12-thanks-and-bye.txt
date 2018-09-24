@@ -1,0 +1,8 @@
+00:00 I want to take just this one final time
+00:01 to say thank you, thank you, thank you
+00:03 for taking this course.
+00:05 I really appreciate your supporting my work
+00:07 and I hope you've learned a ton.
+00:09 Feel free to say hi online on Twitter where I'm @mkennedy.
+00:12 And I hope you go do amazing stuff
+00:14 with asynchronous programming in Python.

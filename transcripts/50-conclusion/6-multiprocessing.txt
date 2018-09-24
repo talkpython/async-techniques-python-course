@@ -1,0 +1,57 @@
+00:00 If you're trying to do computational work
+00:02 you would like to take maximum advantage
+00:04 of all the CPU cores.
+00:06 If you open up your system information
+00:08 and look at your process usage
+00:10 you would like it to look like this
+00:12 if you're actually trying to do hardcore computation.
+00:15 However, remember the Python GIL.
+00:18 If we create multiple threads
+00:20 the GIL blocks all the threads
+00:22 except for one while it's running.
+00:24 And this is primarily to make memory management faster
+00:27 and easier for the single threaded, most common use case.
+00:30 But it does mean threads don't really solve the problem.
+00:33 So, what we're going to do to get around the GIL
+00:35 say you know what, we're not going to run
+00:36 more than one thread per process
+00:38 but let's just start a bunch of processes.
+00:40 Yes, they all still have the GIL
+00:41 but the Gil's not stopping them
+00:43 because they're all single threaded.
+00:45 So, multiprocessing is to take the concurrency
+00:47 and spin up a bunch of different Python processes
+00:50 feed little parts of work to them
+00:52 and then get the result back
+00:54 as if we're using threads or some other form
+00:57 of concurrency and this entirely sidesteps
+01:00 the whole GIL problem.
+01:01 So, this is the most fundamental, straightforward way
+01:04 to take advantage of multiple cores
+01:06 and modern hardware in Python.
+01:09 How do we do it, well, here's the code.
+01:11 Probably the best way is to use the multiprocessing pool.
+01:14 So, we're going to start by creating a pool
+01:15 and notice we say processes equal four.
+01:18 If you leave that empty, if you just say pool
+01:20 with taking the defaults, it's going to create
+01:23 as many processes or set that process count
+01:26 to as many processes as you have CPU cores.
+01:29 So, on mine that would be 12
+01:30 which would probably be too many for what we're doing here.
+01:33 Next, we're going to start
+01:35 a bunch of operations with async work.
+01:37 Here we're processing a bunch of operations from zero to 400
+01:40 and breaking them into four 100 piece segments
+01:43 zero to 100, 101 to two, 200 to 300, and so on.
+01:46 I guess maybe that should be 201. Anyway, you get the idea.
+01:49 So, we're going to break our work up into little bits
+01:51 feed it off of the different processes
+01:53 and then you have to call close and then join.
+01:57 Well, you should call close for sure.
+01:58 If you want join to work properly
+02:01 you have to call close first.
+02:02 So, this basically starts all that work
+02:05 and then says, we're not going to submit any more work
+02:07 now let's wait for what we have submitted to be finished
+02:11 and this is how you do multiprocessing in Python.

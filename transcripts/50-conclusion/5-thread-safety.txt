@@ -1,0 +1,62 @@
+00:00 Once you start working on threads, you need
+00:02 to be really careful about thread safety.
+00:05 One rule of thumb is share as little data
+00:07 between threads as possible.
+00:08 That's not always possible or even useful.
+00:11 At the heart of this thread safety problem is
+00:14 even normal functions, normal serial functions
+00:18 they have to take our program and evolve it
+00:20 from one state to another, and that often
+00:22 means changing different parts of our program
+00:24 putting those all into some new state.
+00:26 In going through that process, there's no way
+00:28 to avoid entering temporarily invalid states.
+00:32 So we have a function call, it's going to do
+00:34 a little work, it's going to change the state
+00:36 of one of our objects, do a little more work
+00:38 change the state of another one of our objects
+00:40 and it's done, going to make some final changes
+00:42 that make the entire system consistent again.
+00:45 So we start the function call, it goes through
+00:47 those transformations and then when we get
+00:49 to the end, everything is good.
+00:51 So what's the problem?
+00:52 Remember, the problem is in serial code
+00:55 well, there is no problem.
+00:56 But in concurrent code with threads, we could
+00:59 come along here, this thread could get suspended
+01:02 the other thread could come along and look
+01:04 at that red object and the blue object
+01:05 at the bottom and say, "Oh, this must be what
+01:08 "the values are," and go and run with it.
+01:10 Doesn't matter that it's put back.
+01:11 It's already used that to make a decision
+01:13 and it's off to the races to make a bad decision
+01:16 do something wrong.
+01:17 So we must make sure when our apps go through
+01:19 this temporarily invalid state, other threads
+01:22 cannot come and see it.
+01:23 We have to put up a little privacy wall.
+01:25 And so that's what thread safety is primarily about.
+01:28 So if we're going to do this, probably the best
+01:30 way to work with is what's called a reentrant lock.
+01:32 So import threading, create a lock based on an RLock.
+01:35 Remember a regular lock is not reentrant.
+01:37 That can be problematic, potentially.
+01:40 So we're using RLock and then we just say
+01:42 with that lock and then we do those potentially
+01:45 unsafe operations, and by unsafe I mean we're
+01:48 entering into this temporarily invalid state.
+01:50 And we don't want other things to see it
+01:51 so this with block, that's like our privacy
+01:53 wall for the data that we're manipulating.
+01:55 Once we get it all back in the right shape
+01:57 we can release the lock and other parts
+01:59 of our app can go and work with it.
+02:02 So this is all great.
+02:03 Remember the other thing we spoke about was
+02:04 if you're taking multiple locks at the same time
+02:07 if you take them in different orders you're going to
+02:09 end up in a deadlock, so you have to have
+02:11 some mechanism to take locks in the same order
+02:13 all the time if you're taking multiple locks.

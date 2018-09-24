@@ -1,0 +1,21 @@
+00:00 Finally in this chapter, I just want to say hello
+00:02 and thank you for taking my course.
+00:04 My name is Michael Kennedy, find me on Twitter @mkennedy.
+00:08 You may know me from The Talk Python to Me podcast
+00:10 or the Python Bytes podcast.
+00:12 I am the host or co-host on both of those
+00:16 and each of them cover different aspects
+00:18 of asynchronous programming, so for example
+00:20 I've had Nathaniel on to talk about Trio
+00:22 which is one of the libraries we're going to cover.
+00:24 Philip Jones to talk about Quart
+00:26 another thing we're going to use in this course
+00:27 on the Talk Python to Me podcast.
+00:29 You can listen to those interviews.
+00:30 And on the Python Bytes, we highlight all sorts of libraries
+00:33 that are really useful for asynchronous programming.
+00:37 So make sure to check those out if you're interested
+00:38 and I'm also the founder of Talk Python Training.
+00:42 Welcome to my course, it's great to meet you
+00:44 and I'm looking forward to helping you
+00:46 demystify asynchronous programming.

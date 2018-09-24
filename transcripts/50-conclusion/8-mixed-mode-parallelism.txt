@@ -1,0 +1,43 @@
+00:00 Once we covered all of the core built-in
+00:02 foundational concepts in Python for parallelism
+00:05 we branched out and said, well let's look at some extra
+00:07 libraries that let us do other things.
+00:09 The first one of those was unsync
+00:12 and the primary problem that unsync is trying to solve
+00:15 really has to do with this mixed-mode parallelism.
+00:18 Here we have a bunch of different operations, compute_some
+00:21 download_some_more, download_some, and a wait_some.
+00:24 The red one, compute_some, is CPU-bound
+00:27 that means it should be run in multiprocessing, but
+00:30 download_some_more and wait_some, those are asyncio-based.
+00:33 They would be bet and most efficiently run on an asyncio loop.
+00:37 download_some is implemented in a way that does not support
+00:41 asyncio, but it does interact with the the network so
+00:43 threading actually would be really perfect for it.
+00:45 How do we run all those together?
+00:47 Well, it's means different APIs if we use
+00:50 all the foundational building blocks.
+00:52 But with unsync all you have to do is call these functions
+00:56 and you can wait on the results in a block
+00:58 that basically waits for the work to be done.
+01:00 And you specify through the unsync decorator
+01:03 and the method signature what type of method that it is
+01:07 and then unsync decides how to run it best.
+01:09 So the first one, we say it's unsynced but CPU-bound.
+01:13 Unsync says, "Great, we're using multiprocessing."
+01:15 The next one is a regular function so def
+01:18 not async def, just def, and so, unsync looks at that
+01:21 and says, "Well, okay, here's a regular function
+01:23 we can't run it on asyncio, so let's run it on a thread."
+01:27 Finally, at the end we have an unsync, async method
+01:30 so async def, and that means this one does support asyncio
+01:34 so let's run it on an ambient asyncio event loop
+01:37 on a background thread that we don't have
+01:39 to think about or worry about.
+01:40 All of that happens in just this little bit of code, here
+01:44 and it's beautiful.
+01:45 What's also nice is unsync is only 126 lines of code
+01:48 in its entire implementation
+01:50 so it's not some huge, massive library
+01:52 it just is a really clean API on top of
+01:55 all the foundational stuff we've already spoken about.

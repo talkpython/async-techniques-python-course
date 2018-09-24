@@ -1,0 +1,36 @@
+00:00 We say that Python threads do not really
+00:03 add any benefit whatsoever if they're CPU bound
+00:06 so if most of their operations are actually Python
+00:08 instructions, not just waiting on a web service
+00:11 call or something on the network or file system
+00:13 that's because of the GIL.
+00:15 The GIL means in this Python process only one interpreter or
+00:19 instruction will execute at a time, it doesn't matter how
+00:22 many threads there are, which one's running one at a time.
+00:25 Okay, so that's the GIL.
+00:27 We saw that if it's Cython, we can rewrite our method in C
+00:32 because Cython takes Python and compiles it to C.
+00:35 And we can also use a nogil keyword which tells
+00:39 CPython, everything we're doing here has nothing
+00:41 to do with Python, it's pure C
+00:44 so it's just going to operate down here.
+00:46 You go let other stuff run and when
+00:47 this comes back we'll reacquire the GIL.
+00:49 So all you have to do is say with gil and then
+00:52 you do your computational work.
+00:54 It sounds simpler than it is though because
+00:56 you have to make sure that you're not interacting
+00:58 with any Python objects, you're going to capture
+01:01 all those values and then use them basically in C.
+01:04 And that's even down to the square root method.
+01:06 So we were using math.sqrt, but that was a
+01:09 Python method so it accepted a py object type thing
+01:13 and that was going to work in the nogil world.
+01:15 So we had to use the libc.math sqrt
+01:19 and remember we used cimport, not regular import there.
+01:22 But once we did this, I saw like 1,000 times
+01:26 improvement in our code, it was really, really
+01:29 worth it for what we were doing.
+01:31 So Cython wouldn't be the first thing I jump at
+01:33 but if its solution fits your use case
+01:36 it seems like a really good option.

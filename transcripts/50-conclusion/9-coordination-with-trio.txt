@@ -1,0 +1,44 @@
+00:00 The next extra library we looked at was Trio
+00:03 and Trio's main purpose is to
+00:05 take this async and await world
+00:07 and put a little bit nicer coordination on it.
+00:10 So yes, it's easy to start some operation
+00:13 on an asyncio event loop
+00:14 but what about child tasks?
+00:16 What about weight and making sure that
+00:18 the parent task doesn't complete until
+00:20 its child tasks do complete?
+00:22 What if you have a whole bunch of work running
+00:24 and you get an error in one?
+00:25 Wouldn't you want to cancel the other work
+00:27 because you don't want to do it?
+00:28 Everything's broken, anyway.
+00:30 So, that's the job of Trio, is that sort of coordination.
+00:33 So, here's a typical use case.
+00:35 We're going to go and generate some data, and process data.
+00:38 We talked about this too
+00:40 You're probably tired of hearing about this
+00:41 producer consumer thing
+00:43 but the idea is we're going to open a nursery
+00:45 nurseries where we start these child tasks
+00:48 and the async with block won't finish
+00:50 until all the child tasks are done.
+00:53 One of them is errored, in which case
+00:54 we'll cancel all the others and it'll be done
+00:56 or as you can see at the top here, we've added
+00:59 a move_on_after block as well
+01:02 so we're only going to allow that nursery
+01:04 to operate for five seconds.
+01:05 If it's still busy, we're going to make it
+01:07 cancel all of its tasks.
+01:08 So, either all the tasks are done
+01:10 there's been errors, in which case
+01:12 an exception will be raised right here
+01:14 or the work has been canceled.
+01:16 So, a really nice way to coordinate
+01:18 parent child tasks, and timeouts, and things like that.
+01:22 Just remember, if you're using Trio
+01:24 it's separate and independent from asyncio
+01:27 so things built on asyncio, like aiohttp
+01:30 require that Trio-async
+01:32 bridging the library that I talked about.

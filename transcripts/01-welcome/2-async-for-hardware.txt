@@ -1,0 +1,47 @@
+00:00 Here's a graph we're going to come back to
+00:01 and analyze at great depth later in the course.
+00:05 It came from a presentation by Jeffrey Funk.
+00:07 You can see the SlideShare link there
+00:09 if you want to go check it out.
+00:10 It's actually 172 slides.
+00:12 I want to just call your attention to this graph around 2005.
+00:16 If you look at, most importantly, the dark blue line
+00:20 that is single-threaded performance over time.
+00:24 Note, it's going up and up and up
+00:25 following Moore's law, that's the top line
+00:27 and then it flattens out
+00:28 and it actually is trending downward.
+00:31 What is going on here?
+00:32 Well, look at the black line.
+00:34 We have the number of cores
+00:35 going from one up to many
+00:38 right around 2005 and continuing on today.
+00:41 To take full advantage of modern hardware
+00:44 you have to target more than one CPU core.
+00:48 The only way to target more than one CPU core
+00:50 is to do stuff in parallel.
+00:52 If we write a regular while loop
+00:54 or some sort of computational thing in regular Python
+00:57 that is serial and it's only going to run on one core
+00:59 and that means it's following that blue downward line.
+01:02 But if we can follow the number
+01:04 of cores growing, well, we can multiply
+01:05 that performance massively, as we'll see.
+01:09 One of the reasons you care about asynchronous programming
+01:12 is if you have anything computational to do
+01:15 that depends on getting done fast
+01:17 not like I'm calling a database
+01:19 or I'm calling a web service and I'm waiting.
+01:20 That's a different type of situation we'll address.
+01:23 But no, I have this math problem
+01:25 or this data analysis problem
+01:26 and I want to do it as fast as possible in modern hardware.
+01:29 You're going to see some of the techniques
+01:31 that we talk about in this course
+01:32 allow us to target the new modern hardware
+01:35 with as much concurrency as needed
+01:37 to take full advantage of all the cores of that hardware.
+01:40 So like I said, we're going to dig way more into this later
+01:43 I just want to set the stage that if you have
+01:45 anything computational and you want to take full advantage
+01:48 of modern hardware, you need asynchronous programming.

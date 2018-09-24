@@ -1,0 +1,29 @@
+00:00 Another third party library we looked at was Quart.
+00:03 Purpose of Quart is take the non-async web framework, Flask
+00:07 and make it an async and await-enabled framework.
+00:11 It does this by completely reimplementing Flask
+00:13 atop asyncio, but doing it in a entirely compatible way
+00:17 so even Flask extensions just plug into Quart
+00:20 and'll work just fine. So how did that go?
+00:22 Well, we added an async method definition here
+00:26 so instead of def sun, we have async def sun.
+00:29 We do all of our work against as much async operations
+00:33 as many async operations as we can, so we make sure we
+00:37 await those, and in these places
+00:39 our web server can entirely go
+00:41 and start processing other requests completely.
+00:44 Cause what are we doing?
+00:45 We're waiting for that web service, that location service
+00:47 or sun service to get back to us.
+00:49 So while that's happening, let's do the rest of the work.
+00:52 And then, we just return our data, in this case it's an API
+00:56 so we're going to return JSON data via quart.jsonify.
+00:59 Remember the complex algorithm of conversion here.
+01:02 You take the word Flask and you replace
+01:04 it with the word Quart.
+01:05 If it's lowercase flask it's lowercase quart
+01:07 uppercase Flask, uppercase Quart.
+01:09 And then you make as much of your libraries
+01:11 and your internals async enabled
+01:13 and then you just await them and use them, like this.
+01:17 It's beautiful.

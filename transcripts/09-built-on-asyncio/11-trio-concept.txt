@@ -1,0 +1,29 @@
+00:00 Let's review our core concepts around Trio.
+00:02 Trio is independent async await capable
+00:07 library that is entirely independent
+00:09 of Python's built in asyncio library.
+00:12 That whole loop of structure and
+00:14 underlying things has nothing to do with Trio.
+00:17 So Trio is it's own thing from scratch.
+00:19 And the reason it's like that is they want to make
+00:22 sure they have complete control over how stuff
+00:25 executes, the cancellation, the error handling
+00:26 all of those types of things.
+00:29 So here's a general use case, I'd like to go an generate
+00:32 some work and consume some work with the
+00:34 producer consumer style and I want to maybe even
+00:37 let those pieces kick off sub child tasks and so on.
+00:41 And I'd like to either do all the work and finish
+00:43 successfully in five seconds or I want them
+00:46 to be canceled if they have still pending work.
+00:49 So we just create one with block for the move on part
+00:51 that's the time out and then the async with block.
+00:55 One's async, one is not, be careful there.
+00:58 The async with block to open the nursery
+01:00 kick off all the work and either that's going to block
+01:02 until it's finished, it's going to block until
+01:04 you cancel or it's going to block until one of them has an
+01:06 error in which case it'll cancel all the
+01:08 running and not yet started tasks.
+01:12 It's a really simple coordination
+01:13 concept around async work.

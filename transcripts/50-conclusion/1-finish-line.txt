@@ -1,0 +1,14 @@
+00:00 Well, how about that you made it to the end
+00:02 and there it is, the finish line, you've crossed it.
+00:05 You now wield the dark arts of concurrent programming.
+00:10 It's great to have a skill of
+00:11 I now know how to write concurrent programs
+00:13 but I think it's even more important
+00:15 to have a wide survey of all of the options
+00:18 of concurrent programming and being able to choose
+00:21 between this type of solution versus
+00:24 that type of solution at the right time.
+00:26 And I hope that's what you've gotten out of this course.
+00:29 Let's go real quickly and review
+00:31 each of the major chapters that we covered
+00:33 and review what you've learned.
