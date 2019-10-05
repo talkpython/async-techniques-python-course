@@ -140,3 +140,5 @@ src/11-cython/.idea/modules.xml
 src/11-cython/.idea/workspace.xml
 greeter.c
 math_core.c
+
+.idea/
