@@ -1,6 +1,6 @@
 unsync
-trio
-trio_asyncio
+trio==0.8.0
+trio_asyncio==0.9.1
 
 aiohttp
 cchardet
