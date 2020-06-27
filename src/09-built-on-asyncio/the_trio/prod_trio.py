@@ -8,6 +8,14 @@ async def main():
     t0 = datetime.datetime.now()
     print(colorama.Fore.WHITE + "App started.", flush=True)
 
+    """
+    trio.Queue was removed in v0.11.0:
+    - Replacing the call to trio.Queue() by trio.open_memory_channel()
+    - Using a MemorySendChannel object in generate_data function
+    - Using a MemoryReceiveChannel object in process_data function
+    - Updating requirements.txt with trio v0.16.0 and trio_asyncio v0.11.0
+    """
+
     send_channel, receive_channel = trio.open_memory_channel(max_buffer_size=10)
 
     with trio.move_on_after(5):
