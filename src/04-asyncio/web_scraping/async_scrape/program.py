@@ -1,4 +1,5 @@
 import asyncio
+import datetime
 
 import aiohttp
 import bs4
@@ -32,10 +33,14 @@ def get_title(html: str, episode_number: int) -> str:
 
 
 def main():
+    t0 = datetime.datetime.now()
+
     global loop
     loop = asyncio.get_event_loop()
     loop.run_until_complete(get_title_range())
-    print("Done.")
+
+    dt = datetime.datetime.now() - t0
+    print(f"Done in {dt.total_seconds():.2f} sec.")
 
 
 async def get_title_range_old_version():

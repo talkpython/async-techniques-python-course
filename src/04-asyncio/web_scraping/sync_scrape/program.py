@@ -1,3 +1,5 @@
+import datetime
+
 import requests
 import bs4
 from colorama import Fore
@@ -24,8 +26,10 @@ def get_title(html: str, episode_number: int) -> str:
 
 
 def main():
+    t0 = datetime.datetime.now()
     get_title_range()
-    print("Done.")
+    dt = datetime.datetime.now() - t0
+    print(f"Done in {dt.total_seconds():.2f} sec.")
 
 
 def get_title_range():
