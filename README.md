@@ -8,7 +8,7 @@ Python's async and parallel programming support is highly underrated. In this co
 
 ## What's this course about and how is it different?
 
-This is *the* definitive course on parallel programming in Python. It covers the tried and true foundational concepts such as threads and multiprocessing as well as the most modern async features based on Python 3.7+ with async and await.
+This is *the* definitive course on parallel programming in Python. It covers the tried and true fundamental concepts such as threads and multiprocessing as well as the most modern async features based on Python 3.7+ with async and await.
 
 In addition to the core concepts and APIs for concurrent programming, you will learn best practices and how to choose between the various APIs as well as how to use them together for the biggest advantage.
 
@@ -33,6 +33,6 @@ Anyone who would like to write Python code that does more, scales better, and ta
 
 The course is not a beginner Python course, so students with little to no Python language experience should take a foundational course first. We recommend our [Python Jumpstart by Building 10 Apps](https://training.talkpython.fm/courses/explore_python_jumpstart/python-language-jumpstart-building-10-apps) as a prerequisite if needed.
 
-## Take the course today
+## Take our course today
 
 [**Visit the course page**](https://training.talkpython.fm/courses/explore_async_python/async-in-python-with-threading-and-multiprocessing) and get started today.
