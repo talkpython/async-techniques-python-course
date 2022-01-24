@@ -1,6 +1,6 @@
 import quart
 
-blueprint = quart.blueprints.Blueprint(__name__, __name__)
+blueprint = quart.blueprints.Blueprint("home", "home")
 
 
 @blueprint.route('/')

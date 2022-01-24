@@ -11,7 +11,9 @@ def main():
     print("Running standard loop with {:,} actions.".format(lim * 2))
     t0 = datetime.datetime.now()
 
-    loop = asyncio.get_event_loop()
+    # Changed this from the video due to changes in Python 3.10:
+    # DeprecationWarning: There is no current event loop, loop = asyncio.get_event_loop()
+    loop = asyncio.new_event_loop()
     data = asyncio.Queue()
 
     task1 = loop.create_task(generate_data(lim, data))

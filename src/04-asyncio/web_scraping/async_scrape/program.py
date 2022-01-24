@@ -36,7 +36,9 @@ def main():
     t0 = datetime.datetime.now()
 
     global loop
-    loop = asyncio.get_event_loop()
+    # Changed this from the video due to changes in Python 3.10:
+    # DeprecationWarning: There is no current event loop, loop = asyncio.get_event_loop()
+    loop = asyncio.new_event_loop()
     loop.run_until_complete(get_title_range())
 
     dt = datetime.datetime.now() - t0

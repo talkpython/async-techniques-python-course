@@ -8,7 +8,9 @@ def main():
     t0 = datetime.datetime.now()
     print(colorama.Fore.WHITE + "App started.", flush=True)
 
-    loop = asyncio.get_event_loop()
+    # Changed this from the video due to changes in Python 3.10:
+    # DeprecationWarning: There is no current event loop, loop = asyncio.get_event_loop()
+    loop = asyncio.new_event_loop()
     data = asyncio.Queue()
 
     task1 = loop.create_task(generate_data(20, data))

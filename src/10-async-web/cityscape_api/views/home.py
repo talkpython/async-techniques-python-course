@@ -1,6 +1,6 @@
 import flask
 
-blueprint = flask.blueprints.Blueprint(__name__, __name__)
+blueprint = flask.blueprints.Blueprint("home", "home")
 
 
 @blueprint.route('/')
