@@ -91,7 +91,7 @@ def validate_bank(accounts: List[Account], total: int, quiet=False):
     # with transfer_lock:
     #     current = sum(a.balance for a in accounts)
 
-    [a.lock.acquire() for a in accounts]
+    [a.lock.acquire() for a in sorted(accounts, key=lambda x: id(x))]
     current = sum(a.balance for a in accounts)
     [a.lock.release() for a in accounts]
 
