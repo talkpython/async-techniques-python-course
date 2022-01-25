@@ -32,7 +32,7 @@ def main():
 
     dt = datetime.datetime.now() - t0
 
-    print("Transfers complete ({:,.2f}) sec".format(dt.total_seconds()))
+    print(f"Transfers complete ({dt.total_seconds():,.2f}) sec")
     validate_bank(accounts, total)
 
 
@@ -87,8 +87,7 @@ def validate_bank(accounts: List[Account], total: int, quiet=False):
             current, total
         ), flush=True)
     elif not quiet:
-        print("All good: Consistent account balance: ${:,}".format(
-            total), flush=True)
+        print(f"All good: Consistent account balance: ${total:,}", flush=True)
 
 
 def get_two_accounts(accounts):

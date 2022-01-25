@@ -28,7 +28,7 @@ def main():
             break
 
     dt = datetime.datetime.now() - t0
-    print(colorama.Fore.WHITE + "App exiting, total time: {:,.2f} sec.".format(dt.total_seconds()), flush=True)
+    print(colorama.Fore.WHITE + f"App exiting, total time: {dt.total_seconds():,.2f} sec.", flush=True)
 
 
 def check_cancel():
@@ -62,7 +62,7 @@ def process_data(num: int, data: list):
         dt = datetime.datetime.now() - t
 
         print(colorama.Fore.CYAN +
-              " +++ Processed value {} after {:,.2f} sec.".format(value, dt.total_seconds()), flush=True)
+              f" +++ Processed value {value} after {dt.total_seconds():,.2f} sec.", flush=True)
         time.sleep(.5)
 
 

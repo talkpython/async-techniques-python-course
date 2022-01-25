@@ -20,7 +20,7 @@ def main():
     wait_some()
 
     dt = datetime.datetime.now() - t0
-    print("Synchronous version done in {:,.2f} seconds.".format(dt.total_seconds()))
+    print(f"Synchronous version done in {dt.total_seconds():,.2f} seconds.")
 
 
 def compute_some():
@@ -37,7 +37,7 @@ def download_some():
 
     text = resp.text
 
-    print("Downloaded (more) {:,} characters.".format(len(text)))
+    print(f"Downloaded (more) {len(text):,} characters.")
 
 
 def download_some_more():
@@ -48,7 +48,7 @@ def download_some_more():
 
     text = resp.text
 
-    print("Downloaded {:,} characters.".format(len(text)))
+    print(f"Downloaded {len(text):,} characters.")
 
 
 def wait_some():

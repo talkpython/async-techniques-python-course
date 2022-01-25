@@ -30,7 +30,7 @@ def main():
     loop.run_until_complete(asyncio.gather(*tasks))
 
     dt = datetime.datetime.now() - t0
-    print("Synchronous version done in {:,.2f} seconds.".format(dt.total_seconds()))
+    print(f"Synchronous version done in {dt.total_seconds():,.2f} seconds.")
 
 
 async def compute_some():
@@ -48,7 +48,7 @@ async def download_some():
 
             text = await resp.text()
 
-    print("Downloaded (more) {:,} characters.".format(len(text)))
+    print(f"Downloaded (more) {len(text):,} characters.")
 
 
 async def download_some_more():
@@ -59,7 +59,7 @@ async def download_some_more():
 
     text = resp.text
 
-    print("Downloaded {:,} characters.".format(len(text)))
+    print(f"Downloaded {len(text):,} characters.")
 
 
 async def wait_some():

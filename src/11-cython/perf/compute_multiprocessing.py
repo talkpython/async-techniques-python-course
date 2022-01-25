@@ -8,7 +8,7 @@ def main():
 
     t0 = datetime.datetime.now()
 
-    print("Doing math on {:,} processors.".format(multiprocessing.cpu_count()))
+    print(f"Doing math on {multiprocessing.cpu_count():,} processors.")
 
     pool = multiprocessing.Pool()
     processor_count = multiprocessing.cpu_count()

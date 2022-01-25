@@ -29,7 +29,7 @@ def main():
 
     print("Done", flush=True)
     for f in work:
-        print("{}".format(f.result()), flush=True)
+        print(f"{f.result()}", flush=True)
 
 
 def get_title(url: str) -> str:

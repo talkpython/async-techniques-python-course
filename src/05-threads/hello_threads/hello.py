@@ -22,7 +22,7 @@ def main():
 
 def greeter(name: str, times: int):
     for n in range(0, times):
-        print("{}. Hello there {}".format(n, name))
+        print(f"{n}. Hello there {name}")
         time.sleep(1)
 
 

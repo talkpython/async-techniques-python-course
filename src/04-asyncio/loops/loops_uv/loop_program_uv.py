@@ -8,7 +8,7 @@ asyncio.set_event_loop_policy(uvloop.EventLoopPolicy())
 
 def main():
     lim = 250000
-    print("Running standard loop with {:,} actions.".format(lim * 2))
+    print(f"Running standard loop with {lim * 2:,} actions.")
     t0 = datetime.datetime.now()
 
     # Changed this from the video due to changes in Python 3.10:
@@ -24,7 +24,7 @@ def main():
     loop.run_until_complete(final_task)
 
     dt = datetime.datetime.now() - t0
-    print(colorama.Fore.WHITE + "App exiting, total time: {:,.2f} sec.".format(dt.total_seconds()), flush=True)
+    print(colorama.Fore.WHITE + f"App exiting, total time: {dt.total_seconds():,.2f} sec.", flush=True)
 
 
 async def generate_data(num: int, data: asyncio.Queue):

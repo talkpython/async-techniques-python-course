@@ -8,7 +8,7 @@ def main():
 
     t0 = datetime.datetime.now()
 
-    print("Doing math on {:,} processors.".format(multiprocessing.cpu_count()))
+    print(f"Doing math on {multiprocessing.cpu_count():,} processors.")
 
     pool = multiprocessing.Pool()
     processor_count = multiprocessing.cpu_count()
@@ -22,7 +22,7 @@ def main():
     pool.join()
 
     dt = datetime.datetime.now() - t0
-    print("Done in {:,.2f} sec.".format(dt.total_seconds()))
+    print(f"Done in {dt.total_seconds():,.2f} sec.")
     print("Our results: ")
     for t in tasks:
         print(t.get())

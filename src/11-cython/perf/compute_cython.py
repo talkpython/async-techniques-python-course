@@ -7,7 +7,7 @@ import multiprocessing
 def main():
     math_core.do_math(1)
 
-    print("Doing math on {:,} processors.".format(multiprocessing.cpu_count()))
+    print(f"Doing math on {multiprocessing.cpu_count():,} processors.")
 
     processor_count = multiprocessing.cpu_count()
     threads = []

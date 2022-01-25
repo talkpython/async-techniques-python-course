@@ -21,7 +21,7 @@ def configure_app():
     services.sun_service.use_cached_data = data.get('use_cached_data')
     services.location_service.use_cached_data = data.get('use_cached_data')
 
-    print("Using cached data? {}".format(data.get('use_cached_data')))
+    print(f"Using cached data? {data.get('use_cached_data')}")
 
 
 def run_web_app():

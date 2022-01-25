@@ -10,7 +10,7 @@ def main():
     do_math(num=3_000_000)
 
     dt = datetime.datetime.now() - t0
-    print("Done in {:,.2f} sec.".format(dt.total_seconds()))
+    print(f"Done in {dt.total_seconds():,.2f} sec.")
 
 
 def do_math(start=0, num=10):
