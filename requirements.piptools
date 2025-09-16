@@ -1,0 +1,16 @@
+aiohttp
+bs4
+colorama
+cython
+flask
+quart
+requests
+trio
+trio_asyncio
+unsync
+
+# Non Windows only:
+uvloop
+# Windows equivalent is 
+# winloop
+
