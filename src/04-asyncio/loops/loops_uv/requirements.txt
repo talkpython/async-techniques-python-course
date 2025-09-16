@@ -1,1 +1,6 @@
+colorama
+
+# Non Windows only:
 uvloop
+# Windows equivalent is 
+# winloop
