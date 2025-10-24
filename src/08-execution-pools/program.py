@@ -1,9 +1,10 @@
-import requests
-import bs4
 from concurrent.futures import Future
 
 # from concurrent.futures.thread import ThreadPoolExecutor as PoolExecutor
 from concurrent.futures.process import ProcessPoolExecutor as PoolExecutor
+
+import bs4
+import requests
 
 
 def main():

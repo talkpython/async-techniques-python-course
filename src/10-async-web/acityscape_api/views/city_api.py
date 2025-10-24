@@ -1,5 +1,5 @@
 import quart
-from services import weather_service, sun_service, location_service
+from services import location_service, sun_service, weather_service
 
 blueprint = quart.blueprints.Blueprint('city_api', 'city_api')
 

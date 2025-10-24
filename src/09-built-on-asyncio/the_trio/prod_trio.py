@@ -1,6 +1,7 @@
 import datetime
-import colorama
 import random
+
+import colorama
 import trio
 
 

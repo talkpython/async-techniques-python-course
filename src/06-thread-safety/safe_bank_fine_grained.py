@@ -1,7 +1,7 @@
 import datetime
 import random
 import time
-from threading import Thread, RLock
+from threading import RLock, Thread
 from typing import List
 
 

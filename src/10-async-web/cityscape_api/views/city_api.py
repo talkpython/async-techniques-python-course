@@ -1,5 +1,5 @@
 import flask
-from services import weather_service, sun_service, location_service
+from services import location_service, sun_service, weather_service
 
 blueprint = flask.blueprints.Blueprint('city_api', 'city_api')
 

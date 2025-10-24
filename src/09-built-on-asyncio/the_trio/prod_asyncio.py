@@ -1,7 +1,8 @@
-import datetime
-import colorama
-import random
 import asyncio
+import datetime
+import random
+
+import colorama
 
 
 def main():

@@ -1,4 +1,3 @@
-from typing import List
 
 
 # def fib(n: int) -> List[int]:

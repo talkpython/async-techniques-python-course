@@ -1,10 +1,9 @@
 import flask
-from views import city_api
-from views import home
-from config import settings
-import services.weather_service
-import services.sun_service
 import services.location_service
+import services.sun_service
+import services.weather_service
+from config import settings
+from views import city_api, home
 
 app = flask.Flask(__name__)
 is_debug = True

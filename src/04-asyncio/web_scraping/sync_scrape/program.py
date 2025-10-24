@@ -1,7 +1,7 @@
 import datetime
 
-import requests
 import bs4
+import requests
 from colorama import Fore
 
 

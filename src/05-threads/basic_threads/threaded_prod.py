@@ -1,8 +1,9 @@
 import datetime
-import colorama
 import random
-import time
 import threading
+import time
+
+import colorama
 
 
 def main():

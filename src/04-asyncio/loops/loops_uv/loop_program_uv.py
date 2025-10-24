@@ -1,6 +1,7 @@
-import datetime
-import colorama
 import asyncio
+import datetime
+
+import colorama
 import uvloop
 
 asyncio.set_event_loop_policy(uvloop.EventLoopPolicy())

@@ -1,6 +1,7 @@
-import datetime
-import colorama
 import asyncio
+import datetime
+
+import colorama
 
 
 def main():
