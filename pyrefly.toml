@@ -1,0 +1,48 @@
+###### configuring what to type check and where to import from
+
+# check all files in "."
+project-includes = ["."]
+# exclude dotfiles
+project-excludes = ["**/.[!/.]*", "**/*venv/**"]
+# perform an upward search for `.gitignore`, `.ignore`, and `.git/info/exclude`, and
+# add those to `project-excludes` automatically
+use-ignore-files = true
+# import project files from "."
+search-path = ["."]
+# let Pyrefly try to guess your search path
+disable-search-path-heuristics = false
+# do not include any third-party packages (except those provided by an interpreter)
+site-package-path = []
+
+###### configuring your python environment
+
+# assume we're running on linux, regardless of the actual current platform
+python-platform = "linux"
+# assume the Python version we're using is 3.13, without querying an interpreter
+python-version = "3.13"
+# is Pyrefly disallowed from querying for an interpreter to automatically determine your
+# `python-platform`, `python-version`, and extra entries to `site-package-path`?
+skip-interpreter-query = false
+# query the default Python interpreter on your system, if installed and `python_platform`,
+# `python-version`, or `site-package-path` are unset.
+# python-interpreter = null # this is commented out because there are no `null` values in TOML
+
+#### configuring your type check settings
+
+# wildcards for which Pyrefly will unconditionally replace the import with `typing.Any`
+replace-imports-with-any = ["quart.*"]
+# wildcards for which Pyrefly will replace the import with `typing.Any` if it can't be found
+ignore-missing-imports = ["quart.*"]
+# should Pyrefly skip type checking if we find a generated file?
+ignore-errors-in-generated-code = false
+# should Pyrefly do a check to see if a `<library>-stubs` library also has `<library>` installed?
+ignore-missing-source = false
+# what should Pyrefly do when it encounters a function that is untyped?
+untyped-def-behavior = "check-and-infer-return-type"
+# can Pyrefly recognize ignore directives other than `# pyrefly: ignore` and `# type: ignore`
+permissive-ignores = false
+
+[errors]
+# this is an empty table, meaning all errors are enabled by default
+
+# no `[[sub-config]]` entries are included, since there are none by default
