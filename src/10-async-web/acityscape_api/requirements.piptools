@@ -1,0 +1,10 @@
+# Web framework requirements
+quart
+
+# Calling services requirements
+aiohttp
+
+# This one can give you trouble on Windows
+# Feel free to uncomment it but it also works without it
+# Just a little less well.
+# aiodns

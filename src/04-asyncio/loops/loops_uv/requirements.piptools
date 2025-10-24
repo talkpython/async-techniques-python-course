@@ -1,0 +1,8 @@
+colorama
+
+# macOS/Linux only:
+uvloop
+
+# Windows equivalent is 
+# winloop
+# import winloop as uvloop ;)
