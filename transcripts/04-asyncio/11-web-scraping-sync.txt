@@ -4,7 +4,7 @@
 00:05 and it's going to use a couple of libraries requests
 00:07 and Beautiful Soup, and so I've added
 00:09 a requirements file for it.
-00:10 Just start by Pip installing those requirements
+00:10 Just start by pip installing those requirements
 00:13 which we can do by copying the path like that.
 00:19 Okay, so we have our code, and this is just
 00:20 where we're going to start from.

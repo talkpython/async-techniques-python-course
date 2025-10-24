@@ -12,7 +12,7 @@
 00:30 download_some_more and wait_some, those are asyncio-based.
 00:33 They would be bet and most efficiently run on an asyncio loop.
 00:37 download_some is implemented in a way that does not support
-00:41 asyncio, but it does interact with the the network so
+00:41 asyncio, but it does interact with the network so
 00:43 threading actually would be really perfect for it.
 00:45 How do we run all those together?
 00:47 Well, it's means different APIs if we use

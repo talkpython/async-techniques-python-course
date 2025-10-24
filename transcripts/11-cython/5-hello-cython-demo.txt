@@ -65,7 +65,7 @@
 03:27 This is a good sign, we have greeter
 03:28 and now if we look here we have
 03:30 greeter.cpython 37 on Darwin.
-03:34 Darwin is the platform name of Mac OS.
+03:34 Darwin is the platform name of macOS.
 03:36 Alright let's just try this again.
 03:39 What is your name?
 03:40 Oh wait a minute, that didn't crash this time

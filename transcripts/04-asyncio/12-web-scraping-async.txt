@@ -188,7 +188,7 @@
 07:57 to drive this point home of how useful
 07:59 this library and this technique can be.
 08:01 We talked about this on my other podcast
-08:03 PythonBytes, and there was a listener
+08:03 Python Bytes, and there was a listener
 08:05 he knows I share this story every now and then
 08:08 and it's pretty fun.
 08:09 So, he had some project where he was

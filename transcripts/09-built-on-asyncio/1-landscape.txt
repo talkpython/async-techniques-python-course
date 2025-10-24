@@ -1,7 +1,7 @@
 00:00 In this chapter, we're going to talk about libraries
 00:02 that are built on top of async and await.
 00:05 And I'm not talking about just libraries like
-00:07 uMongo that let you use async in a way with Mongodb
+00:07 uMongo that let you use async await with Mongodb
 00:11 but libraries that are specifically built as frameworks
 00:14 for creating asynchronous programs that themselves
 00:18 use things like asyncio and async and await.

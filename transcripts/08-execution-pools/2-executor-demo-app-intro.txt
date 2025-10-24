@@ -39,7 +39,7 @@
 01:32 H1 and we call that the title.
 01:34 Let's run it and see it in action.
 01:37 It's getting the title from python.fm
-01:39 which is Talk Python to Me, and pythonbytes.fm
+01:39 which is Talk Python To Me, and pythonbytes.fm
 01:42 which is The Python Bytes Podcast.
 01:44 Google has none, I think it's just an
 01:46 image or something funky like that.

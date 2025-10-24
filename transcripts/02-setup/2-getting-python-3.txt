@@ -9,7 +9,7 @@
 00:19 The guys over there are putting lots of effort
 00:20 into keeping this up to date.
 00:22 For example, one of the ways you might want
-00:23 to install it on Mac OS would be to use Homebrew
+00:23 to install it on macOS would be to use Homebrew
 00:27 and that's different than what you get off of python.org.
 00:29 It let's you upgrade it a little more easily.
 00:31 That's the way I'm doing it these days

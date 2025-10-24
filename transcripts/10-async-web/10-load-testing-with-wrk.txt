@@ -13,7 +13,7 @@
 00:27 And you can see the URL right there at the bottom.
 00:29 So, you can go get this and install it
 00:31 and then use this to test your web app.
-00:34 Well, how do you get it? If you happen to be on Mac OS
+00:34 Well, how do you get it? If you happen to be on macOS
 00:37 you're in luck. You can use Homebrew.
 00:39 If you don't know what Homebrew is, check it out at brew.sh.
 00:42 It's really awesome.
@@ -25,7 +25,7 @@
 00:53 brew install wrk. Boom, done.
 00:56 Now I know the stats on OSs
 00:58 that people use to work with Python.
-01:00 OSX, as they have here, or Mac OS
+01:00 OSX, as they have here, or macOS
 01:02 same thing, combine it, and it's been renamed basically
 01:05 is a very small percentage.
 01:07 Even though it might appear that, you know

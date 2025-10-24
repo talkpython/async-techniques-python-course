@@ -93,7 +93,7 @@
 03:56 you don't know how many to ask for.
 03:58 What if you ask for 10,000.
 03:59 Well, that didn't work. Ask for 100,000.
-04:01 Uh, did that work? I don't know.
+04:01 did that work? I don't know.
 04:03 Ask for 1,000,000. What will be better is
 04:06 the consumer of this truly infinite sequence
 04:09 could actually decide when they've had enough.
