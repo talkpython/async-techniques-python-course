@@ -14,14 +14,21 @@ async def for_today(latitude: float, longitude: float) -> dict:
 
     if use_cached_data:  # Set in config/dev.json or config/prod.json
         await asyncio.sleep(random.choice(measured_latency_in_sec))
-        return {'sunrise': '06:04:09 AM', 'sunset': '08:28:48 PM', 'solar_noon': '01:16:28 PM',
-                'day_length': '14:24:39', 'civil_twilight_begin': '05:31:10 AM', 'civil_twilight_end': '09:01:47 PM',
-                'nautical_twilight_begin': '04:49:54 AM', 'nautical_twilight_end': '09:43:03 PM',
-                'astronomical_twilight_begin': '04:03:13 AM', 'astronomical_twilight_end': '10:29:44 PM'}
+        return {
+            'sunrise': '06:04:09 AM',
+            'sunset': '08:28:48 PM',
+            'solar_noon': '01:16:28 PM',
+            'day_length': '14:24:39',
+            'civil_twilight_begin': '05:31:10 AM',
+            'civil_twilight_end': '09:01:47 PM',
+            'nautical_twilight_begin': '04:49:54 AM',
+            'nautical_twilight_end': '09:43:03 PM',
+            'astronomical_twilight_begin': '04:03:13 AM',
+            'astronomical_twilight_end': '10:29:44 PM',
+        }
     else:
         async with aiohttp.ClientSession() as session:
             async with session.get(url) as resp:
-
                 data = await resp.json()
                 sun_data = data.get('results', {})
 

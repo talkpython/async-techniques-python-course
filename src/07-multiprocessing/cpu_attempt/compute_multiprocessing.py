@@ -8,22 +8,21 @@ def main():
 
     t0 = datetime.datetime.now()
 
-    print(f"Doing math on {multiprocessing.cpu_count():,} processors.")
+    print(f'Doing math on {multiprocessing.cpu_count():,} processors.')
 
     pool = multiprocessing.Pool()
     processor_count = multiprocessing.cpu_count()
     tasks = []
     for n in range(1, processor_count + 1):
-        task = pool.apply_async(do_math, (30_000_000 * (n - 1) / processor_count,
-                                          30_000_000 * n / processor_count))
+        task = pool.apply_async(do_math, (30_000_000 * (n - 1) / processor_count, 30_000_000 * n / processor_count))
         tasks.append(task)
 
     pool.close()
     pool.join()
 
     dt = datetime.datetime.now() - t0
-    print(f"Done in {dt.total_seconds():,.2f} sec.")
-    print("Our results: ")
+    print(f'Done in {dt.total_seconds():,.2f} sec.')
+    print('Our results: ')
     for t in tasks:
         print(t.get())
 

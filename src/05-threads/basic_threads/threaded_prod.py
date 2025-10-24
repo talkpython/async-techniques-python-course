@@ -7,7 +7,7 @@ import threading
 
 def main():
     t0 = datetime.datetime.now()
-    print(colorama.Fore.WHITE + "App started.", flush=True)
+    print(colorama.Fore.WHITE + 'App started.', flush=True)
 
     data = []
 
@@ -22,17 +22,17 @@ def main():
     [t.start() for t in threads]
 
     while any([t.is_alive() for t in threads]):
-        [t.join(.001) for t in threads]
+        [t.join(0.001) for t in threads]
         if not abort_thread.is_alive():
-            print("Cancelling on your request!", flush=True)
+            print('Cancelling on your request!', flush=True)
             break
 
     dt = datetime.datetime.now() - t0
-    print(colorama.Fore.WHITE + f"App exiting, total time: {dt.total_seconds():,.2f} sec.", flush=True)
+    print(colorama.Fore.WHITE + f'App exiting, total time: {dt.total_seconds():,.2f} sec.', flush=True)
 
 
 def check_cancel():
-    print(colorama.Fore.RED + "Press enter to cancel...", flush=True)
+    print(colorama.Fore.RED + 'Press enter to cancel...', flush=True)
     input()
 
 
@@ -41,8 +41,8 @@ def generate_data(num: int, data: list):
         item = idx * idx
         data.append((item, datetime.datetime.now()))
 
-        print(colorama.Fore.YELLOW + f" -- generated item {idx}", flush=True)
-        time.sleep(random.random() + .5)
+        print(colorama.Fore.YELLOW + f' -- generated item {idx}', flush=True)
+        time.sleep(random.random() + 0.5)
 
 
 def process_data(num: int, data: list):
@@ -53,7 +53,7 @@ def process_data(num: int, data: list):
         if data:
             item = data.pop(0)
         if not item:
-            time.sleep(.01)
+            time.sleep(0.01)
             continue
 
         processed += 1
@@ -61,9 +61,8 @@ def process_data(num: int, data: list):
         t = item[1]
         dt = datetime.datetime.now() - t
 
-        print(colorama.Fore.CYAN +
-              f" +++ Processed value {value} after {dt.total_seconds():,.2f} sec.", flush=True)
-        time.sleep(.5)
+        print(colorama.Fore.CYAN + f' +++ Processed value {value} after {dt.total_seconds():,.2f} sec.', flush=True)
+        time.sleep(0.5)
 
 
 if __name__ == '__main__':

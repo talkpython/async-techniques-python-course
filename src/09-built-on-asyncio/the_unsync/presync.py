@@ -30,17 +30,17 @@ def main():
     loop.run_until_complete(asyncio.gather(*tasks))
 
     dt = datetime.datetime.now() - t0
-    print(f"Synchronous version done in {dt.total_seconds():,.2f} seconds.")
+    print(f'Synchronous version done in {dt.total_seconds():,.2f} seconds.')
 
 
 async def compute_some():
-    print("Computing...")
+    print('Computing...')
     for _ in range(1, 10_000_000):
-        math.sqrt(25 ** 25 + .01)
+        math.sqrt(25**25 + 0.01)
 
 
 async def download_some():
-    print("Downloading...")
+    print('Downloading...')
     url = 'https://talkpython.fm/episodes/show/174/coming-into-python-from-another-industry-part-2'
     async with aiohttp.ClientSession(connector=aiohttp.TCPConnector(ssl=False)) as session:
         async with session.get(url) as resp:
@@ -48,24 +48,24 @@ async def download_some():
 
             text = await resp.text()
 
-    print(f"Downloaded (more) {len(text):,} characters.")
+    print(f'Downloaded (more) {len(text):,} characters.')
 
 
 async def download_some_more():
-    print("Downloading more ...")
+    print('Downloading more ...')
     url = 'https://pythonbytes.fm/episodes/show/92/will-your-python-be-compiled'
     resp = requests.get(url)
     resp.raise_for_status()
 
     text = resp.text
 
-    print(f"Downloaded {len(text):,} characters.")
+    print(f'Downloaded {len(text):,} characters.')
 
 
 async def wait_some():
-    print("Waiting...")
+    print('Waiting...')
     for _ in range(1, 1000):
-        await asyncio.sleep(.001)
+        await asyncio.sleep(0.001)
 
 
 if __name__ == '__main__':

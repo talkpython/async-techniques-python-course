@@ -6,7 +6,7 @@ import trio
 
 async def main():
     t0 = datetime.datetime.now()
-    print(colorama.Fore.WHITE + "App started.", flush=True)
+    print(colorama.Fore.WHITE + 'App started.', flush=True)
 
     """
     trio.Queue was removed in v0.11.0:
@@ -25,17 +25,16 @@ async def main():
             nursery.start_soon(process_data, 40, receive_channel, name='Consumer')
 
     dt = datetime.datetime.now() - t0
-    print(colorama.Fore.WHITE + "App exiting, total time: {:,.2f} sec.".format(
-        dt.total_seconds()), flush=True)
+    print(colorama.Fore.WHITE + 'App exiting, total time: {:,.2f} sec.'.format(dt.total_seconds()), flush=True)
 
 
 async def generate_data(num: int, data: trio.MemorySendChannel):
     for idx in range(1, num + 1):
-        item = idx*idx
+        item = idx * idx
         await data.send((item, datetime.datetime.now()))
 
-        print(colorama.Fore.YELLOW + f" -- generated item {idx}", flush=True)
-        await trio.sleep(random.random() + .5)
+        print(colorama.Fore.YELLOW + f' -- generated item {idx}', flush=True)
+        await trio.sleep(random.random() + 0.5)
 
 
 async def process_data(num: int, data: trio.MemoryReceiveChannel):
@@ -48,10 +47,11 @@ async def process_data(num: int, data: trio.MemoryReceiveChannel):
         t = item[1]
         dt = datetime.datetime.now() - t
 
-        print(colorama.Fore.CYAN +
-              " +++ Processed value {} after {:,.2f} sec.".format(
-                  value, dt.total_seconds()), flush=True)
-        await trio.sleep(.5)
+        print(
+            colorama.Fore.CYAN + ' +++ Processed value {} after {:,.2f} sec.'.format(value, dt.total_seconds()),
+            flush=True,
+        )
+        await trio.sleep(0.5)
 
 
 if __name__ == '__main__':

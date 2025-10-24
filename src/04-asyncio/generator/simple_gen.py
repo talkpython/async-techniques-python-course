@@ -10,6 +10,7 @@ from typing import List
 #
 #     return numbers
 
+
 def fib():
     current, nxt = 0, 1
     while True:
@@ -25,4 +26,4 @@ for n in result:
         break
 
 print()
-print("Done")
+print('Done')

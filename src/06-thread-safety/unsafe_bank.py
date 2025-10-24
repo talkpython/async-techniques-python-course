@@ -15,7 +15,7 @@ def main():
     total = sum(a.balance for a in accounts)
 
     validate_bank(accounts, total)
-    print("Starting transfers...")
+    print('Starting transfers...')
 
     jobs = [
         Thread(target=do_bank_stuff, args=(accounts, total)),
@@ -32,7 +32,7 @@ def main():
 
     dt = datetime.datetime.now() - t0
 
-    print(f"Transfers complete ({dt.total_seconds():,.2f}) sec")
+    print(f'Transfers complete ({dt.total_seconds():,.2f}) sec')
     validate_bank(accounts, total)
 
 
@@ -60,18 +60,16 @@ def do_transfer(from_account: Account, to_account: Account, amount: int):
         return
 
     from_account.balance -= amount
-    time.sleep(.000)
+    time.sleep(0.000)
     to_account.balance += amount
 
 
 def validate_bank(accounts: List[Account], total: int, quiet=False):
     current = sum(a.balance for a in accounts)
     if current != total:
-        print("ERROR: Inconsistent account balance: ${:,} vs ${:,}".format(
-            current, total
-        ), flush=True)
+        print('ERROR: Inconsistent account balance: ${:,} vs ${:,}'.format(current, total), flush=True)
     elif not quiet:
-        print(f"All good: Consistent account balance: ${total:,}", flush=True)
+        print(f'All good: Consistent account balance: ${total:,}', flush=True)
 
 
 def get_two_accounts(accounts):

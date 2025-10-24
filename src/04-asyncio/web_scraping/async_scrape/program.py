@@ -11,7 +11,7 @@ global loop
 
 
 async def get_html(episode_number: int) -> str:
-    print(Fore.YELLOW + f"Getting HTML for episode {episode_number}", flush=True)
+    print(Fore.YELLOW + f'Getting HTML for episode {episode_number}', flush=True)
 
     url = f'https://talkpython.fm/{episode_number}'
 
@@ -23,11 +23,11 @@ async def get_html(episode_number: int) -> str:
 
 
 def get_title(html: str, episode_number: int) -> str:
-    print(Fore.CYAN + f"Getting TITLE for episode {episode_number}", flush=True)
+    print(Fore.CYAN + f'Getting TITLE for episode {episode_number}', flush=True)
     soup = bs4.BeautifulSoup(html, 'html.parser')
     header = soup.select_one('h1')
     if not header:
-        return "MISSING"
+        return 'MISSING'
 
     return header.text.strip()
 
@@ -42,7 +42,7 @@ def main():
     loop.run_until_complete(get_title_range())
 
     dt = datetime.datetime.now() - t0
-    print(f"Done in {dt.total_seconds():.2f} sec.")
+    print(f'Done in {dt.total_seconds():.2f} sec.')
 
 
 async def get_title_range_old_version():
@@ -50,7 +50,7 @@ async def get_title_range_old_version():
     for n in range(150, 160):
         html = await get_html(n)
         title = get_title(html, n)
-        print(Fore.WHITE + f"Title found: {title}", flush=True)
+        print(Fore.WHITE + f'Title found: {title}', flush=True)
 
 
 async def get_title_range():
@@ -63,7 +63,7 @@ async def get_title_range():
     for n, t in tasks:
         html = await t
         title = get_title(html, n)
-        print(Fore.WHITE + f"Title found: {title}", flush=True)
+        print(Fore.WHITE + f'Title found: {title}', flush=True)
 
 
 if __name__ == '__main__':
