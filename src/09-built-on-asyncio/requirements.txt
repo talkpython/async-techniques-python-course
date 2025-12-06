@@ -64,7 +64,7 @@ typing-extensions==4.15.0
     # via beautifulsoup4
 unsync==1.4.0
     # via -r requirements.piptools
-urllib3==2.5.0
+urllib3==2.6.0
     # via requests
 yarl==1.22.0
     # via aiohttp
