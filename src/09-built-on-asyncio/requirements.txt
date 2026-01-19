@@ -2,7 +2,7 @@
 #    uv pip compile requirements.piptools --output-file requirements.txt
 aiohappyeyeballs==2.6.1
     # via aiohttp
-aiohttp==3.13.1
+aiohttp==3.13.3
     # via -r requirements.piptools
 aiosignal==1.4.0
     # via aiohttp
